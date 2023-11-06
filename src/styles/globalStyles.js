@@ -12,6 +12,7 @@ const GlobalStyles = createGlobalStyle`
         box-sizing: border-box;
         margin: 0;
         padding: 0;
+        font-family: 'Noto Sans KR', sans-serif;
     }
 
     html, body, div, span, h1, h2, h3, h4, h5, h6, p,
@@ -25,7 +26,6 @@ const GlobalStyles = createGlobalStyle`
 
     body {
         line-height: 1;
-        font-family: 'Noto Sans KR', sans-serif;
         background-color: #fff;
     }
 
