@@ -1,7 +1,7 @@
 import landingImg1 from 'assets/img/landing_img_01.png';
 import landingImg2 from 'assets/img/landing_img_02.png';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import theme from '../styles/theme';
 
 function Section({ data }) {
@@ -44,23 +44,57 @@ function LandingPage() {
 
   return (
     <Container>
-      {datas.map((data) => (
-        <Section key={data.key} data={data} />
-      ))}
-      <button type="button">구경해보기</button>
+      <ContentsWrapper>
+        {datas.map((data) => (
+          <Section key={data.key} data={data} />
+        ))}
+        <button type="button">구경해보기</button>
+      </ContentsWrapper>
     </Container>
   );
 }
 
 export default LandingPage;
 
-const Container = styled.div`
+const flexCenter = css`
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 30px;
+`;
+
+const Container = styled.div`
   width: 100%;
+  ${flexCenter};
+  flex-direction: column;
+`;
+
+const ContentsWrapper = styled.div`
+  max-width: 1248px;
+  ${flexCenter};
+  flex-direction: column;
+  gap: 30px;
+  margin: 0 24px;
+
+  // Mobile
+  @media (max-width: 767px) {
+    gap: 24px;
+  }
+`;
+
+const sectionWrapper = css`
+  // Tablet
+  @media (max-width: 1199px) {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 40px;
+  }
+
+  // Mobile
+  @media (max-width: 767px) {
+    padding: 0;
+    gap: 20px;
+  }
 `;
 
 const SectionWrapper = styled.section`
@@ -69,13 +103,13 @@ const SectionWrapper = styled.section`
   border-radius: 16px;
   padding: 60px;
   width: 100%;
-  max-width: 1248px;
 
   &:nth-of-type(odd) {
     grid-template: 'text image';
     grid-template-columns: 2fr 3fr;
     padding-right: 0;
     gap: 152px;
+    ${sectionWrapper};
   }
 
   &:nth-of-type(even) {
@@ -83,6 +117,7 @@ const SectionWrapper = styled.section`
     grid-template-columns: 3fr 2fr;
     padding-left: 0;
     gap: 0;
+    ${sectionWrapper};
   }
 `;
 
@@ -99,6 +134,11 @@ const Header = styled.span`
   font-size: 14px;
   line-height: 20px;
   letter-spacing: -0.07px;
+
+  // Mobile
+  @media (max-width: 767px) {
+    padding: 4px 12px;
+  }
 `;
 
 const Title = styled.span`
@@ -108,6 +148,13 @@ const Title = styled.span`
   line-height: 36px;
   letter-spacing: -0.24px;
   padding-top: 8px;
+
+  // Mobile
+  @media (max-width: 767px) {
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: -0.18px;
+  }
 `;
 
 const Description = styled.span`
@@ -116,11 +163,42 @@ const Description = styled.span`
   font-weight: 400;
   line-height: 28px;
   letter-spacing: -0.18px;
+
+  // Mobile
+  @media (max-width: 767px) {
+    font-size: 15px;
+    line-height: 22px;
+    letter-spacing: -0.15px;
+  }
+`;
+
+const Image = styled.img`
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+
+  // Mobile
+  @media (max-width: 767px) {
+    max-width: none;
+    width: 120%;
+    position: relative;
+    right: 10%;
+  }
 `;
 
 const ImageWrapper = styled.div`
   grid-area: image;
-  width: 720px;
+
+  // Tablet
+  @media (max-width: 1199px) {
+    padding-top: 20px;
+  }
+
+  // Mobile
+  @media (max-width: 767px) {
+    padding-bottom: 30px;
+    overflow: hidden;
+  }
 `;
 
 const TextWrapper = styled.div`
@@ -129,4 +207,9 @@ const TextWrapper = styled.div`
   flex-direction: column;
   gap: 8px;
   white-space: pre-line;
+
+  // Mobile
+  @media (max-width: 767px) {
+    padding: 24px 24px 0 24px;
+  }
 `;
