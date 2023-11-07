@@ -2,7 +2,7 @@ import landingImg1 from 'assets/img/landing_img_01.png';
 import landingImg2 from 'assets/img/landing_img_02.png';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import theme from '../styles/theme';
+import theme from 'styles/theme';
 
 function Section({ data }) {
   return (
