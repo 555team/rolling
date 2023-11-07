@@ -2,29 +2,43 @@ import styled from 'styled-components';
 import { ReactComponent as CircleIcon } from 'assets/icons/circle-button-icon.svg';
 import PropTypes from 'prop-types';
 
+<<<<<<< HEAD
 function MainPrimaryButton({ title, onClick, className }) {
   return (
     <MainPrimaryButtonLayout className={className} onClick={onClick}>
+=======
+function MainPrimaryButton({ title, onClick, className, disabled = false }) {
+  return (
+    <MainPrimaryButtonLayout
+      className={className}
+      onClick={onClick}
+      disabled={disabled}
+    >
+>>>>>>> 5f1f745 (Refactor: 버튼 속성 추가)
       {title}
     </MainPrimaryButtonLayout>
   );
 }
 
-function SubPrimaryButton({ title, onClick }) {
+function SubPrimaryButton({ title, onClick, disabled = false }) {
   return (
-    <SubPrimaryButtonLayout onClick={onClick}>{title}</SubPrimaryButtonLayout>
+    <SubPrimaryButtonLayout onClick={onClick} disabled={disabled}>
+      {title}
+    </SubPrimaryButtonLayout>
   );
 }
 
-function SecondaryButton({ title, onClick }) {
+function SecondaryButton({ title, onClick, disabled = false }) {
   return (
-    <SecondaryButtonLayout onClick={onClick}>{title}</SecondaryButtonLayout>
+    <SecondaryButtonLayout onClick={onClick} disabled={disabled}>
+      {title}
+    </SecondaryButtonLayout>
   );
 }
 
-function CircleButton({ onClick }) {
+function CircleButton({ onClick, disabled = false }) {
   return (
-    <CircleButtonLayout onClick={onClick}>
+    <CircleButtonLayout onClick={onClick} disabled={disabled}>
       <CircleIcon />
     </CircleButtonLayout>
   );
@@ -34,17 +48,24 @@ MainPrimaryButton.propTypes = {
   title: PropTypes.node.isRequired,
   onClick: PropTypes.node,
   className: PropTypes.string,
+<<<<<<< HEAD
+=======
+  disabled: PropTypes.bool,
+>>>>>>> 5f1f745 (Refactor: 버튼 속성 추가)
 };
 SubPrimaryButton.propTypes = {
   title: PropTypes.node.isRequired,
   onClick: PropTypes.node,
+  disabled: PropTypes.bool,
 };
 SecondaryButton.propTypes = {
   title: PropTypes.node.isRequired,
   onClick: PropTypes.node,
+  disabled: PropTypes.bool,
 };
 CircleButton.propTypes = {
   onClick: PropTypes.node,
+  disabled: PropTypes.bool,
 };
 
 export { MainPrimaryButton, SubPrimaryButton, SecondaryButton, CircleButton };
@@ -64,10 +85,6 @@ const MainPrimaryButtonLayout = styled.button`
 
   color: ${({ theme }) => theme[`white`]};
   background-color: ${({ theme }) => theme[`--purple-600`]};
-
-  &:disabled {
-    background-color: ${({ theme }) => theme[`--gray-300`]};
-  }
   &:hover {
     background-color: ${({ theme }) => theme[`--purple-700`]};
   }
@@ -77,6 +94,9 @@ const MainPrimaryButtonLayout = styled.button`
   &:focus {
     outline: 2px solid ${({ theme }) => theme[`--purple-900`]};
     background-color: ${({ theme }) => theme[`--purple-800`]};
+  }
+  &:disabled {
+    background-color: ${({ theme }) => theme[`--gray-300`]};
   }
 `;
 
@@ -102,12 +122,6 @@ const SecondaryButtonLayout = styled.button`
   border: 1px solid ${({ theme }) => theme[`--purple-600`]};
   color: ${({ theme }) => theme[`--purple-700`]};
   background-color: ${({ theme }) => theme[`white`]};
-
-  &:disabled {
-    border: none;
-    color: ${({ theme }) => theme[`white`]};
-    background-color: ${({ theme }) => theme[`--gray-300`]};
-  }
   &:hover {
     border: 1px solid ${({ theme }) => theme[`--purple-700`]};
     background-color: ${({ theme }) => theme[`--purple-100`]};
@@ -115,6 +129,11 @@ const SecondaryButtonLayout = styled.button`
   &:active {
     border: 1px solid ${({ theme }) => theme[`--purple-800`]};
     background-color: ${({ theme }) => theme[`--purple-100`]};
+  }
+  &:disabled {
+    border: none;
+    color: ${({ theme }) => theme[`white`]};
+    background-color: ${({ theme }) => theme[`--gray-300`]};
   }
 `;
 
@@ -126,10 +145,6 @@ const CircleButtonLayout = styled.button`
 
   color: ${({ theme }) => theme[`white`]};
   background-color: ${({ theme }) => theme[`--gray-500`]};
-
-  &:disabled {
-    background-color: ${({ theme }) => theme[`--gray-300`]};
-  }
   &:hover {
     background-color: ${({ theme }) => theme[`--gray-600`]};
   }
@@ -139,5 +154,8 @@ const CircleButtonLayout = styled.button`
   &:focus {
     outline: 1px solid ${({ theme }) => theme[`--gray-800`]};
     background-color: ${({ theme }) => theme[`--gray-700`]};
+  }
+  &:disabled {
+    background-color: ${({ theme }) => theme[`--gray-300`]};
   }
 `;
