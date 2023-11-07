@@ -2,9 +2,11 @@ import styled from 'styled-components';
 import { ReactComponent as CircleIcon } from 'assets/icons/circle-button-icon.svg';
 import PropTypes from 'prop-types';
 
-function MainPrimaryButton({ title, onClick }) {
+function MainPrimaryButton({ title, onClick, className }) {
   return (
-    <MainPrimaryButtonLayout onClick={onClick}>{title}</MainPrimaryButtonLayout>
+    <MainPrimaryButtonLayout clasSName={className} onClick={onClick}>
+      {title}
+    </MainPrimaryButtonLayout>
   );
 }
 
@@ -31,6 +33,7 @@ function CircleButton({ onClick }) {
 MainPrimaryButton.propTypes = {
   title: PropTypes.node.isRequired,
   onClick: PropTypes.node,
+  className: PropTypes.string,
 };
 SubPrimaryButton.propTypes = {
   title: PropTypes.node.isRequired,
