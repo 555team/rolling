@@ -31,7 +31,7 @@ function LandingPage() {
           <Section key={data.key} data={data} />
         ))}
         <LinkComponent to="/list">
-          <MainPrimaryButton title="구경해보기"></MainPrimaryButton>
+          <LinkButton title="구경해보기"></LinkButton>
         </LinkComponent>
       </ContentsWrapper>
     </Container>
@@ -201,4 +201,14 @@ const TextWrapper = styled.div`
 const LinkComponent = styled(Link)`
   width: 100%;
   ${flexCenter};
+`;
+
+const LinkButton = styled(MainPrimaryButton)`
+  // Tablet And Mobile
+  @media (max-width: 1199px) {
+    position: fixed;
+    bottom: 24px;
+    width: 94%;
+    max-width: 800px;
+  }
 `;
