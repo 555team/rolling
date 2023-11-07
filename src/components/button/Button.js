@@ -47,10 +47,8 @@ CircleButton.propTypes = {
 export { MainPrimaryButton, SubPrimaryButton, SecondaryButton, CircleButton };
 
 const MainPrimaryButtonLayout = styled.button`
-  max-width: 720px;
-  width: 90%;
+  width: 100%;
   padding: 14px 24px;
-  margin: 24px;
   border-radius: 12px;
   font-size: 18px;
   font-weight: 800;
@@ -92,7 +90,6 @@ const SubPrimaryButtonLayout = styled(MainPrimaryButtonLayout)`
 const SecondaryButtonLayout = styled.button`
   width: 122px;
   padding: 7px 16px;
-  margin: 24px;
   border-radius: 6px;
   font-size: 16px;
   font-weight: 400;
