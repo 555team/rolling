@@ -59,7 +59,7 @@ const ContentsWrapper = styled.div`
   gap: 30px;
   margin: 0 24px;
 
-  // Tablet
+  // Tablet And Mobile
   @media (max-width: 1199px) {
     margin-bottom: 86px;
   }
@@ -71,7 +71,7 @@ const ContentsWrapper = styled.div`
 `;
 
 const responsiveSectionWrapper = css`
-  // Tablet
+  // Tablet And Mobile
   @media (max-width: 1199px) {
     display: flex;
     flex-direction: column;
