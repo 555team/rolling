@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 function MainPrimaryButton({ title, onClick, className }) {
   return (
-    <MainPrimaryButtonLayout clasSName={className} onClick={onClick}>
+    <MainPrimaryButtonLayout className={className} onClick={onClick}>
       {title}
     </MainPrimaryButtonLayout>
   );
