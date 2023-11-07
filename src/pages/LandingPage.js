@@ -3,6 +3,8 @@ import landingImg2 from 'assets/img/landing_img_02.png';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import theme from 'styles/theme';
+import { MainPrimaryButton } from 'components/button/Button';
+import { Link } from 'react-router-dom';
 
 function Section({ data }) {
   return (
@@ -48,7 +50,9 @@ function LandingPage() {
         {datas.map((data) => (
           <Section key={data.key} data={data} />
         ))}
-        <button type="button">구경해보기</button>
+        <LinkComponent to="/list">
+          <MainPrimaryButton title="구경해보기"></MainPrimaryButton>
+        </LinkComponent>
       </ContentsWrapper>
     </Container>
   );
@@ -81,7 +85,7 @@ const ContentsWrapper = styled.div`
   }
 `;
 
-const sectionWrapper = css`
+const responsiveSectionWrapper = css`
   // Tablet
   @media (max-width: 1199px) {
     display: flex;
@@ -109,7 +113,7 @@ const SectionWrapper = styled.section`
     grid-template-columns: 2fr 3fr;
     padding-right: 0;
     gap: 152px;
-    ${sectionWrapper};
+    ${responsiveSectionWrapper};
   }
 
   &:nth-of-type(even) {
@@ -117,7 +121,7 @@ const SectionWrapper = styled.section`
     grid-template-columns: 3fr 2fr;
     padding-left: 0;
     gap: 0;
-    ${sectionWrapper};
+    ${responsiveSectionWrapper};
   }
 `;
 
@@ -212,4 +216,9 @@ const TextWrapper = styled.div`
   @media (max-width: 767px) {
     padding: 24px 24px 0 24px;
   }
+`;
+
+const LinkComponent = styled(Link)`
+  width: 100%;
+  ${flexCenter};
 `;
