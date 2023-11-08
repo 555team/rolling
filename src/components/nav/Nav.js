@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as LogoIcon } from 'assets/icons/logo-icon.svg';
 
@@ -9,14 +9,14 @@ function Nav() {
   return (
     <NavLayout>
       <div className="nav-container">
-        <a className="logo" href="/">
+        <Link to="/" className="logo">
           <LogoIcon />
           <p>Rolling</p>
-        </a>
+        </Link>
         {getNav && (
-          <a href="/Post">
+          <Link to="/Post">
             <button className="gnb-button">롤링페이퍼 만들기</button>
-          </a>
+          </Link>
         )}
       </div>
     </NavLayout>
