@@ -49,7 +49,7 @@ function CreatePostPage() {
   return (
     <Container>
       <ContentsWrapper>
-        <div>
+        <FormWrapper>
           <Form>
             <FormItem>
               <Label htmlFor="receiverName">To.</Label>
@@ -72,10 +72,9 @@ function CreatePostPage() {
 
               <div>{TAB_DATAS[currentTab].content}</div>
             </div>
-
-            <SubmitButton title="생성하기" />
           </Form>
-        </div>
+        </FormWrapper>
+        <SubmitButton title="생성하기" />
       </ContentsWrapper>
     </Container>
   );
@@ -98,11 +97,23 @@ const Container = styled.div`
 const ContentsWrapper = styled.div`
   width: 100%;
   max-width: 720px;
-  display: flex;
+  ${flexCenter};
   flex-direction: column;
+  margin: 0 24px;
+  gap: 69px;
+
+  // Tablet And Mobile
+  @media (max-width: 1199px) {
+    margin-bottom: 106px;
+  }
+`;
+
+const FormWrapper = styled.div`
+  margin: 0 24px;
 `;
 
 const Form = styled.form`
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -153,11 +164,11 @@ const DescriptionContents = styled.span`
 
 const SubmitButton = styled(MainPrimaryButton)`
   width: 100%;
+  max-width: 720px;
 
   // Tablet And Mobile
   @media (max-width: 1199px) {
     width: 94%;
-    max-width: 800px;
     position: fixed;
     bottom: 24px;
   }

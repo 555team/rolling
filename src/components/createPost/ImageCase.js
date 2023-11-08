@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import BackgroundImg1 from '../../assets/img/sample_background_01.jpg';
-import BackgroundImg2 from '../../assets/img/sample_background_02.jpg';
-import BackgroundImg3 from '../../assets/img/sample_background_03.jpg';
-import BackgroundImg4 from '../../assets/img/sample_background_04.jpg';
+import BackgroundImg1 from 'assets/img/sample_background_01.jpg';
+import BackgroundImg2 from 'assets/img/sample_background_02.jpg';
+import BackgroundImg3 from 'assets/img/sample_background_03.jpg';
+import BackgroundImg4 from 'assets/img/sample_background_04.jpg';
 import { ReactComponent as CheckIcon } from 'assets/icons/box-slelected-icon.svg';
 import {
   BoxWrapper,

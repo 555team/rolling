@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import theme from '../../styles/theme';
+import theme from 'styles/theme';
 
 const flexCenter = css`
   display: flex;
@@ -11,6 +11,12 @@ const BoxWrapper = styled.div`
   display: grid;
   grid-template: 1fr / repeat(4, 1fr);
   margin-top: 45px;
+  gap: 12px;
+
+  // Mobile
+  @media (max-width: 767px) {
+    grid-template: 1fr 1fr / 1fr 1fr;
+  }
 `;
 
 const SelectedIcon = styled.div`
