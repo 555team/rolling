@@ -11,10 +11,15 @@ function CreatePostPage() {
     backgroundImageURL: { BackgroundImg1 },
   };
 
-  // tab을 위한 state
   const [currentTab, setCurrentTab] = useState(0);
-  // submit할 state
   const [values, setValues] = useState(INITIAL_VALUES);
+  const [isInputError, setIsInputError] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
+
+  const handleInputErrorChange = (isError) => {
+    setIsInputError(isError);
+    setIsDisabled(isError);
+  };
 
   const handleValuesChange = (name, value) => {
     setValues((preValues) => ({
@@ -37,9 +42,11 @@ function CreatePostPage() {
             handleTabChange={handleTabChange}
             handleValuesChange={handleValuesChange}
             name={values.name}
+            isInputError={isInputError}
+            handleInputErrorChange={handleInputErrorChange}
           />
         </FormWrapper>
-        <SubmitButton title="생성하기" />
+        <SubmitButton title="생성하기" disabled={isDisabled} />
       </ContentsWrapper>
     </Container>
   );

@@ -4,11 +4,15 @@ import ColorCase from './ColorCase';
 import ImageCase from './ImageCase';
 import { SecondaryButton } from '../button/Button';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
 
-function PostForm({ currentTab, name, handleTabChange, handleValuesChange }) {
-  const [inputError, setInputError] = useState(false);
-
+function PostForm({
+  currentTab,
+  name,
+  handleTabChange,
+  handleValuesChange,
+  isInputError,
+  handleInputErrorChange,
+}) {
   const handleBackgroundChange = (name, value) => {
     handleValuesChange(name, value);
   };
@@ -51,10 +55,10 @@ function PostForm({ currentTab, name, handleTabChange, handleValuesChange }) {
 
   const validateName = () => {
     if (!name) {
-      setInputError(true);
+      handleInputErrorChange(true);
       return;
     }
-    setInputError(false);
+    handleInputErrorChange(false);
   };
 
   return (
@@ -69,9 +73,9 @@ function PostForm({ currentTab, name, handleTabChange, handleValuesChange }) {
           name="name"
           onChange={handleInputChange}
           onBlur={validateName}
-          className={inputError ? 'error' : ''}
+          className={isInputError ? 'error' : ''}
         />
-        {inputError && <ErrorMessage>값을 입력해 주세요.</ErrorMessage>}
+        {isInputError && <ErrorMessage>값을 입력해 주세요.</ErrorMessage>}
       </FormItem>
       <TextWrapper>
         <DescriptionHeader>배경화면을 선택해 주세요.</DescriptionHeader>
@@ -94,6 +98,8 @@ PostForm.propTypes = {
   handleTabChange: PropTypes.func,
   name: PropTypes.string,
   handleValuesChange: PropTypes.func,
+  isInputError: PropTypes.bool,
+  handleInputErrorChange: PropTypes.func,
 };
 
 export default PostForm;
