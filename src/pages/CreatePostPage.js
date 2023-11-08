@@ -1,78 +1,43 @@
 import styled, { css } from 'styled-components';
-import theme from 'styles/theme';
-import { MainPrimaryButton, SecondaryButton } from 'components/button/Button';
+import { MainPrimaryButton } from 'components/button/Button';
 import { useState } from 'react';
-import ColorCase from 'components/createPost/ColorCase';
-import ImageCase from 'components/createPost/ImageCase';
+import PostForm from '../components/createPost/PostForm';
+import BackgroundImg1 from 'assets/img/sample_background_01.jpg';
 
 function CreatePostPage() {
+  const INITIAL_VALUES = {
+    name: '',
+    backgroundColor: 'beige',
+    backgroundImageURL: { BackgroundImg1 },
+  };
+
+  // tab을 위한 state
   const [currentTab, setCurrentTab] = useState(0);
+  // submit할 state
+  const [values, setValues] = useState(INITIAL_VALUES);
+
+  const handleValuesChange = (name, value) => {
+    setValues((preValues) => ({
+      ...preValues,
+      [name]: value,
+    }));
+  };
 
   const handleTabChange = (e, key) => {
     e.preventDefault();
     setCurrentTab(key);
   };
 
-  const TAB_DATAS = [
-    {
-      key: 0,
-      title: (
-        <SecondaryButton
-          data-key="0"
-          className={currentTab === 0 ? 'active' : 'disabled'}
-          onClick={(e) => {
-            handleTabChange(e, 0);
-          }}
-          disabled={currentTab === 0}
-          title="컬러"
-        />
-      ),
-      content: <ColorCase />,
-    },
-    {
-      key: 1,
-      title: (
-        <SecondaryButton
-          data-key="1"
-          className={currentTab === 1 ? 'active' : ''}
-          onClick={(e) => {
-            handleTabChange(e, 1);
-          }}
-          disabled={currentTab === 1}
-          title="이미지"
-        ></SecondaryButton>
-      ),
-      content: <ImageCase />,
-    },
-  ];
-
   return (
     <Container>
       <ContentsWrapper>
         <FormWrapper>
-          <Form>
-            <FormItem>
-              <Label htmlFor="receiverName">To.</Label>
-              <InputText
-                id="receiverName"
-                type="text"
-                placeholder="받는 사람 이름을 입력해 주세요"
-              />
-            </FormItem>
-            <TextWrapper>
-              <DescriptionHeader>배경화면을 선택해 주세요.</DescriptionHeader>
-              <DescriptionContents>
-                컬러를 선택하거나, 이미지를 선택할 수 있습니다.
-              </DescriptionContents>
-            </TextWrapper>
-            <div>
-              {TAB_DATAS.map((data) => {
-                return data.title;
-              })}
-
-              <div>{TAB_DATAS[currentTab].content}</div>
-            </div>
-          </Form>
+          <PostForm
+            currentTab={currentTab}
+            handleTabChange={handleTabChange}
+            handleValuesChange={handleValuesChange}
+            name={values.name}
+          />
         </FormWrapper>
         <SubmitButton title="생성하기" />
       </ContentsWrapper>
@@ -110,56 +75,6 @@ const ContentsWrapper = styled.div`
 
 const FormWrapper = styled.div`
   margin: 0 24px;
-`;
-
-const Form = styled.form`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-`;
-
-const FormItem = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const Label = styled.label`
-  color: ${theme['--gray-900']};
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 42px;
-  letter-spacing: -0.24px;
-`;
-
-const InputText = styled.input`
-  width: 100%;
-  padding: 12px 16px;
-  border: 1px solid ${theme['--gray-300']};
-  border-radius: 8px;
-`;
-
-const TextWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const DescriptionHeader = styled.span`
-  color: ${theme['--gray-900']};
-  margin-top: 25px;
-
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 36px;
-  letter-spacing: -0.24px;
-`;
-
-const DescriptionContents = styled.span`
-  color: ${theme['--gray-500']};
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 26px;
-  letter-spacing: -0.16px;
 `;
 
 const SubmitButton = styled(MainPrimaryButton)`

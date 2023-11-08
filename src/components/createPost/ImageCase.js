@@ -10,8 +10,9 @@ import {
   BoxImage,
   Box,
 } from 'components/createPost/CaseStyle';
+import PropTypes from 'prop-types';
 
-function ImageCase() {
+function ImageCase({ handleBackgroundChange }) {
   const [currentImage, setCurrentImage] = useState(BackgroundImg1);
   const IMAGE_LIST = [
     { key: 0, src: BackgroundImg1, alt: '샘플 배경 이미지1' },
@@ -21,6 +22,8 @@ function ImageCase() {
   ];
   const handleImageChange = (img) => {
     setCurrentImage(img);
+    handleBackgroundChange('backgroundImageURL', img);
+    handleBackgroundChange('backgroundColor', '');
   };
 
   return (
@@ -44,5 +47,9 @@ function ImageCase() {
     </BoxWrapper>
   );
 }
+
+ImageCase.propTypes = {
+  handleBackgroundChange: PropTypes.func,
+};
 
 export default ImageCase;
