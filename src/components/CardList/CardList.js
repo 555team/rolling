@@ -57,6 +57,7 @@ const CardContainer = styled.div`
 `;
 
 const PatternSVG = styled(Pattern)`
+  border-radius: 18px;
   position: absolute;
   bottom: 0;
   right: 0;
