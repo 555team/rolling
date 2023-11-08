@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import theme from 'styles/theme';
 import {
   BoxWrapper,
@@ -13,10 +13,9 @@ function ColorCase({ handleBackgroundChange }) {
   const [currentColor, setCurrentColor] = useState('beige');
 
   const handleColorChange = (e, color) => {
-    console.log(e.target);
     setCurrentColor(color);
     handleBackgroundChange('backgroundColor', color);
-    handleBackgroundChange('backgroundImageURL', '');
+    handleBackgroundChange('backgroundImageURL', null);
   };
 
   const COLOR_LIST = [
@@ -41,6 +40,11 @@ function ColorCase({ handleBackgroundChange }) {
       label: 'green',
     },
   ];
+
+  useEffect(() => {
+    // image 초기화
+    handleBackgroundChange('backgroundImageURL', null);
+  }, []);
 
   return (
     <BoxWrapper>

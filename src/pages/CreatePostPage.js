@@ -1,14 +1,15 @@
 import styled, { css } from 'styled-components';
 import { MainPrimaryButton } from 'components/button/Button';
 import { useState } from 'react';
-import PostForm from '../components/createPost/PostForm';
-import BackgroundImg1 from 'assets/img/sample_background_01.jpg';
+import PostForm from 'components/createPost/PostForm';
+import useRequest from 'hooks/useRequest';
 
 function CreatePostPage() {
   const INITIAL_VALUES = {
+    team: '5',
     name: '',
     backgroundColor: 'beige',
-    backgroundImageURL: { BackgroundImg1 },
+    backgroundImageURL: '',
   };
 
   const [currentTab, setCurrentTab] = useState(0);
@@ -16,6 +17,14 @@ function CreatePostPage() {
   const [isInputError, setIsInputError] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
 
+  const { data, isLoading, error, fetcher } = useRequest({
+    url: `1-5/recipients/`,
+    method: 'post',
+    data: values,
+    skip: true,
+  });
+
+  console.log(data, isLoading, error);
   const handleInputErrorChange = (isError) => {
     setIsInputError(isError);
     setIsDisabled(isError);
@@ -33,6 +42,14 @@ function CreatePostPage() {
     setCurrentTab(key);
   };
 
+  const handleSubmit = async () => {
+    try {
+      await fetcher();
+    } catch (err) {
+      console.error('error : ', err);
+    }
+  };
+
   return (
     <Container>
       <ContentsWrapper>
@@ -46,7 +63,11 @@ function CreatePostPage() {
             handleInputErrorChange={handleInputErrorChange}
           />
         </FormWrapper>
-        <SubmitButton title="생성하기" disabled={isDisabled} />
+        <SubmitButton
+          title="생성하기"
+          disabled={isDisabled}
+          onClick={handleSubmit}
+        />
       </ContentsWrapper>
     </Container>
   );
