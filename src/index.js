@@ -10,6 +10,7 @@ import ErrorPage from './pages/ErrorPage';
 import LandingPage from './pages/LandingPage';
 import ListPage from './pages/ListPage';
 import PostPage from './pages/PostPage';
+import media from 'styles/media';
 
 const router = createBrowserRouter([
   {
@@ -35,7 +36,7 @@ const router = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <ThemeProvider theme={theme}>
+  <ThemeProvider theme={{ ...theme, ...media }}>
     <GlobalStyles />
     <RouterProvider router={router} />
   </ThemeProvider>
