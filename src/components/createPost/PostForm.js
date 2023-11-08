@@ -4,8 +4,11 @@ import ColorCase from './ColorCase';
 import ImageCase from './ImageCase';
 import { SecondaryButton } from '../button/Button';
 import PropTypes from 'prop-types';
+import { useState } from 'react';
 
 function PostForm({ currentTab, name, handleTabChange, handleValuesChange }) {
+  const [inputError, setInputError] = useState(false);
+
   const handleBackgroundChange = (name, value) => {
     handleValuesChange(name, value);
   };
@@ -46,6 +49,14 @@ function PostForm({ currentTab, name, handleTabChange, handleValuesChange }) {
     handleValuesChange(name, value);
   };
 
+  const validateName = () => {
+    if (!name) {
+      setInputError(true);
+      return;
+    }
+    setInputError(false);
+  };
+
   return (
     <Form>
       <FormItem>
@@ -57,7 +68,10 @@ function PostForm({ currentTab, name, handleTabChange, handleValuesChange }) {
           value={name}
           name="name"
           onChange={handleInputChange}
+          onBlur={validateName}
+          className={inputError ? 'error' : ''}
         />
+        {inputError && <ErrorMessage>값을 입력해 주세요.</ErrorMessage>}
       </FormItem>
       <TextWrapper>
         <DescriptionHeader>배경화면을 선택해 주세요.</DescriptionHeader>
@@ -155,4 +169,13 @@ const TabButton = styled(SecondaryButton)`
       color: ${theme['--purple-700']};
     }
   }
+`;
+
+const ErrorMessage = styled.span`
+  margin-top: 4px;
+  color: ${theme['error']};
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: -0.06px;
 `;
