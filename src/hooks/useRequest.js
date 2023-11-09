@@ -23,7 +23,7 @@ const useRequest = ({ deps, skip, ...args }) => {
     fetcher();
   }, [deps]);
 
-  return { data, isLoading, error };
+  return { data, isLoading, error, fetcher };
 };
 
 export default useRequest;
