@@ -8,7 +8,7 @@ function KakaoShareButton() {
   // const resultUrl = window.location.href;
   useEffect(() => {
     Kakao.cleanup();
-    Kakao.init('c3b33855c1fdfc0e5b37b532362a5bdf');
+    Kakao.init('');
     console.log(Kakao.isInitialized());
   }, [resultUrl]);
 
