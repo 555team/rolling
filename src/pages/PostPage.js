@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import Card from 'components/card/Card';
 import useRequest from 'hooks/useRequest';
 import { useEffect, useRef, useState } from 'react';
