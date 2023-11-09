@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { ReactComponent as Pattern } from 'assets/icons/card-list-pattern-icon.svg';
 import { mockData } from './mockData';
 
-const CardComponent = () => {
+function CardList() {
   const { name, backgroundColor, messageCount, recentMessages, topReactions } =
     mockData;
 
@@ -33,9 +33,9 @@ const CardComponent = () => {
       </CardFooter>
     </CardContainer>
   );
-};
+}
 
-export default CardComponent;
+export default CardList;
 
 const fontStyles = css`
   line-height: 150%;
