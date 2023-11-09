@@ -1,10 +1,12 @@
 import styled, { css } from 'styled-components';
 import { MainPrimaryButton } from 'components/button/Button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PostForm from 'components/createPost/PostForm';
 import useRequest from 'hooks/useRequest';
+import { useNavigate } from 'react-router-dom';
 
 function CreatePostPage() {
+  const navigate = useNavigate();
   const INITIAL_VALUES = {
     team: '5',
     name: '',
@@ -49,6 +51,12 @@ function CreatePostPage() {
       console.error('error : ', err);
     }
   };
+
+  useEffect(() => {
+    if (data) {
+      return navigate(`/post/${data.id}`);
+    }
+  }, [data]);
 
   return (
     <Container>
