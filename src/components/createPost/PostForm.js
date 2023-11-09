@@ -51,10 +51,11 @@ function PostForm({
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     handleValuesChange(name, value);
+    validateName();
   };
 
   const validateName = () => {
-    if (!name) {
+    if (name.length === 0) {
       handleInputErrorChange(true);
       return;
     }
@@ -71,7 +72,7 @@ function PostForm({
           placeholder="받는 사람 이름을 입력해 주세요"
           value={name}
           name="name"
-          onChange={handleInputChange}
+          onInput={handleInputChange}
           onBlur={validateName}
           className={isInputError ? 'error' : ''}
         />
