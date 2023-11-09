@@ -19,11 +19,12 @@ const useRequest = ({ deps, skip, ...args }) => {
   };
 
   useEffect(() => {
+    가;
     if (skip) return;
     fetcher();
   }, [deps]);
 
-  return { data, isLoading, error };
+  return { data, isLoading, error, fetcher };
 };
 
 export default useRequest;
