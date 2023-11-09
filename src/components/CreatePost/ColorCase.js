@@ -5,7 +5,7 @@ import {
   SelectedIcon,
   BoxColor,
   Box,
-} from 'components/createPost/CaseStyle';
+} from 'components/CreatePost/CaseStyle';
 import { ReactComponent as CheckIcon } from 'assets/icons/box-slelected-icon.svg';
 import PropTypes from 'prop-types';
 
