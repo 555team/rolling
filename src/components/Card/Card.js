@@ -1,5 +1,4 @@
-/* eslint-disable react/prop-types */
-import FriendBadge from 'components/badges/FriendBadge';
+import FriendBadge from 'components/Badges/FriendBadge';
 import styled from 'styled-components';
 
 function Card({ imageUrl }) {
