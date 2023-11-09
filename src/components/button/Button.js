@@ -2,11 +2,6 @@ import styled from 'styled-components';
 import { ReactComponent as CircleIcon } from 'assets/icons/circle-button-icon.svg';
 import PropTypes from 'prop-types';
 
-<<<<<<< HEAD
-function MainPrimaryButton({ title, onClick, className }) {
-  return (
-    <MainPrimaryButtonLayout className={className} onClick={onClick}>
-=======
 function MainPrimaryButton({ title, onClick, className, disabled = false }) {
   return (
     <MainPrimaryButtonLayout
@@ -14,7 +9,6 @@ function MainPrimaryButton({ title, onClick, className, disabled = false }) {
       onClick={onClick}
       disabled={disabled}
     >
->>>>>>> 5f1f745 (Refactor: 버튼 속성 추가)
       {title}
     </MainPrimaryButtonLayout>
   );
@@ -48,10 +42,7 @@ MainPrimaryButton.propTypes = {
   title: PropTypes.node.isRequired,
   onClick: PropTypes.node,
   className: PropTypes.string,
-<<<<<<< HEAD
-=======
   disabled: PropTypes.bool,
->>>>>>> 5f1f745 (Refactor: 버튼 속성 추가)
 };
 SubPrimaryButton.propTypes = {
   title: PropTypes.node.isRequired,
