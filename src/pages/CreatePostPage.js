@@ -19,14 +19,13 @@ function CreatePostPage() {
   const [isInputError, setIsInputError] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
 
-  const { data, isLoading, error, fetcher } = useRequest({
+  const { data, fetcher } = useRequest({
     url: `1-5/recipients/`,
     method: 'post',
     data: values,
     skip: true,
   });
 
-  console.log(data, isLoading, error);
   const handleInputErrorChange = (isError) => {
     setIsInputError(isError);
     setIsDisabled(isError);

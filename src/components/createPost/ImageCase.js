@@ -10,13 +10,11 @@ import PropTypes from 'prop-types';
 import useRequest from 'hooks/useRequest';
 
 function ImageCase({ handleBackgroundChange }) {
-  const { data, isLoading, error, fetcher } = useRequest({
+  const { data } = useRequest({
     url: `background-images/`,
     method: 'get',
     skip: false,
   });
-
-  console.log(isLoading, error, fetcher);
 
   useEffect(() => {
     if (data && data.imageUrls && data.imageUrls.length > 0) {
