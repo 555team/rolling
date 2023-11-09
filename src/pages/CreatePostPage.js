@@ -44,10 +44,12 @@ function CreatePostPage() {
   };
 
   const handleSubmit = async () => {
-    try {
-      await fetcher();
-    } catch (err) {
-      console.error('error : ', err);
+    if (!isInputError) {
+      try {
+        await fetcher();
+      } catch (err) {
+        console.error('error : ', err);
+      }
     }
   };
 
