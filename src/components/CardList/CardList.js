@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { ReactComponent as NextIcon } from 'assets/icons/arrow_right.svg';
 import styled from 'styled-components';
 import Card from 'components/CardList/Card';
