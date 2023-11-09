@@ -59,31 +59,27 @@ const ContentsWrapper = styled.div`
   gap: 30px;
   margin: 0 24px;
 
-  // Tablet And Mobile
-  @media (max-width: 1199px) {
+  ${({ theme }) => theme.tablet`
     margin-bottom: 86px;
-  }
+  `};
 
-  // Mobile
-  @media (max-width: 767px) {
+  ${({ theme }) => theme.mobile`
     gap: 24px;
-  }
+  `};
 `;
 
 const responsiveSectionWrapper = css`
-  // Tablet And Mobile
-  @media (max-width: 1199px) {
+  ${({ theme }) => theme.tablet`
     display: flex;
     flex-direction: column;
     gap: 0;
     padding: 40px;
-  }
+  `};
 
-  // Mobile
-  @media (max-width: 767px) {
+  ${({ theme }) => theme.mobile`
     padding: 0;
     gap: 20px;
-  }
+  `};
 `;
 
 const SectionWrapper = styled.section`
@@ -124,10 +120,9 @@ const Header = styled.span`
   line-height: 20px;
   letter-spacing: -0.07px;
 
-  // Mobile
-  @media (max-width: 767px) {
+  ${({ theme }) => theme.mobile`
     padding: 4px 12px;
-  }
+  `};
 `;
 
 const Title = styled.span`
@@ -138,12 +133,11 @@ const Title = styled.span`
   letter-spacing: -0.24px;
   padding-top: 8px;
 
-  // Mobile
-  @media (max-width: 767px) {
+  ${({ theme }) => theme.mobile`
     font-size: 18px;
     line-height: 28px;
     letter-spacing: -0.18px;
-  }
+  `};
 `;
 
 const Description = styled.span`
@@ -153,12 +147,11 @@ const Description = styled.span`
   line-height: 28px;
   letter-spacing: -0.18px;
 
-  // Mobile
-  @media (max-width: 767px) {
+  ${({ theme }) => theme.mobile`
     font-size: 15px;
     line-height: 22px;
     letter-spacing: -0.15px;
-  }
+  `};
 `;
 
 const Image = styled.img`
@@ -166,28 +159,25 @@ const Image = styled.img`
   height: auto;
   margin: 0 auto;
 
-  // Mobile
-  @media (max-width: 767px) {
+  ${({ theme }) => theme.mobile`
     max-width: none;
     width: 120%;
     position: relative;
     right: 10%;
-  }
+  `};
 `;
 
 const ImageWrapper = styled.div`
   grid-area: image;
 
-  // Tablet
-  @media (max-width: 1199px) {
+  ${({ theme }) => theme.tablet`
     padding-top: 20px;
-  }
+  `};
 
-  // Mobile
-  @media (max-width: 767px) {
+  ${({ theme }) => theme.mobile`
     padding-bottom: 30px;
     overflow: hidden;
-  }
+  `};
 `;
 
 const TextWrapper = styled.div`
@@ -197,10 +187,9 @@ const TextWrapper = styled.div`
   gap: 8px;
   white-space: pre-line;
 
-  // Mobile
-  @media (max-width: 767px) {
+  ${({ theme }) => theme.mobile`
     padding: 24px 24px 0 24px;
-  }
+  `};
 `;
 
 const LinkComponent = styled(Link)`
@@ -209,11 +198,10 @@ const LinkComponent = styled(Link)`
 `;
 
 const LinkButton = styled(MainPrimaryButton)`
-  // Tablet And Mobile
-  @media (max-width: 1199px) {
+  ${({ theme }) => theme.tablet`
     position: fixed;
     bottom: 24px;
     width: 94%;
     max-width: 800px;
-  }
+  `};
 `;

@@ -104,10 +104,9 @@ const ContentsWrapper = styled.div`
   margin: 0 24px;
   gap: 69px;
 
-  // Tablet And Mobile
-  @media (max-width: 1199px) {
+  ${({ theme }) => theme.tablet`
     margin-bottom: 106px;
-  }
+  `};
 `;
 
 const FormWrapper = styled.div`
@@ -118,10 +117,9 @@ const SubmitButton = styled(MainPrimaryButton)`
   width: 100%;
   max-width: 720px;
 
-  // Tablet And Mobile
-  @media (max-width: 1199px) {
+  ${({ theme }) => theme.tablet`
     width: 94%;
     position: fixed;
     bottom: 24px;
-  }
+  `};
 `;
