@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import theme from 'styles/theme';
 
 const flexCenter = css`
@@ -40,6 +40,15 @@ const BoxColor = styled.div`
   height: 100%;
 `;
 
+const translate = keyframes`
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+`;
+
 const Box = styled.div`
   ${flexCenter};
   background-color: ${theme.white};
@@ -53,6 +62,12 @@ const Box = styled.div`
 
   &.selected ${BoxImage}, ${BoxColor}:hover, ${BoxImage}:hover {
     filter: opacity(50%);
+  }
+
+  &.selected {
+    ${SelectedIcon} {
+      animation: ${translate} 0.2s ease-in-out forwards;
+    }
   }
 
   // Mobile
