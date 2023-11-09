@@ -1,4 +1,4 @@
-import FriendBadge from 'components/badges/FriendBadge';
+import FriendBadge from 'components/Badges/FriendBadge';
 import styled from 'styled-components';
 
 function Card() {
