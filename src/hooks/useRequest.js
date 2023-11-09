@@ -19,7 +19,6 @@ const useRequest = ({ deps, skip, ...args }) => {
   };
 
   useEffect(() => {
-    가;
     if (skip) return;
     fetcher();
   }, [deps]);
