@@ -4,6 +4,7 @@ import ColorCase from './ColorCase';
 import ImageCase from './ImageCase';
 import { SecondaryButton } from '../button/Button';
 import PropTypes from 'prop-types';
+import { Fragment } from 'react';
 
 function PostForm({
   currentTab,
@@ -86,7 +87,7 @@ function PostForm({
       </TextWrapper>
       <div>
         {TAB_DATAS.map((data) => {
-          return data.title;
+          return <Fragment key={data.key}>{data.title}</Fragment>;
         })}
 
         <div>{TAB_DATAS[currentTab].content}</div>
