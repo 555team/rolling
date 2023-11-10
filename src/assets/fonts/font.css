@@ -62,25 +62,35 @@
 }
 
 @font-face {
-  font-family: 'Nanum Pen Script';
-  /* font-style: normal; */
-  src: url('NanumPenScript-Regular.woff2') format('font-woff2');
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url('NotoSansKR-Regular.woff2') format('font-woff2');
 }
 
 @font-face {
-  font-family: 'Dokdo Regular';
-  /* font-style: normal; */
-  src: url('Dokdo-Regular.woff2') format('font-woff2');
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 400;
+  src:
+    url('Pretendard-Regular.subset.woff2') format('font-woff2'),
+    url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+      format('woff');
 }
 
 @font-face {
-  font-family: 'IBM Plex Sans KR';
-  /* font-style: normal; */
-  src: url('IBMPlexSansKR-Regular.woff2') format('font-woff2');
+  font-family: '나눔손글씨 손편지체';
+  font-style: normal;
+  font-weight: 400;
+  src:
+    url('NanumSonPyeonJiCe.woff2') format('font-woff2'),
+    url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_05@1.0/Handletter.woff')
+      format('woff');
 }
 
 @font-face {
-  font-family: 'Nanum Myeongjo';
-  /* font-style: normal; */
-  src: url('NanumMyeongjo-Regular.woff2') format('font-woff2');
+  font-family: 나눔명조;
+  font-style: normal;
+  font-weight: 400;
+  src: url('NanumMyeongjo.woff2') format('font-woff2');
 }
