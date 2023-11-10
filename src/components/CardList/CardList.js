@@ -1,138 +1,136 @@
-import React from 'react';
-import styled, { css } from 'styled-components';
-import { ReactComponent as Pattern } from 'assets/icons/card-list-pattern-icon.svg';
-import { mockData } from './mockData';
+import { useState, useEffect } from 'react';
+import { ReactComponent as NextIcon } from 'assets/icons/arrow_right.svg';
+import styled from 'styled-components';
+import Card from 'components/CardList/Card';
 
-function CardList() {
-  const { name, backgroundColor, messageCount, recentMessages, topReactions } =
-    mockData;
+function CardList({ title }) {
+  const [cards, setCards] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [offset, setOffset] = useState(0);
+  const [next, setNext] = useState(null);
+  const [previous, setPrevious] = useState(null);
+
+  function fetchCards(newOffset) {
+    setIsLoading(true);
+    fetch(
+      `https://rolling-api.vercel.app/1-5/recipients/?limit=4&offset=${newOffset}`
+    )
+      .then(function (response) {
+        if (!response.ok) {
+          throw new Error('error');
+        }
+        return response.json();
+      })
+      .then(function (data) {
+        setCards(data.results);
+        setIsLoading(false);
+        setNext(data.next);
+        setPrevious(data.previous);
+      })
+      .catch(function (error) {
+        setError(error);
+        setIsLoading(false);
+      });
+  }
+
+  useEffect(
+    function () {
+      fetchCards(offset);
+    },
+    [offset]
+  );
+
+  function handleNextClick() {
+    setOffset(function (prevOffset) {
+      return prevOffset + 4;
+    });
+  }
+
+  function handlePreviousClick() {
+    setOffset(function (prevOffset) {
+      return prevOffset - 4;
+    });
+  }
+
+  // if (isLoading) return <p>로딩 중...</p>;
+  if (error) return <p>데이터 로딩 에러: {error.message}</p>;
+  if (!cards) return <p>데이터가 없습니다.</p>;
 
   return (
-    <CardContainer backgroundColor={backgroundColor}>
-      <PatternSVG />
-      <Name>To. {name}</Name>
-      <Profile>
-        {recentMessages.map((message) => (
-          <ProfileImg
-            key={message.id}
-            src={message.profileImageURL}
-            alt={`${message.sender}'s profile`}
-          />
-        ))}
-        <ProfileCount>+{messageCount - recentMessages.length}</ProfileCount>
-      </Profile>
-      <MessageCount>
-        <StyledSpan>{messageCount}</StyledSpan>명이 작성했어요!
-      </MessageCount>
-      <CardFooter>
-        {topReactions.map((reaction) => (
-          <TopReactions key={reaction.id}>
-            {reaction.emoji} {reaction.count}
-          </TopReactions>
-        ))}
-      </CardFooter>
-    </CardContainer>
+    <ListPageContainer>
+      <Title>{title}</Title>
+      <CardListContainer>
+        {previous && (
+          <NavigationButton
+            onClick={handlePreviousClick}
+            disabled={isLoading}
+            position="left"
+            isVisible={previous}
+          >
+            <PreviousIcon />
+          </NavigationButton>
+        )}
+        {cards.map(function (card) {
+          return <Card key={card.id} card={card} />;
+        })}
+        {next && (
+          <NavigationButton
+            onClick={handleNextClick}
+            disabled={isLoading}
+            position="right"
+            isVisible={next}
+          >
+            <NextIcon />
+          </NavigationButton>
+        )}
+      </CardListContainer>
+    </ListPageContainer>
   );
 }
 
 export default CardList;
-
-const fontStyles = css`
-  line-height: 150%;
-  letter-spacing: -0.16px;
-  color: ${({ theme }) => theme['--gray-700']};
-`;
-
-const CardContainer = styled.div`
-  ${({ theme, backgroundColor }) => css`
-    width: 275px;
-    height: 260px;
-    background-color: ${theme[colorMap[backgroundColor]]};
-    border-radius: 16px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.08);
-    padding: 30px 24px 20px;
-    position: relative;
-  `}
-`;
-
-const PatternSVG = styled(Pattern)`
-  border-radius: 18px;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-`;
-
-const Name = styled.div`
-  ${fontStyles}
-  font-size: 24px;
-  font-weight: 700;
-  color: ${({ theme }) => theme['--gray-900']};
-`;
-
-const Profile = styled.div`
-  display: flex;
-  align-items: center;
-  position: relative;
-  margin: 12px 0;
-`;
-
-const imgStyles = css`
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 1.5px solid ${({ theme }) => theme['white']};
-  background: ${({ theme }) => theme['white']};
-`;
-
-const ProfileImg = styled.img`
-  ${imgStyles}
-  &:not(:first-child) {
-    margin-left: -12px;
-  }
-`;
-
-const ProfileCount = styled.div`
-  ${fontStyles}
-  ${imgStyles}
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 33px;
-  padding: 5px 6px;
-  border-radius: 30px;
-  margin-left: -12px;
-  font-size: 12px;
-  font-weight: 400;
-  color: ${({ theme }) => theme['--gray-500']};
-`;
-
-const MessageCount = styled.div`
-  ${fontStyles}
-  font-size: 16px;
-  font-weight: 400;
-`;
-
-const StyledSpan = styled.span`
-  ${fontStyles}
-  font-size: 16px;
-  font-weight: 700;
-`;
-
-const CardFooter = styled.div`
+const ListPageContainer = styled.div`
+  width: 1160px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  padding-top: 16px;
-  margin-top: 43px;
-  border-top: 1px solid ${({ theme }) => theme['--gray-300']};
+  margin: 0 auto;
 `;
 
-const TopReactions = styled.span``;
+const Title = styled.h2`
+  color: #000;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 36px;
+  letter-spacing: -0.24px;
+  margin-bottom: 16px;
+`;
 
-const colorMap = {
-  purple: '--purple-200',
-  green: '--green-200',
-  blue: '--blue-200',
-  beige: '--orange-200',
-};
+const CardListContainer = styled.div`
+  display: flex;
+  gap: 20px;
+  margin-bottom: 50px;
+  position: relative;
+`;
+
+const NavigationButton = styled.button`
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #dadcdf;
+  position: absolute;
+  z-index: 2;
+  background: #fff;
+  top: 110px;
+  visibility: ${({ isVisible }) => (isVisible ? 'visible' : 'hidden')};
+  ${({ position }) => (position === 'left' ? 'left: -20px;' : 'right: -20px;')}
+`;
+
+const PreviousIcon = styled(NextIcon)`
+  transform: scaleX(-1);
+`;
