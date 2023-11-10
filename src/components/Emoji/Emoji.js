@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import EmojiPicker from 'emoji-picker-react';
 import { OutlinedButton } from 'components/button/OutlinedButton';
@@ -22,7 +22,7 @@ function Emoji() {
     <>
       <EmojiLayout>
         <ArrowDownButton onClick={onArrowDownClick} />
-        {showEmoji ? <EmojiExpandLayout /> : ''}
+        {showEmoji && <EmojiExpandLayout />}
         <OutlinedButton
           width={88}
           height={41}
@@ -32,12 +32,10 @@ function Emoji() {
           <EddEmojiIcon />
           추가
         </OutlinedButton>
-        {showPicker ? (
+        {showPicker && (
           <EmojiPickerLayout>
             <EmojiPicker />
           </EmojiPickerLayout>
-        ) : (
-          ''
         )}
       </EmojiLayout>
     </>
