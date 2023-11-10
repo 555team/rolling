@@ -1,7 +1,7 @@
 import ReactQuill, { Quill } from 'react-quill';
 import { useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
-import styled from 'styled-components';
+import * as styled from './Textarea.styles';
 
 let icons = Quill.import('ui/icons');
 
@@ -47,49 +47,45 @@ function Textarea() {
   };
 
   const [text, setText] = useState('');
+  const [font, setFont] = useState('Noto Sans KR');
 
-  const handleText = (value) => {
-    console.log(value);
-    setText(value);
+  const handleFont = ({ target }) => {
+    setFont(target.value);
+  };
+
+  const handleText = (e) => {
+    setText(e);
   };
 
   return (
-    <TextEditorLayout>
-      <Toolbar />
-      <ReactQuill
-        style={{ height: '80%' }}
-        value={text}
-        onChange={handleText}
-        modules={modules}
-      />
-    </TextEditorLayout>
+    <div className="text-container">
+      <div>
+        <styled.Title>내용을 입력해 주세요</styled.Title>
+        <styled.TextEditorLayout id="text-editor" font={font}>
+          <Toolbar />
+          <ReactQuill
+            className={font}
+            value={text}
+            onChange={handleText}
+            modules={modules}
+          />
+        </styled.TextEditorLayout>
+      </div>
+      <styled.Spacing />
+      <div>
+        <styled.Title>폰트 선택</styled.Title>
+        <form>
+          <styled.Select onChange={handleFont}>
+            <option value="Noto Sans KR">Noto Sans</option>
+            <option value="Nanum Pen Script">나눔 펜스크립트</option>
+            <option value="Nanum Myeongjo">나눔 명조</option>
+            <option value="IBM Plex Sans KR">IBM plex</option>
+            <option value="Dokdo Regular">독도</option>
+          </styled.Select>
+        </form>
+      </div>
+    </div>
   );
 }
 
 export default Textarea;
-
-const TextEditorLayout = styled.div`
-  max-width: 720px;
-  width: 100%;
-  height: 260px;
-  border: 1px solid ${({ theme }) => theme[`--gray-300`]};
-  border-radius: 8px;
-
-  & * {
-    strong {
-      font-weight: bold !important;
-    }
-    em {
-      font-style: italic !important;
-    }
-  }
-  & .ql-toolbar {
-    border: none;
-    border-radius: 8px 8px 0px 0px;
-    background-color: ${({ theme }) => theme[`--gray-200`]};
-  }
-  & .ql-container {
-    border: none;
-    outline: none;
-  }
-`;
