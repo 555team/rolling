@@ -1,7 +1,7 @@
 import ReactQuill, { Quill } from 'react-quill';
 import { useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
-import * as styled from './Textarea.styles';
+import styled from 'styled-components';
 
 let icons = Quill.import('ui/icons');
 
@@ -60,22 +60,22 @@ function Textarea() {
   return (
     <div className="text-container">
       <div>
-        <styled.Title>내용을 입력해 주세요</styled.Title>
-        <styled.TextEditorLayout id="text-editor" font={font}>
+        <Title>내용을 입력해 주세요</Title>
+        <TextEditorLayout id="text-editor" font={font}>
           <Toolbar />
           <ReactQuill value={text} onChange={handleText} modules={modules} />
-        </styled.TextEditorLayout>
+        </TextEditorLayout>
       </div>
-      <styled.Spacing />
+      <Spacing />
       <div>
-        <styled.Title>폰트 선택</styled.Title>
+        <Title>폰트 선택</Title>
         <form>
-          <styled.Select onChange={handleFont}>
+          <Select onChange={handleFont}>
             <option value="Noto Sans">Noto Sans</option>
             <option value="Pretendard">Pretendard</option>
             <option value="나눔명조">나눔명조</option>
             <option value="나눔손글씨 손편지체">나눔손글씨 손편지체</option>
-          </styled.Select>
+          </Select>
         </form>
       </div>
     </div>
@@ -83,3 +83,60 @@ function Textarea() {
 }
 
 export default Textarea;
+
+const TextEditorLayout = styled.div`
+  max-width: 720px;
+  width: 100%;
+  height: 260px;
+  border: 1px solid ${({ theme }) => theme[`--gray-300`]};
+  border-radius: 8px;
+
+  & * {
+    strong {
+      font-weight: bold !important;
+    }
+    em {
+      font-style: italic !important;
+    }
+  }
+  & .ql-toolbar {
+    border: none;
+    border-radius: 8px 8px 0px 0px;
+    background-color: ${({ theme }) => theme[`--gray-200`]};
+  }
+  & .ql-container {
+    border: none;
+    outline: none;
+  }
+  & .ql-editor {
+    * {
+      font-size: 16px;
+      font-family: ${(props) => props.font};
+    }
+  }
+`;
+
+const Title = styled.h1`
+  color: ${({ theme }) => theme[`--gray-900`]};
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 36px;
+  letter-spacing: -0.24px;
+  padding: 0 0 12px 0;
+`;
+
+const Spacing = styled.div`
+  padding: 25px;
+`;
+
+const Select = styled.select`
+  padding: 12px 16px;
+  display: flex;
+  width: 320px;
+  padding: 12px 16px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px;
+  border: 1px solid ${({ theme }) => theme[`--gray-300`]};
+`;
