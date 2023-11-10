@@ -2,16 +2,7 @@ import Card from 'components/Card/Card';
 import useRequest from 'hooks/useRequest';
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-
-import spinner from '../assets/img/loading-spinner.gif';
-
-function Spinner() {
-  return (
-    <div>
-      <img src={spinner} alt="loading-spinner" />
-    </div>
-  );
-}
+import SkeletonCard from 'components/Skeleton/SkeletonCard';
 
 function PostPage() {
   const [cards, setCards] = useState([]);
@@ -48,10 +39,13 @@ function PostPage() {
   return (
     <PostPageWrapper>
       <CardListWrapper>
-        {cards?.map((item) => (
-          <Card key={item.id} imageUrl={item.urls.small} />
-        ))}
-        {isLoading ? <Spinner /> : null}
+        {cards?.map((item) =>
+          isLoading ? (
+            <SkeletonCard key={item.id} />
+          ) : (
+            <Card key={item.id} imageUrl={item.urls.small} />
+          )
+        )}
         <Target ref={target} />
       </CardListWrapper>
     </PostPageWrapper>
