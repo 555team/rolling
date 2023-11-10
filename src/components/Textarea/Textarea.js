@@ -47,7 +47,7 @@ function Textarea() {
   };
 
   const [text, setText] = useState('');
-  const [font, setFont] = useState('Noto Sans KR');
+  const [font, setFont] = useState('Noto Sans');
 
   const handleFont = ({ target }) => {
     setFont(target.value);
@@ -63,12 +63,7 @@ function Textarea() {
         <styled.Title>내용을 입력해 주세요</styled.Title>
         <styled.TextEditorLayout id="text-editor" font={font}>
           <Toolbar />
-          <ReactQuill
-            className={font}
-            value={text}
-            onChange={handleText}
-            modules={modules}
-          />
+          <ReactQuill value={text} onChange={handleText} modules={modules} />
         </styled.TextEditorLayout>
       </div>
       <styled.Spacing />
@@ -76,11 +71,10 @@ function Textarea() {
         <styled.Title>폰트 선택</styled.Title>
         <form>
           <styled.Select onChange={handleFont}>
-            <option value="Noto Sans KR">Noto Sans</option>
-            <option value="Nanum Pen Script">나눔 펜스크립트</option>
-            <option value="Nanum Myeongjo">나눔 명조</option>
-            <option value="IBM Plex Sans KR">IBM plex</option>
-            <option value="Dokdo Regular">독도</option>
+            <option value="Noto Sans">Noto Sans</option>
+            <option value="Pretendard">Pretendard</option>
+            <option value="나눔명조">나눔명조</option>
+            <option value="나눔손글씨 손편지체">나눔손글씨 손편지체</option>
           </styled.Select>
         </form>
       </div>
