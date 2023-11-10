@@ -1,14 +1,11 @@
 import FriendBadge from 'components/Badges/FriendBadge';
 import styled from 'styled-components';
 
-function Card() {
+function Card({ imageUrl }) {
   return (
     <CardWrapper>
       <ProfileWrapper>
-        <ProfileImage
-          src="https://plus.unsplash.com/premium_photo-1683910767532-3a25b821f7ae?auto=format&fit=crop&q=60&w=800&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZnJlZSUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D"
-          alt="card-profile"
-        />
+        <ProfileImage src={imageUrl} alt="card-profile" />
         <ProfileContentWrapper>
           <ProfileNameWrapper>
             <ProfileContentText>From.</ProfileContentText>
