@@ -22,9 +22,13 @@ function SubPrimaryButton({ title, onClick, disabled = false }) {
   );
 }
 
-function SecondaryButton({ title, onClick, disabled = false }) {
+function SecondaryButton({ title, onClick, className, disabled = false }) {
   return (
-    <SecondaryButtonLayout onClick={onClick} disabled={disabled}>
+    <SecondaryButtonLayout
+      className={className}
+      onClick={onClick}
+      disabled={disabled}
+    >
       {title}
     </SecondaryButtonLayout>
   );
@@ -52,6 +56,7 @@ SubPrimaryButton.propTypes = {
 SecondaryButton.propTypes = {
   title: PropTypes.node.isRequired,
   onClick: PropTypes.node,
+  className: PropTypes.string,
   disabled: PropTypes.bool,
 };
 CircleButton.propTypes = {
