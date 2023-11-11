@@ -1,4 +1,4 @@
-import styled, { css, keyframes } from 'styled-components';
+import styled, { css } from 'styled-components';
 import theme from 'styles/theme';
 
 const flexCenter = css`
@@ -13,10 +13,9 @@ const BoxWrapper = styled.div`
   margin-top: 45px;
   gap: 12px;
 
-  // Mobile
-  @media (max-width: 767px) {
+  ${({ theme }) => theme.mobile`
     grid-template: 1fr 1fr / 1fr 1fr;
-  }
+  `};
 `;
 
 const SelectedIcon = styled.div`
@@ -70,11 +69,10 @@ const Box = styled.div`
     }
   }
 
-  // Mobile
-  @media (max-width: 767px) {
+  ${({ theme }) => theme.mobile`
     width: 154px;
     height: 154px;
-  }
+  `};
 `;
 
 export { flexCenter, BoxWrapper, SelectedIcon, BoxImage, BoxColor, Box };
