@@ -1,85 +1,52 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { ReactComponent as NextIcon } from 'assets/icons/arrow_right.svg';
 import styled from 'styled-components';
 import Card from 'components/CardList/Card';
+import useRequest from 'hooks/useRequest';
 
 function CardList({ title }) {
-  const [cards, setCards] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [offset, setOffset] = useState(0);
-  const [next, setNext] = useState(null);
-  const [previous, setPrevious] = useState(null);
 
-  function fetchCards(newOffset) {
-    setIsLoading(true);
-    fetch(
-      `https://rolling-api.vercel.app/1-5/recipients/?limit=4&offset=${newOffset}`
-    )
-      .then(function (response) {
-        if (!response.ok) {
-          throw new Error('error');
-        }
-        return response.json();
-      })
-      .then(function (data) {
-        setCards(data.results);
-        setIsLoading(false);
-        setNext(data.next);
-        setPrevious(data.previous);
-      })
-      .catch(function (error) {
-        setError(error);
-        setIsLoading(false);
-      });
-  }
-
-  useEffect(
-    function () {
-      fetchCards(offset);
-    },
-    [offset]
-  );
+  const { data, isLoading, error } = useRequest({
+    url: `1-5/recipients/`,
+    method: 'get',
+    params: { limit: 4, offset },
+    deps: offset,
+  });
 
   function handleNextClick() {
-    setOffset(function (prevOffset) {
-      return prevOffset + 4;
-    });
+    setOffset((prevOffset) => prevOffset + 4);
   }
 
   function handlePreviousClick() {
-    setOffset(function (prevOffset) {
-      return prevOffset - 4;
-    });
+    setOffset((prevOffset) => prevOffset - 4);
   }
 
-  // if (isLoading) return <p>로딩 중...</p>;
+  if (isLoading) return <p>로딩 중...</p>;
   if (error) return <p>데이터 로딩 에러: {error.message}</p>;
-  if (!cards) return <p>데이터가 없습니다.</p>;
 
+  // 데이터가 있을 경우 카드 리스트를 렌더링합니다.
   return (
     <ListPageContainer>
       <Title>{title}</Title>
       <CardListContainer>
-        {previous && (
+        {data.previous && (
           <NavigationButton
             onClick={handlePreviousClick}
-            disabled={isLoading}
             position="left"
-            isVisible={previous}
+            isVisible={!!data.previous}
           >
             <PreviousIcon />
           </NavigationButton>
         )}
-        {cards.map(function (card) {
-          return <Card key={card.id} card={card} />;
-        })}
-        {next && (
+        {data.results.map((card) => (
+          <Card key={card.id} card={card} />
+        ))}
+        {data.next && (
           <NavigationButton
             onClick={handleNextClick}
-            disabled={isLoading}
             position="right"
-            isVisible={next}
+            isVisible={!!data.next}
           >
             <NextIcon />
           </NavigationButton>
