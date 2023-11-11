@@ -60,15 +60,31 @@ const PostPageWrapper = styled.div`
   align-items: center;
   justify-content: center;
   background-color: ${({ theme }) => theme['--orange-200']};
+  @media (max-width: 1248px) {
+    padding: 0px 24px;
+  }
 `;
 
 const CardListWrapper = styled.div`
   width: 1200px;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
   column-gap: 24px;
   row-gap: 28px;
+  margin-top: 113px;
+  ${({ theme }) => theme.tablet`
+    row-gap: 16px;
+    column-gap: 16px;
+    grid-template-columns: repeat(2, 1fr);
+    place-items: center;
+  `}
+  ${({ theme }) => theme.mobile`
+    row-gap: 16px;
+    column-gap: 16px;
+    grid-template-columns: 1fr;
+    place-items: center;
+  `}
 `;
 
 const Target = styled.div`
