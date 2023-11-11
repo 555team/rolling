@@ -3,6 +3,7 @@ import useRequest from 'hooks/useRequest';
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import SkeletonCard from 'components/Skeleton/SkeletonCard';
+import AddCard from 'components/Card/AddCard';
 
 function PostPage() {
   const [cards, setCards] = useState([]);
@@ -39,6 +40,7 @@ function PostPage() {
   return (
     <PostPageWrapper>
       <CardListWrapper>
+        <AddCard />
         {cards?.map((item) =>
           isLoading ? (
             <SkeletonCard key={item.id} />
