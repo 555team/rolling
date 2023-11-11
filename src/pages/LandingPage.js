@@ -48,8 +48,19 @@ const flexCenter = css`
 
 const Container = styled.div`
   width: 100%;
+  margin-top: 60px;
   ${flexCenter};
   flex-direction: column;
+
+  // Tablet
+  @media (min-width: 768px) and (max-width: 1199px) {
+    margin-top: 49px;
+  }
+
+  // Mobile
+  @media (max-width: 767px) {
+    margin-top: 42px;
+  }
 `;
 
 const ContentsWrapper = styled.div`
