@@ -94,7 +94,7 @@ const CardContent = styled.p`
   line-height: 26px;
   letter-spacing: -0.18px;
   max-width: 336px;
-  max-height: 106px;
+  height: 106px;
   display: -webkit-box;
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
