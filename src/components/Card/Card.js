@@ -29,12 +29,21 @@ const CardWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  max-width: 384px;
-  max-height: 280px;
+  width: 384px;
+  height: 280px;
   padding: 28px 24px;
   border-radius: 16px;
   background: ${({ theme }) => theme.white};
   box-shadow: 0px 2px 12px 0px rgba(0, 0, 0, 0.08);
+  ${({ theme }) => theme.tablet`
+    width: 352px;
+    height: 284px;
+  `}
+
+  ${({ theme }) => theme.mobile`
+    width: 320px;
+    height: 230px;
+  `}
 `;
 
 const ProfileWrapper = styled.div`
@@ -70,6 +79,9 @@ const ProfileContentText = styled.span`
   font-style: normal;
   font-weight: ${(props) => props.weight || 400};
   line-height: 24px;
+  ${({ theme }) => theme.mobile`
+    font-size: 18px;
+  `}
 `;
 
 const CardContent = styled.p`
@@ -81,11 +93,21 @@ const CardContent = styled.p`
   font-weight: 400;
   line-height: 26px;
   letter-spacing: -0.18px;
-  width: 336px;
+  max-width: 336px;
   height: 106px;
   display: -webkit-box;
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
+  ${({ theme }) => theme.tablet`
+    width: 304px;
+    height: 110px;
+  `}
+  ${({ theme }) => theme.mobile`
+    width: 272px;
+    height: 56px;
+    font-size: 15px;
+    line-height: 22px;
+  `}
 `;
 
 const CardTimeStamp = styled.span`
