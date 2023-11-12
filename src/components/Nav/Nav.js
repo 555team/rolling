@@ -33,7 +33,7 @@ const NavLayout = styled.nav`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999;
+  z-index: 50;
 
   .nav-container {
     padding: 11px 24px;
