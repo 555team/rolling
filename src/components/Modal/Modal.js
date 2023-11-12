@@ -1,16 +1,26 @@
 import styled from 'styled-components';
 import FriendBadge from 'components/Badges/FriendBadge';
 import tempImg from 'assets/img/no-profile.png';
+import OtherBadge from 'components/Badges/OtherBadge';
+import CoworkerBadge from 'components/Badges/CoworkerBadge';
+import FamilyBadge from 'components/Badges/FamilyBadge';
 
 function Modal({ info, onClick }) {
   // api 보면 info 로 들어갈 속성에서
   // sender, profileImageURL, relationship, content, font, createdAt 받아옴
   // 아직 data 받아오는 코드가 없어서 임의로 내용 작성했습니다.
 
+  const badge = {
+    친구: <FriendBadge />,
+    지인: <OtherBadge />,
+    동료: <CoworkerBadge />,
+    가족: <FamilyBadge />,
+  };
+
   const {
     sender = '익명',
     profileImageURL = null,
-    relationship = 'friend',
+    relationship = '친구',
     content = '내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.',
     font = 'Noto Sans',
     createdAt = null,
@@ -24,7 +34,7 @@ function Modal({ info, onClick }) {
             <ProfileContentText>From. </ProfileContentText>
             <ProfileContentText weight={700}>{sender}</ProfileContentText>
           </ProfileNameWrapper>
-          {relationship === 'friend' && <FriendBadge />}
+          {badge[relationship]}
         </ProfileContentWrapper>
         <CardTimeStamp>{createdAt ?? '2023.07.08'}</CardTimeStamp>
       </ProfileWrapper>
