@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import SkeletonCard from 'components/Skeleton/SkeletonCard';
 import AddCard from 'components/Card/AddCard';
+import Modal from 'components/Modal/Modal';
 
 function PostPage() {
   const [cards, setCards] = useState([]);
@@ -37,15 +38,38 @@ function PostPage() {
     }
   }, [isLoading]);
 
+  const [showModal, setShowModal] = useState(false);
+  const [modalInfo, setModalInfo] = useState({});
+  const openModal = (e) => {
+    setShowModal(true);
+    setModalInfo((prev) => ({
+      ...prev,
+      ...e.target?.dataset?.item,
+      key: e.target?.dataset?.item?.key + 'modal',
+    }));
+  };
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   return (
     <PostPageWrapper>
+      {showModal && (
+        <>
+          <ModalContainer onClick={closeModal}>
+            <Modal info={modalInfo} onClick={closeModal} />
+          </ModalContainer>
+        </>
+      )}
       <CardListWrapper>
         <AddCard />
         {cards?.map((item) =>
           isLoading ? (
             <SkeletonCard key={item.id} />
           ) : (
-            <Card key={item.id} imageUrl={item.urls.small} />
+            <Button key={item.id} data-item={item} onClick={openModal}>
+              <Card imageUrl={item.urls.small} />
+            </Button>
           )
         )}
         <Target ref={target} />
@@ -91,4 +115,20 @@ const CardListWrapper = styled.div`
 
 const Target = styled.div`
   height: 1px;
+`;
+
+const Button = styled.button`
+  text-align: left;
+`;
+const ModalContainer = styled.div`
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.4);
 `;
