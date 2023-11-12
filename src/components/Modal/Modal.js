@@ -25,6 +25,7 @@ function Modal({ info, onClick }) {
     font = 'Noto Sans',
     createdAt = null,
   } = info;
+
   return (
     <ModalLayout>
       <ProfileWrapper>
@@ -102,15 +103,20 @@ const CardContent = styled.div`
   color: ${({ theme }) => theme['--gray-600']};
   height: 240px;
   margin: 16px 40px 24px;
+  padding: 0 15px 0 0;
   overflow-y: scroll;
   word-break: break-all;
   font-size: 18px;
   font-family: ${(props) => props.font};
   line-height: 26px;
   letter-spacing: -0.18px;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
   &::-webkit-scrollbar-thumb {
-    width: 4px;
-    height: 15px;
+    background: ${({ theme }) => theme['--gray-300']};
+    border-raiud: 16px;
   }
 `;
 
