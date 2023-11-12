@@ -98,18 +98,20 @@ const ProfileContentText = styled.span`
   `}
 `;
 
-const CardContent = styled.p`
+const CardContent = styled.div`
   color: ${({ theme }) => theme['--gray-600']};
-    height: 240px;
+  height: 240px;
   margin: 16px 40px 24px;
-  text-overflow: ellipsis;
   overflow-y: scroll;
   word-break: break-all;
   font-size: 18px;
-  font-family = ${(props) => props.font};
+  font-family: ${(props) => props.font};
   line-height: 26px;
   letter-spacing: -0.18px;
-  display: -webkit-box;
+  &::-webkit-scrollbar-thumb {
+    width: 4px;
+    height: 15px;
+  }
 `;
 
 const CardTimeStamp = styled.span`

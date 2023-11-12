@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import SkeletonCard from 'components/Skeleton/SkeletonCard';
 import AddCard from 'components/Card/AddCard';
 import Modal from 'components/Modal/Modal';
+import ModalContainer from 'components/Modal/ModalContainer';
 
 function PostPage() {
   const [cards, setCards] = useState([]);
@@ -48,8 +49,8 @@ function PostPage() {
       key: e.target?.dataset?.item?.key + 'modal',
     }));
   };
-  const closeModal = () => {
-    setShowModal(false);
+  const closeModal = (e) => {
+    if (e.target === e.currentTarget) setShowModal(false);
   };
 
   return (
@@ -57,7 +58,11 @@ function PostPage() {
       {showModal && (
         <>
           <ModalContainer onClick={closeModal}>
-            <Modal info={modalInfo} onClick={closeModal} />
+            <Modal
+              info={modalInfo}
+              onClick={closeModal}
+              className="modal-content"
+            />
           </ModalContainer>
         </>
       )}
@@ -119,16 +124,4 @@ const Target = styled.div`
 
 const Button = styled.button`
   text-align: left;
-`;
-const ModalContainer = styled.div`
-  z-index: 100;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.4);
 `;
