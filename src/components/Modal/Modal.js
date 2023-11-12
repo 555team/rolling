@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import FriendBadge from 'components/Badges/FriendBadge';
-import tempImg from 'assets/img/error-img.png';
+import tempImg from 'assets/img/no-profile.png';
 
 function Modal({ info, onClick }) {
   // api 보면 info 로 들어갈 속성에서
@@ -93,16 +93,13 @@ const CardContent = styled.p`
     height: 240px;
   margin: 16px 40px 24px;
   text-overflow: ellipsis;
-  overflow: scroll;
+  overflow-y: scroll;
   word-break: break-all;
   font-size: 18px;
   font-family = ${(props) => props.font};
   line-height: 26px;
   letter-spacing: -0.18px;
   display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-
 `;
 
 const CardTimeStamp = styled.span`
