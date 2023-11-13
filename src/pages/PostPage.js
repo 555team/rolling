@@ -87,6 +87,9 @@ const CardListWrapper = styled.div`
   height: 1000px;
   display: grid;
   overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: auto;
   column-gap: 24px;
