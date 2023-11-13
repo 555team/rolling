@@ -1,7 +1,25 @@
+import CoworkerBadge from 'components/Badges/CoworkerBadge';
+import FamilyBadge from 'components/Badges/FamilyBadge';
 import FriendBadge from 'components/Badges/FriendBadge';
+import OtherBadge from 'components/Badges/OtherBadge';
 import styled from 'styled-components';
+import changeDateFormat from 'utils/calcCreateAt';
 
-function Card({ imageUrl }) {
+function Card({ imageUrl, createdAt, content, sender, relationship }) {
+  const timeStamp = changeDateFormat(createdAt, 'YYYY.MM.DD');
+  const handleBadge = (relationType) => {
+    switch (relationType) {
+      case '가족':
+        return <FamilyBadge />;
+      case '친구':
+        return <FriendBadge />;
+      case '동료':
+        return <CoworkerBadge />;
+      case '지인':
+        return <OtherBadge />;
+    }
+  };
+
   return (
     <CardWrapper>
       <ProfileWrapper>
@@ -9,16 +27,13 @@ function Card({ imageUrl }) {
         <ProfileContentWrapper>
           <ProfileNameWrapper>
             <ProfileContentText>From.</ProfileContentText>
-            <ProfileContentText weight={700}>Wade</ProfileContentText>
+            <ProfileContentText weight={700}>{sender}</ProfileContentText>
           </ProfileNameWrapper>
-          <FriendBadge />
+          {handleBadge(relationship)}
         </ProfileContentWrapper>
       </ProfileWrapper>
-      <CardContent>
-        코로나가 또다시 기승을 부리는 요즘이네요. 건강, 체력 모두 조심 또
-        하세요!
-      </CardContent>
-      <CardTimeStamp>2023.07.08</CardTimeStamp>
+      <CardContent>{content}</CardContent>
+      <CardTimeStamp>{timeStamp}</CardTimeStamp>
     </CardWrapper>
   );
 }
