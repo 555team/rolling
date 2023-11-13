@@ -57,7 +57,6 @@ const Skeleton = styled.div`
   background: ${({ theme }) => theme['--gray-300']};
   margin: 10px 0;
   border-radius: 4px;
-  width: ${({ width }) => width};
 `;
 
 const SkeletonWrapper = styled.div`
@@ -69,6 +68,15 @@ const SkeletonWrapper = styled.div`
   padding: 28px 24px;
   border-radius: 16px;
   background: ${({ theme }) => theme.white};
+  ${({ theme }) => theme.tablet`
+    width: 352px;
+    height: 284px;
+  `}
+  ${({ theme }) => theme.mobile`
+    width: 320px;
+    height: 230px;
+    gap: 0px;
+  `}
 `;
 
 const SkeletonProfileWrapper = styled.div`
