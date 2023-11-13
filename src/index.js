@@ -11,6 +11,7 @@ import LandingPage from './pages/LandingPage';
 import ListPage from './pages/ListPage';
 import CreatePostPage from './pages/CreatePostPage';
 import media from 'styles/media';
+import PostPage from 'pages/PostPage';
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: '/post',
         element: <CreatePostPage />,
+      },
+      {
+        path: '/post/:id',
+        element: <PostPage />,
       },
     ],
   },
