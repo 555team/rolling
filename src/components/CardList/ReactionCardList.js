@@ -3,10 +3,13 @@ import { ReactComponent as NextIcon } from 'assets/icons/arrow_right.svg';
 import styled from 'styled-components';
 import Card from 'components/CardList/Card';
 import useRequest from 'hooks/useRequest';
+import media from 'styles/media';
 
 function ReactionCardList({ title }) {
   const [page, setPage] = useState(0);
-  const limit = 4;
+  const [issetScroll, setScroll] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
   const { data, isLoading, error } = useRequest({
     url: `1-5/recipients/`,
     method: 'get',
@@ -14,6 +17,23 @@ function ReactionCardList({ title }) {
   });
 
   const [sortedData, setSortedData] = useState([]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+
+      if (window.innerWidth <= 1199) {
+        setScroll(true);
+      } else {
+        setScroll(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     if (data && data.results) {
@@ -24,9 +44,15 @@ function ReactionCardList({ title }) {
     }
   }, [data]);
 
+  const getLimit = () => {
+    return issetScroll ? sortedData.length : 4;
+  };
   const showPreviousButton = page > 0;
-  const showNextButton = page < Math.ceil(sortedData.length / limit) - 1;
-  const paginatedData = sortedData.slice(page * limit, (page + 1) * limit);
+  const showNextButton = page < Math.ceil(sortedData.length / getLimit()) - 1;
+  const paginatedData = sortedData.slice(
+    page * getLimit(),
+    (page + 1) * getLimit()
+  );
 
   function handleNextClick() {
     setPage(page + 1);
@@ -42,7 +68,9 @@ function ReactionCardList({ title }) {
   return (
     <ListPageContainer>
       <Title>{title}</Title>
-      <CardListContainer>
+      <CardListContainer
+        style={issetScroll ? { width: `${windowWidth - 24}px` } : {}}
+      >
         {showPreviousButton && (
           <NavigationButton onClick={handlePreviousClick} position="left">
             <PreviousIcon />
@@ -62,8 +90,8 @@ function ReactionCardList({ title }) {
 }
 
 export default ReactionCardList;
+
 const ListPageContainer = styled.div`
-  width: 1160px;
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -77,6 +105,10 @@ const Title = styled.h2`
   line-height: 36px;
   letter-spacing: -0.24px;
   margin-bottom: 16px;
+
+  ${media.tablet`
+    margin-left: 24px;
+  `}
 `;
 
 const CardListContainer = styled.div`
@@ -84,6 +116,15 @@ const CardListContainer = styled.div`
   gap: 20px;
   margin-bottom: 50px;
   position: relative;
+
+  ${media.tablet`
+    overflow-x: auto;
+    margin-left: 24px;
+  `}
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const NavigationButton = styled.button`
@@ -100,6 +141,14 @@ const NavigationButton = styled.button`
   background: #fff;
   top: 110px;
   ${({ position }) => (position === 'left' ? 'left: -20px;' : 'right: -20px;')}
+
+  ${media.tablet`
+    display: none;
+  `}
+
+  ${media.mobile`
+    display: none;
+  `}
 `;
 
 const PreviousIcon = styled(NextIcon)`

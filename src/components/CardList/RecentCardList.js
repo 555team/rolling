@@ -1,53 +1,75 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ReactComponent as NextIcon } from 'assets/icons/arrow_right.svg';
 import styled from 'styled-components';
 import Card from 'components/CardList/Card';
 import useRequest from 'hooks/useRequest';
+import media from 'styles/media';
 
 function RecentCardList({ title }) {
-  const [offset, setOffset] = useState(0);
+  const [page, setPage] = useState(0);
+  const [issetScroll, setScroll] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   const { data, isLoading, error } = useRequest({
     url: `1-5/recipients/`,
     method: 'get',
-    params: { limit: 4, offset },
-    deps: offset,
+    params: { limit: 1000 },
   });
 
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+
+      if (window.innerWidth <= 1199) {
+        setScroll(true);
+      } else {
+        setScroll(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const validData = data?.results || [];
+  const getLimit = () => (issetScroll ? validData.length : 4);
+
+  const showPreviousButton = page > 0;
+  const showNextButton = page < Math.ceil(validData.length / getLimit()) - 1;
+  const paginatedData = validData.slice(
+    page * getLimit(),
+    (page + 1) * getLimit()
+  );
+
   function handleNextClick() {
-    setOffset((prevOffset) => prevOffset + 4);
+    setPage(page + 1);
   }
 
   function handlePreviousClick() {
-    setOffset((prevOffset) => prevOffset - 4);
+    setPage(page - 1);
   }
 
-  const results = data.results || [];
   if (isLoading) return <p>로딩 중...</p>;
   if (error) return <p>데이터 로딩 에러: {error.message}</p>;
 
   return (
     <ListPageContainer>
       <Title>{title}</Title>
-      <CardListContainer>
-        {data.previous && (
-          <NavigationButton
-            onClick={handlePreviousClick}
-            position="left"
-            isVisible={!!data.previous}
-          >
+      <CardListContainer
+        style={issetScroll ? { width: `${windowWidth - 24}px` } : {}}
+      >
+        {showPreviousButton && (
+          <NavigationButton onClick={handlePreviousClick} position="left">
             <PreviousIcon />
           </NavigationButton>
         )}
-        {results.map((card) => (
+        {paginatedData.map((card) => (
           <Card key={card.id} card={card} />
         ))}
-        {data.next && (
-          <NavigationButton
-            onClick={handleNextClick}
-            position="right"
-            isVisible={!!data.next}
-          >
+        {showNextButton && (
+          <NavigationButton onClick={handleNextClick} position="right">
             <NextIcon />
           </NavigationButton>
         )}
@@ -59,7 +81,6 @@ function RecentCardList({ title }) {
 export default RecentCardList;
 
 const ListPageContainer = styled.div`
-  width: 1160px;
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -73,6 +94,10 @@ const Title = styled.h2`
   line-height: 36px;
   letter-spacing: -0.24px;
   margin-bottom: 16px;
+
+  ${media.tablet`
+    margin-left: 24px;
+  `}
 `;
 
 const CardListContainer = styled.div`
@@ -80,6 +105,15 @@ const CardListContainer = styled.div`
   gap: 20px;
   margin-bottom: 50px;
   position: relative;
+
+  ${media.tablet`
+    overflow-x: auto;
+    margin-left: 24px;
+  `}
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const NavigationButton = styled.button`
@@ -95,8 +129,15 @@ const NavigationButton = styled.button`
   z-index: 2;
   background: #fff;
   top: 110px;
-  visibility: ${({ isVisible }) => (isVisible ? 'visible' : 'hidden')};
   ${({ position }) => (position === 'left' ? 'left: -20px;' : 'right: -20px;')}
+
+  ${media.tablet`
+    display: none;
+  `}
+
+  ${media.mobile`
+    display: none;
+  `}
 `;
 
 const PreviousIcon = styled(NextIcon)`
