@@ -9,8 +9,10 @@ import Layout from './components/Layout';
 import ErrorPage from './pages/ErrorPage';
 import LandingPage from './pages/LandingPage';
 import ListPage from './pages/ListPage';
-import PostPage from './pages/PostPage';
+// import PostPage from './pages/PostPage';
+import CreatePostPage from './pages/CreatePostPage';
 import media from 'styles/media';
+import CreateMessagePage from './pages/CreateMessagePage';
 
 const router = createBrowserRouter([
   {
@@ -28,7 +30,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/post',
-        element: <PostPage />,
+        element: <CreatePostPage />,
+      },
+      {
+        path: '/post/:recipientId/message',
+        element: <CreateMessagePage />,
       },
     ],
   },
