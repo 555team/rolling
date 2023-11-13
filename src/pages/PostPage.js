@@ -3,6 +3,7 @@ import useRequest from 'hooks/useRequest';
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import SkeletonCard from 'components/Skeleton/SkeletonCard';
+import AddCard from 'components/Card/AddCard';
 import { BACKGROUND_COLOR } from 'constants/postPageConstant';
 
 function PostPage({ backgroundColor }) {
@@ -50,6 +51,7 @@ function PostPage({ backgroundColor }) {
       }
     >
       <CardListWrapper>
+        <AddCard />
         {cards?.map((item) =>
           isLoading ? (
             <SkeletonCard key={item.id} />
