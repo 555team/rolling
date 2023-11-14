@@ -1,24 +1,58 @@
+import CoworkerBadge from 'components/Badges/CoworkerBadge';
+import FamilyBadge from 'components/Badges/FamilyBadge';
 import FriendBadge from 'components/Badges/FriendBadge';
+import OtherBadge from 'components/Badges/OtherBadge';
 import styled from 'styled-components';
+import changeDateFormat from 'utils/calcCreateAt';
 
-function Card({ imageUrl }) {
+function Card({
+  imageUrl,
+  createdAt,
+  content,
+  sender,
+  relationship,
+  font = 'Noto Sans',
+}) {
+  const timeStamp = changeDateFormat(createdAt, 'YYYY.MM.DD');
+  const handleBadge = (relationType) => {
+    switch (relationType) {
+      case '가족':
+        return <FamilyBadge />;
+      case '친구':
+        return <FriendBadge />;
+      case '동료':
+        return <CoworkerBadge />;
+      case '지인':
+        return <OtherBadge />;
+    }
+  };
+  const handleFontType = (fontType) => {
+    switch (fontType) {
+      case 'Noto Sans':
+        return 'Noto Sans KR';
+      case 'Pretendard':
+        return 'Pretendard, Noto Sans KR';
+      case '나눔명조':
+        return 'Nanum Myeongjo, Noto Sans KR';
+      case '나눔손글씨 손편지체':
+        return 'Handletter, Noto Sans KR';
+    }
+  };
+
   return (
-    <CardWrapper>
+    <CardWrapper fontStyle={handleFontType(font)}>
       <ProfileWrapper>
         <ProfileImage src={imageUrl} alt="card-profile" />
         <ProfileContentWrapper>
           <ProfileNameWrapper>
             <ProfileContentText>From.</ProfileContentText>
-            <ProfileContentText weight={700}>Wade</ProfileContentText>
+            <ProfileContentText weight={700}>{sender}</ProfileContentText>
           </ProfileNameWrapper>
-          <FriendBadge />
+          {handleBadge(relationship)}
         </ProfileContentWrapper>
       </ProfileWrapper>
-      <CardContent>
-        코로나가 또다시 기승을 부리는 요즘이네요. 건강, 체력 모두 조심 또
-        하세요!
-      </CardContent>
-      <CardTimeStamp>2023.07.08</CardTimeStamp>
+      <CardContent>{content}</CardContent>
+      <CardTimeStamp>{timeStamp}</CardTimeStamp>
     </CardWrapper>
   );
 }
@@ -35,6 +69,7 @@ const CardWrapper = styled.div`
   border-radius: 16px;
   background: ${({ theme }) => theme.white};
   box-shadow: 0px 2px 12px 0px rgba(0, 0, 0, 0.08);
+  font-family: ${({ fontStyle }) => fontStyle};
   ${({ theme }) => theme.tablet`
     width: 352px;
     height: 284px;
@@ -77,7 +112,7 @@ const ProfileContentText = styled.span`
   color: ${({ theme }) => theme.black};
   font-size: 20px;
   font-style: normal;
-  font-weight: ${(props) => props.weight || 400};
+  font-weight: ${({ weight }) => weight || 400};
   line-height: 24px;
   ${({ theme }) => theme.mobile`
     font-size: 18px;
