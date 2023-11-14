@@ -6,7 +6,7 @@ import SkeletonCard from 'components/Skeleton/SkeletonCard';
 import AddCard from 'components/Card/AddCard';
 import { BACKGROUND_COLOR } from 'constants/postPageConstant';
 import { MainPrimaryButton } from 'components/button/Button';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import fetch from 'apis/api';
 
 function PostPage({ backgroundColor }) {
@@ -17,6 +17,7 @@ function PostPage({ backgroundColor }) {
   const params = useParams();
   const id = params.id;
   const navigate = useNavigate();
+  const location = useLocation();
 
   const backgroundImageURL =
     'https://images.unsplash.com/photo-1699307152365-399bf53f55a3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjYxNjF8MHwxfGFsbHwxMHx8fHx8fDJ8fDE2OTk2ODg0OTB8&ixlib=rb-4.0.3&q=80&w=1080';
@@ -58,6 +59,7 @@ function PostPage({ backgroundColor }) {
       if (response.status === 204) {
         alert('성공적으로 삭제되었습니다.');
       }
+      setCards((prev) => [...prev, ...cards]);
     } catch (error) {
       console.error(error);
     }
@@ -85,9 +87,12 @@ function PostPage({ backgroundColor }) {
           : { type: 'color', backgroundColor: background }
       }
     >
-      <DeleteButtonWrapper>
-        <DeleteButton title="삭제하기" onClick={handleDeleteButtonClick} />
-      </DeleteButtonWrapper>
+      {location.pathname === `/post/${id}/edit` ? (
+        <DeleteButtonWrapper>
+          <DeleteButton title="삭제하기" onClick={handleDeleteButtonClick} />
+        </DeleteButtonWrapper>
+      ) : null}
+
       <CardListWrapper>
         <AddCard />
         {cards?.map((item) =>
@@ -97,6 +102,7 @@ function PostPage({ backgroundColor }) {
             <>
               <Card
                 key={item.id}
+                id={id}
                 imageUrl={item.urls.small}
                 onDelete={handleTrashIconClick}
               />
@@ -141,7 +147,8 @@ const PostPageWrapper = styled.div`
       : `background: ${theme[background.backgroundColor]}`};
 
   @media (max-width: 1248px) {
-    padding: 0px 24px;
+    padding-left: 24px;
+    padding-right: 24px;
   }
 `;
 

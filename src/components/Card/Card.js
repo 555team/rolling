@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import changeDateFormat from 'utils/calcCreateAt';
 import { ReactComponent as TrashIcon } from '../../assets/icons/trash-icon.svg';
 import { OutlinedButton } from 'components/button/OutlinedButton';
+import { useLocation } from 'react-router-dom';
 
 function Card({
   imageUrl,
@@ -15,7 +16,9 @@ function Card({
   relationship,
   font = 'Noto Sans',
   onDelete,
+  id,
 }) {
+  const location = useLocation();
   const timeStamp = changeDateFormat(createdAt, 'YYYY.MM.DD');
   const handleBadge = (relationType) => {
     switch (relationType) {
@@ -55,9 +58,11 @@ function Card({
             {handleBadge(relationship)}
           </ProfileContentWrapper>
         </ProfileBox>
-        <OutlinedButton width={40} height={40} onClick={onDelete}>
-          <TrashIcon />
-        </OutlinedButton>
+        {location.pathname === `/post/${id}/edit` ? (
+          <OutlinedButton width={40} height={40} onClick={onDelete}>
+            <TrashIcon />
+          </OutlinedButton>
+        ) : null}
       </ProfileWrapper>
       <CardContent>{content}</CardContent>
       <CardTimeStamp>{timeStamp}</CardTimeStamp>
