@@ -6,7 +6,7 @@ import SkeletonCard from 'components/Skeleton/SkeletonCard';
 import AddCard from 'components/Card/AddCard';
 import { BACKGROUND_COLOR } from 'constants/postPageConstant';
 import { MainPrimaryButton } from 'components/button/Button';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import fetch from 'apis/api';
 
 function PostPage({ backgroundColor }) {
@@ -16,6 +16,7 @@ function PostPage({ backgroundColor }) {
   const target = useRef(null);
   const params = useParams();
   const id = params.id;
+  const navigate = useNavigate();
 
   const backgroundImageURL =
     'https://images.unsplash.com/photo-1699307152365-399bf53f55a3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjYxNjF8MHwxfGFsbHwxMHx8fHx8fDJ8fDE2OTk2ODg0OTB8&ixlib=rb-4.0.3&q=80&w=1080';
@@ -40,7 +41,8 @@ function PostPage({ backgroundColor }) {
         url: `/1-5/recipients/${id}/`,
       });
       if (response.status === 204) {
-        alert('성공적으로 삭제 되었습니다.');
+        alert('성공적으로 삭제되었습니다.');
+        navigate('/list');
       }
     } catch (error) {
       console.error(error);
