@@ -5,12 +5,17 @@ import styled from 'styled-components';
 import SkeletonCard from 'components/Skeleton/SkeletonCard';
 import AddCard from 'components/Card/AddCard';
 import { BACKGROUND_COLOR } from 'constants/postPageConstant';
+import { MainPrimaryButton } from 'components/button/Button';
+import { useParams } from 'react-router-dom';
+import fetch from 'apis/api';
 
 function PostPage({ backgroundColor }) {
   const [cards, setCards] = useState([]);
   const [page, setPage] = useState(1);
   const API_KEY = 'QNu5I163sHdbHYsEHdDTKeKJpAjaGtvtGpNw2G1xTEI';
   const target = useRef(null);
+  const params = useParams();
+  const id = params.id;
 
   const backgroundImageURL =
     'https://images.unsplash.com/photo-1699307152365-399bf53f55a3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjYxNjF8MHwxfGFsbHwxMHx8fHx8fDJ8fDE2OTk2ODg0OTB8&ixlib=rb-4.0.3&q=80&w=1080';
@@ -26,6 +31,20 @@ function PostPage({ backgroundColor }) {
 
   const loadMore = () => {
     setPage((prev) => prev + 1);
+  };
+
+  const handleDeleteButtonClick = async () => {
+    try {
+      const response = await fetch({
+        method: 'delete',
+        url: `/1-5/recipients/${id}/`,
+      });
+      if (response.status === 204) {
+        alert('성공적으로 삭제 되었습니다.');
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -50,6 +69,9 @@ function PostPage({ backgroundColor }) {
           : { type: 'color', backgroundColor: background }
       }
     >
+      <DeleteButtonWrapper>
+        <DeleteButton title="삭제하기" onClick={handleDeleteButtonClick} />
+      </DeleteButtonWrapper>
       <CardListWrapper>
         <AddCard />
         {cards?.map((item) =>
@@ -68,12 +90,31 @@ function PostPage({ backgroundColor }) {
 }
 export default PostPage;
 
+const DeleteButtonWrapper = styled.div`
+  display: flex;
+  width: 1200px;
+  justify-content: flex-end;
+`;
+
+const DeleteButton = styled(MainPrimaryButton)`
+  padding: 7px 16px;
+  width: 92px;
+  height: 40px;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 300;
+`;
+
 const PostPageWrapper = styled.div`
   display: flex;
   width: 100vw;
   height: 100%vw;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 12px;
+  padding-top: 113px;
   ${({ background, theme }) =>
     background.type === 'url'
       ? `background-image: url(${background.backgroundImageURL})`
@@ -96,7 +137,6 @@ const CardListWrapper = styled.div`
   grid-template-rows: auto;
   column-gap: 24px;
   row-gap: 28px;
-  margin-top: 113px;
   ${({ theme }) => theme.tablet`
     row-gap: 16px;
     column-gap: 16px;
