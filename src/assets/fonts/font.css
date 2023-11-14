@@ -2,6 +2,7 @@
   font-family: 'Noto Sans KR';
   font-style: normal;
   font-weight: 400;
+  font-display: swap;
   src: url('NotoSansKR-Regular.woff2') format('woff2');
 }
 
@@ -9,6 +10,7 @@
   font-family: 'Noto Sans KR';
   font-style: normal;
   font-weight: 500;
+  font-display: swap;
   src: url('NotoSansKR-Medium.woff2') format('woff2');
 }
 
@@ -16,6 +18,7 @@
   font-family: 'Noto Sans KR';
   font-style: normal;
   font-weight: 700;
+  font-display: swap;
   src: url('NotoSansKR-Bold.woff2') format('woff2');
 }
 
@@ -23,5 +26,6 @@
   font-family: 'Noto Sans KR';
   font-style: normal;
   font-weight: 800;
+  font-display: swap;
   src: url('NotoSansKR-ExtraBold.woff2') format('woff2');
 }
