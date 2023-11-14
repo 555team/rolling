@@ -52,11 +52,11 @@ function PostForm({
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     handleValuesChange(name, value);
-    validateName();
+    validateName(value);
   };
 
-  const validateName = () => {
-    if (name.length === 0) {
+  const validateName = (text) => {
+    if (text.length === 0) {
       handleInputErrorChange(true);
       return;
     }
@@ -74,7 +74,7 @@ function PostForm({
           value={name}
           name="name"
           onInput={handleInputChange}
-          onBlur={validateName}
+          onBlur={handleInputChange}
           className={isInputError ? 'error' : ''}
         />
         {isInputError && <ErrorMessage>값을 입력해 주세요.</ErrorMessage>}
