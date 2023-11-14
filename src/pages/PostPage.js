@@ -5,27 +5,39 @@ import styled from 'styled-components';
 import SkeletonCard from 'components/Skeleton/SkeletonCard';
 import AddCard from 'components/Card/AddCard';
 import { BACKGROUND_COLOR } from 'constants/postPageConstant';
+import { useParams } from 'react-router-dom';
 
-function PostPage({ backgroundColor }) {
+function PostPage() {
   const [cards, setCards] = useState([]);
-  const [page, setPage] = useState(1);
-  const API_KEY = 'QNu5I163sHdbHYsEHdDTKeKJpAjaGtvtGpNw2G1xTEI';
+  const [offset, setOffset] = useState(1);
+  const [background, setBackground] = useState();
+  const [backgroundImageURL, setBackgroundImageURL] = useState();
+  // const LIMIT = 3;
   const target = useRef(null);
+  const params = useParams();
+  const recipientId = params.id;
 
-  const backgroundImageURL =
-    'https://images.unsplash.com/photo-1699307152365-399bf53f55a3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjYxNjF8MHwxfGFsbHwxMHx8fHx8fDJ8fDE2OTk2ODg0OTB8&ixlib=rb-4.0.3&q=80&w=1080';
-  const background = BACKGROUND_COLOR[backgroundColor];
-
+  // const query = `?limit=${LIMIT}&offset=${offset}`;
   const { data, isLoading } = useRequest({
-    deps: page,
-    url: `https://api.unsplash.com/photos/?client_id=${API_KEY}&page=${page}&per_page=3`,
+    url: `/1-5/recipients/${recipientId}/`,
   });
+
   useEffect(() => {
-    setCards((prev) => [...prev, ...data]);
-  }, [page]);
+    setBackground(data?.backgroundColor);
+    setBackgroundImageURL(data?.backgroundImageURL);
+  });
+
+  const backgroundColor = BACKGROUND_COLOR[background];
+
+  useEffect(() => {
+    console.log(data);
+    if (data?.results) {
+      setCards((prev) => [...prev, ...data.results]);
+    }
+  }, [offset]);
 
   const loadMore = () => {
-    setPage((prev) => prev + 1);
+    setOffset((prev) => prev + 3);
   };
 
   useEffect(() => {
@@ -47,7 +59,7 @@ function PostPage({ backgroundColor }) {
       background={
         backgroundImageURL
           ? { type: 'url', backgroundImageURL }
-          : { type: 'color', backgroundColor: background }
+          : { type: 'color', backgroundColor: backgroundColor }
       }
     >
       <CardListWrapper>
@@ -57,7 +69,7 @@ function PostPage({ backgroundColor }) {
             <SkeletonCard key={item.id} />
           ) : (
             <>
-              <Card key={item.id} imageUrl={item.urls.small} />
+              <Card key={item.id} imageUrl={item.profileImageURL} />
             </>
           )
         )}
