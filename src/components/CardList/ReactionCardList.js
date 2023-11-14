@@ -1,53 +1,58 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ReactComponent as NextIcon } from 'assets/icons/arrow_right.svg';
 import styled from 'styled-components';
 import Card from 'components/CardList/Card';
 import useRequest from 'hooks/useRequest';
 
-function CardList({ title }) {
-  const [offset, setOffset] = useState(0);
-
+function ReactionCardList({ title }) {
+  const [page, setPage] = useState(0);
+  const limit = 4;
   const { data, isLoading, error } = useRequest({
     url: `1-5/recipients/`,
     method: 'get',
-    params: { limit: 4, offset },
-    deps: offset,
+    params: { limit: 1000, sort: 'like' },
   });
 
+  const [sortedData, setSortedData] = useState([]);
+
+  useEffect(() => {
+    if (data && data.results) {
+      const sorted = [...data.results].sort(
+        (a, b) => b.reactionCount - a.reactionCount
+      );
+      setSortedData(sorted);
+    }
+  }, [data]);
+
+  const showPreviousButton = page > 0;
+  const showNextButton = page < Math.ceil(sortedData.length / limit) - 1;
+  const paginatedData = sortedData.slice(page * limit, (page + 1) * limit);
+
   function handleNextClick() {
-    setOffset((prevOffset) => prevOffset + 4);
+    setPage(page + 1);
   }
 
   function handlePreviousClick() {
-    setOffset((prevOffset) => prevOffset - 4);
+    setPage(page - 1);
   }
 
   if (isLoading) return <p>로딩 중...</p>;
   if (error) return <p>데이터 로딩 에러: {error.message}</p>;
 
-  // 데이터가 있을 경우 카드 리스트를 렌더링합니다.
   return (
     <ListPageContainer>
       <Title>{title}</Title>
       <CardListContainer>
-        {data.previous && (
-          <NavigationButton
-            onClick={handlePreviousClick}
-            position="left"
-            isVisible={!!data.previous}
-          >
+        {showPreviousButton && (
+          <NavigationButton onClick={handlePreviousClick} position="left">
             <PreviousIcon />
           </NavigationButton>
         )}
-        {data.results.map((card) => (
+        {paginatedData.map((card) => (
           <Card key={card.id} card={card} />
         ))}
-        {data.next && (
-          <NavigationButton
-            onClick={handleNextClick}
-            position="right"
-            isVisible={!!data.next}
-          >
+        {showNextButton && (
+          <NavigationButton onClick={handleNextClick} position="right">
             <NextIcon />
           </NavigationButton>
         )}
@@ -56,7 +61,7 @@ function CardList({ title }) {
   );
 }
 
-export default CardList;
+export default ReactionCardList;
 const ListPageContainer = styled.div`
   width: 1160px;
   display: flex;
@@ -94,7 +99,6 @@ const NavigationButton = styled.button`
   z-index: 2;
   background: #fff;
   top: 110px;
-  visibility: ${({ isVisible }) => (isVisible ? 'visible' : 'hidden')};
   ${({ position }) => (position === 'left' ? 'left: -20px;' : 'right: -20px;')}
 `;
 

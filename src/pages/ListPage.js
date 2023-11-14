@@ -1,12 +1,13 @@
-import CardList from 'components/CardList';
+import RecentCardList from 'components/CardList/RecentCardList';
+import ReactionCardList from 'components/CardList/ReactionCardList';
 import styled from 'styled-components';
 import { MainPrimaryButton } from 'components/button/Button';
 
 function ListPage() {
   return (
     <ListPageContainer>
-      <CardList title="인기 롤링 페이퍼 🔥" />
-      <CardList title="최근에 만든 롤링 페이퍼 ⭐️️" />
+      <ReactionCardList title="인기 롤링 페이퍼 🔥" />
+      <RecentCardList title="최근에 만든 롤링 페이퍼 ⭐️️" />
       <MainPrimaryButton title="나도 만들어보기" className="list-page-button" />
     </ListPageContainer>
   );
