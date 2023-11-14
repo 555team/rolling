@@ -1,70 +1,79 @@
+/* eslint-disable no-unused-vars */
 import Card from 'components/Card/Card';
-import useRequest from 'hooks/useRequest';
-import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import SkeletonCard from 'components/Skeleton/SkeletonCard';
 import AddCard from 'components/Card/AddCard';
-import { BACKGROUND_COLOR } from 'constants/postPageConstant';
+import useRequest from 'hooks/useRequest';
 import { useParams } from 'react-router-dom';
+import { BACKGROUND_COLOR } from 'constants/postPageConstant';
+import { useEffect, useRef, useState } from 'react';
 import fetch from 'apis/api';
+import useIntersectionObserver from 'hooks/useIntersectionObserver';
 
 function PostPage() {
+  const { id } = useParams();
   const [cards, setCards] = useState([]);
+  const [messages, setMessages] = useState({});
+  const [backgroundColor, setBackgroundColor] = useState('');
+  const [backgroundImageURL, setBackgroundImageURL] = useState('');
   const [offset, setOffset] = useState(1);
-  const [background, setBackground] = useState();
-  const [backgroundImageURL, setBackgroundImageURL] = useState();
-  const LIMIT = 3;
+  const [limit, setLimit] = useState(5);
   const target = useRef(null);
-  const params = useParams();
-  const recipientId = params.id;
-
-  const query = `?limit=${LIMIT}&offset=${offset}`;
-  const { data, isLoading } = useRequest({
-    url: `/1-5/recipients/${recipientId}/`,
-  });
-
-  useEffect(() => {
-    setBackground(data?.backgroundColor);
-    setBackgroundImageURL(data?.backgroundImageURL);
-  });
-
-  const backgroundColor = BACKGROUND_COLOR[background];
-
-  useEffect(() => {
-    const fetchMessage = async () => {
-      const response = await fetch({
-        url: `/1-5/recipients/${recipientId}/messages/${query}`,
-      });
-      const { data } = response;
-      console.log(data);
-    };
-    if (data?.results) {
-      setCards((prev) => [...prev, ...data.results]);
-    }
-    fetchMessage();
-  }, [offset]);
-
-  const loadMore = () => {
+  const [observe, unobserve] = useIntersectionObserver(() => {
+    setLimit(3);
     setOffset((prev) => prev + 3);
-  };
+  });
+
+  const { data, isLoading } = useRequest({
+    url: `/1-5/recipients/${id}/`,
+  });
 
   useEffect(() => {
-    if (isLoading) {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          if (entries[0].isIntersecting) {
-            loadMore();
-          }
-        },
-        { threshold: 1 }
-      );
-      observer.observe(target.current);
+    if (data && !isLoading) {
+      setBackgroundColor(BACKGROUND_COLOR[data?.backgroundColor]);
+      setBackgroundImageURL(data.backgroundImageURL);
     }
-  }, [isLoading]);
+  }, [data]);
+
+  // let backgroundColor = BACKGROUND_COLOR[data?.backgroundColor];
+  // let backgroundImageURL = data?.backgroundImageURL;
+
+  const fetchMessage = async () => {
+    const response = await fetch({
+      url: `/1-5/recipients/${id}/messages/`,
+      params: { limit, offset },
+    });
+    const { data } = response;
+    setCards(data?.results);
+    setMessages(data);
+  };
+  console.log(messages);
+
+  useEffect(() => {
+    fetchMessage();
+  }, [data]);
+
+  useEffect(() => {
+    if (offset === 1) {
+      observe(target.current);
+    }
+    const count = messages.results?.length;
+    console.log(count);
+    const totalCount = messages.count;
+    console.log(totalCount);
+    if (count === 0 || totalCount <= count) {
+      unobserve(target.current);
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    if (messages && messages.results) {
+      setCards((prev) => [...prev, ...messages.results]);
+    }
+  }, [offset]);
 
   return (
     <PostPageWrapper
-      background={
+      $backgrounds={
         backgroundImageURL
           ? { type: 'url', backgroundImageURL }
           : { type: 'color', backgroundColor }
@@ -72,15 +81,18 @@ function PostPage() {
     >
       <CardListWrapper>
         <AddCard />
-        {cards?.map((item) =>
-          isLoading ? (
-            <SkeletonCard key={item.id} />
-          ) : (
-            <>
-              <Card key={item.id} imageUrl={item.profileImageURL} />
-            </>
-          )
-        )}
+        {cards &&
+          cards?.map((item) => (
+            <Card
+              key={item.id}
+              imageUrl={item.profileImageURL}
+              createdAt={item.createdAt}
+              content={item.content}
+              sender={item.sender}
+              relationship={item.relationship}
+              font={item.font}
+            />
+          ))}
         <Target ref={target} />
       </CardListWrapper>
     </PostPageWrapper>
@@ -95,11 +107,10 @@ const PostPageWrapper = styled.div`
   height: 100%vw;
   align-items: center;
   justify-content: center;
-  ${({ background, theme }) =>
-    background.type === 'url'
-      ? `background-image: url(${background.backgroundImageURL})`
-      : `background: ${theme[background.backgroundColor]}`};
-
+  ${({ $backgrounds, theme }) =>
+    $backgrounds.type === 'url'
+      ? `background-image: url(${$backgrounds.backgroundImageURL})`
+      : `background: ${theme[$backgrounds.backgroundColor]}`};
   @media (max-width: 1248px) {
     padding: 0px 24px;
   }
@@ -133,5 +144,5 @@ const CardListWrapper = styled.div`
 `;
 
 const Target = styled.div`
-  height: 1px;
+  height: 10px;
 `;
