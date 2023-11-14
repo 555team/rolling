@@ -1,34 +1,36 @@
 import styled, { css } from 'styled-components';
 import { MainPrimaryButton } from 'components/button/Button';
 import { useEffect, useState } from 'react';
-import PostForm from 'components/createPost/PostForm';
 import useRequest from 'hooks/useRequest';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import MessageForm from 'components/CreateMessage/MessageForm';
 
-function CreatePostPage() {
+function CreateMessagePage() {
+  const { recipientId } = useParams();
   const navigate = useNavigate();
+
   const INITIAL_VALUES = {
     team: '5',
-    name: '',
-    backgroundColor: 'beige',
-    backgroundImageURL: '',
+    recipientId: recipientId,
+    sender: '',
+    profileImageURL: 'https://i.postimg.cc/ncsxyP5d/Frame-2593.png',
+    relationship: '지인',
+    content: '',
+    font: 'Noto Sans',
   };
 
-  const [currentTab, setCurrentTab] = useState(0);
   const [values, setValues] = useState(INITIAL_VALUES);
-  const [isInputError, setIsInputError] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
 
   const { data, fetcher } = useRequest({
-    url: `1-5/recipients/`,
+    url: `1-5/recipients/${recipientId}/messages/`,
     method: 'post',
     data: values,
     skip: true,
   });
 
-  const handleInputErrorChange = (isError) => {
-    setIsInputError(isError);
-    setIsDisabled(isError);
+  const handleErrorChange = (disabled) => {
+    setIsDisabled(disabled);
   };
 
   const handleValuesChange = (name, value) => {
@@ -38,40 +40,30 @@ function CreatePostPage() {
     }));
   };
 
-  const handleTabChange = (e, key) => {
-    e.preventDefault();
-    setCurrentTab(key);
-  };
-
   const handleSubmit = async () => {
-    if (!isInputError) {
-      try {
-        await fetcher();
-      } catch (err) {
-        console.error('error : ', err);
-      }
+    try {
+      await fetcher();
+    } catch (err) {
+      console.error('error : ', err);
     }
   };
 
   useEffect(() => {
     if (Object.keys(data).length > 0) {
-      return navigate(`/post/${data.id}`);
+      return navigate(`/post/${recipientId}`);
     }
   }, [data]);
 
   return (
     <Container>
       <ContentsWrapper>
-        <FormWrapper>
-          <PostForm
-            currentTab={currentTab}
-            handleTabChange={handleTabChange}
-            handleValuesChange={handleValuesChange}
-            name={values.name}
-            isInputError={isInputError}
-            handleInputErrorChange={handleInputErrorChange}
-          />
-        </FormWrapper>
+        <MessageForm
+          handleValuesChange={handleValuesChange}
+          sender={values.sender}
+          content={values.content}
+          handleErrorChange={handleErrorChange}
+          recipientId={recipientId}
+        />
         <SubmitButton
           title="생성하기"
           disabled={isDisabled}
@@ -82,7 +74,7 @@ function CreatePostPage() {
   );
 }
 
-export default CreatePostPage;
+export default CreateMessagePage;
 
 const flexCenter = css`
   display: flex;
@@ -92,36 +84,26 @@ const flexCenter = css`
 
 const Container = styled.div`
   width: 100%;
-  margin-top: 57px;
   ${flexCenter};
   flex-direction: column;
+  margin-top: 57px;
 
-  // Tablet
-  @media (min-width: 768px) and (max-width: 1199px) {
+  ${({ theme }) => theme.tablet`
     margin-top: 49px;
-  }
-
-  // Mobile
-  @media (max-width: 767px) {
-    margin-top: 50px;
-  }
+  `};
 `;
 
 const ContentsWrapper = styled.div`
-  width: 100%;
   max-width: 720px;
   ${flexCenter};
   flex-direction: column;
   margin: 0 24px;
   gap: 69px;
+  box-sizing: border-box;
 
   ${({ theme }) => theme.tablet`
     margin-bottom: 106px;
   `};
-`;
-
-const FormWrapper = styled.div`
-  margin: 0 24px;
 `;
 
 const SubmitButton = styled(MainPrimaryButton)`
