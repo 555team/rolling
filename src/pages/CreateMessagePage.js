@@ -2,35 +2,35 @@ import styled, { css } from 'styled-components';
 import { MainPrimaryButton } from 'components/button/Button';
 import { useEffect, useState } from 'react';
 import useRequest from 'hooks/useRequest';
-import { useNavigate } from 'react-router-dom';
-import MessageForm from '../components/CreateMessage/MessageForm';
+import { useNavigate, useParams } from 'react-router-dom';
+import MessageForm from 'components/CreateMessage/MessageForm';
 
 function CreateMessagePage() {
+  const { recipientId } = useParams();
   const navigate = useNavigate();
+
   const INITIAL_VALUES = {
     team: '5',
-    recipientId: '',
+    recipientId: recipientId,
     sender: '',
-    profileImageURL: '',
-    relationship: '',
+    profileImageURL: 'https://basicProfile.com',
+    relationship: '지인',
     content: '',
-    font: '',
+    font: 'Noto Sans',
   };
 
   const [values, setValues] = useState(INITIAL_VALUES);
-  const [isInputError, setIsInputError] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
 
   const { data, fetcher } = useRequest({
-    url: `1-5/recipients/{recipient_id}/messages/`,
+    url: `1-5/recipients/${recipientId}/messages/`,
     method: 'post',
     data: values,
     skip: true,
   });
 
-  const handleInputErrorChange = (isError) => {
-    setIsInputError(isError);
-    setIsDisabled(isError);
+  const handleErrorChange = (disabled) => {
+    setIsDisabled(disabled);
   };
 
   const handleValuesChange = (name, value) => {
@@ -41,32 +41,29 @@ function CreateMessagePage() {
   };
 
   const handleSubmit = async () => {
-    if (!isInputError) {
-      try {
-        await fetcher();
-      } catch (err) {
-        console.error('error : ', err);
-      }
+    try {
+      await fetcher();
+    } catch (err) {
+      console.error('error : ', err);
     }
   };
 
   useEffect(() => {
-    if (data) {
-      return navigate(`/post/${data.id}`);
+    if (Object.keys(data).length > 0) {
+      return navigate(`/post/${recipientId}`);
     }
   }, [data]);
 
   return (
     <Container>
       <ContentsWrapper>
-        <FormWrapper>
-          <MessageForm
-            handleValuesChange={handleValuesChange}
-            name={values.name}
-            isInputError={isInputError}
-            handleInputErrorChange={handleInputErrorChange}
-          />
-        </FormWrapper>
+        <MessageForm
+          handleValuesChange={handleValuesChange}
+          sender={values.sender}
+          content={values.content}
+          handleErrorChange={handleErrorChange}
+          recipientId={recipientId}
+        />
         <SubmitButton
           title="생성하기"
           disabled={isDisabled}
@@ -89,35 +86,33 @@ const Container = styled.div`
   width: 100%;
   ${flexCenter};
   flex-direction: column;
+  margin-top: 57px;
+
+  ${({ theme }) => theme.tablet`
+    margin-top: 49px;
+  `};
 `;
 
 const ContentsWrapper = styled.div`
-  width: 100%;
   max-width: 720px;
   ${flexCenter};
   flex-direction: column;
   margin: 0 24px;
   gap: 69px;
+  box-sizing: border-box;
 
-  // Tablet And Mobile
-  @media (max-width: 1199px) {
+  ${({ theme }) => theme.tablet`
     margin-bottom: 106px;
-  }
-`;
-
-const FormWrapper = styled.div`
-  width: 100%;
-  margin: 0 24px;
+  `};
 `;
 
 const SubmitButton = styled(MainPrimaryButton)`
   width: 100%;
   max-width: 720px;
 
-  // Tablet And Mobile
-  @media (max-width: 1199px) {
+  ${({ theme }) => theme.tablet`
     width: 94%;
     position: fixed;
     bottom: 24px;
-  }
+  `};
 `;

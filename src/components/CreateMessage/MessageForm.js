@@ -2,13 +2,42 @@ import styled from 'styled-components';
 import theme from 'styles/theme';
 import Textarea from 'components/textarea/Textarea';
 import Select from 'react-select';
+import useRequest from '../../hooks/useRequest';
+import { useEffect, useState } from 'react';
+import BasicProfile from 'assets/img/basic_profile_img.svg';
 
 function MessageForm({
   sender,
   handleValuesChange,
-  isInputError,
-  handleInputErrorChange,
+  content,
+  handleErrorChange,
 }) {
+  const [profileImages, setProfileImages] = useState();
+  const [selectedProfile, setSelectedProfile] = useState(BasicProfile);
+  const [isSenderError, setIsSenderError] = useState(false);
+  const [isContentError, setIsContentError] = useState(false);
+  const [isSenderErrorTemp, setIsSenderErrorTemp] = useState(true);
+  const [isContentErrorTemp, setIsContentErrorTemp] = useState(true);
+
+  const extractText = (html) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    return doc.body.textContent || '';
+  };
+
+  const { data } = useRequest({
+    url: `profile-images/`,
+    method: 'get',
+    skip: false,
+  });
+
+  useEffect(() => {
+    if (data && data.imageUrls && data.imageUrls.length > 0) {
+      setProfileImages(data?.imageUrls);
+    }
+  }, [data]);
+
+  // react-select 라이브러리를 위한 style객체
   const selectStyles = {
     control: (provided, state) => ({
       ...provided,
@@ -65,37 +94,102 @@ function MessageForm({
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     handleValuesChange(name, value);
-    validateName();
+    validateName(value);
   };
 
-  const validateName = () => {
-    if (sender.length === 0) {
-      handleInputErrorChange(true);
-      return;
-    }
-    handleInputErrorChange(false);
+  const handleTextareaValue = (value) => {
+    validateContent(value);
+    handleValuesChange('content', value);
   };
+
+  const handleProfileChange = (e) => {
+    const { name, src } = e.target;
+    setSelectedProfile(e.target.src);
+    handleValuesChange(name, src);
+  };
+
+  const handleRelationshipChange = (e) => {
+    handleValuesChange('relationship', e.value);
+  };
+
+  const handleFontChange = (e) => {
+    handleValuesChange('font', e.value);
+  };
+
+  const isSubmitDisabled = () => {
+    let disabled = true;
+    if (!isSenderErrorTemp && !isContentErrorTemp) {
+      disabled = false;
+    }
+    return disabled;
+  };
+
+  const validateName = (text) => {
+    if (text.length === 0) {
+      setIsSenderError(true);
+      setIsSenderErrorTemp(true);
+    } else {
+      setIsSenderError(false);
+      setIsSenderErrorTemp(false);
+    }
+  };
+
+  const validateContent = (text) => {
+    if (extractText(text).length === 0) {
+      setIsContentError(true);
+      setIsContentErrorTemp(true);
+    } else {
+      setIsContentError(false);
+      setIsContentErrorTemp(false);
+    }
+  };
+
+  useEffect(() => {
+    handleErrorChange(isSubmitDisabled());
+  }, [isContentError, isSenderError, isSenderErrorTemp, isContentErrorTemp]);
 
   return (
     <Form>
       <FormItem>
-        <Label htmlFor="senderName">From.</Label>
+        <Label htmlFor="sender">From.</Label>
         <InputText
-          id="senderName"
+          id="sender"
           type="text"
           placeholder="이름을 이름을 입력해 주세요"
           value={sender}
           name="sender"
           onInput={handleInputChange}
-          onBlur={validateName}
-          className={isInputError ? 'error' : ''}
+          onBlur={handleInputChange}
+          className={isSenderError ? 'error' : ''}
         />
-        {isInputError && <ErrorMessage>값을 입력해 주세요.</ErrorMessage>}
+        {isSenderError && <ErrorMessage>값을 입력해 주세요.</ErrorMessage>}
       </FormItem>
-      <TextWrapper>
-        <DescriptionHeader>프로필 이미지</DescriptionHeader>
-        <DescriptionContents>프로필 이미지를 선택해주세요!</DescriptionContents>
-      </TextWrapper>
+      <FormItem>
+        <Label>프로필 이미지</Label>
+        <ProfileContainer>
+          <ProfileImage
+            src={selectedProfile}
+            className="selectedProfile"
+            alt="선택된 프로필 이미지"
+          />
+          <ProfileWrapper>
+            <Description>프로필 이미지를 선택해주세요!</Description>
+            <ProfileImageWrapper>
+              {profileImages
+                ? profileImages.map((data, index) => (
+                    <ProfileImage
+                      name="profileImageURL"
+                      onClick={handleProfileChange}
+                      key={index}
+                      src={data}
+                      alt="프로필 이미지"
+                    />
+                  ))
+                : '데이터가 없습니다.'}
+            </ProfileImageWrapper>
+          </ProfileWrapper>
+        </ProfileContainer>
+      </FormItem>
       <FormItem>
         <Label>상대와의 관계</Label>
         <Select
@@ -105,16 +199,27 @@ function MessageForm({
           components={{
             IndicatorSeparator: () => null,
           }}
+          name="relationship"
+          onChange={handleRelationshipChange}
           defaultValue={RELATIONSHIP_OPTIONS[0]}
         />
       </FormItem>
       <FormItem>
         <Label>내용을 입력해 주세요</Label>
-        <Textarea />
+        <Textarea
+          value={content}
+          name="content"
+          handleValue={handleTextareaValue}
+          validate={validateContent}
+          className={isContentError ? 'error' : ''}
+        />
+        {isContentError && <ErrorMessage>값을 입력해 주세요.</ErrorMessage>}
       </FormItem>
       <FormItem>
         <Label>폰트 선택</Label>
         <Select
+          name="font"
+          onChange={handleFontChange}
           options={FONT_OPTIONS}
           defaultValue={FONT_OPTIONS[0]}
           styles={selectStyles}
@@ -131,15 +236,15 @@ function MessageForm({
 export default MessageForm;
 
 const Form = styled.form`
-  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 50px;
 `;
 
 const FormItem = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 12px;
 `;
 
 const Label = styled.label`
@@ -166,22 +271,7 @@ const InputText = styled.input`
   }
 `;
 
-const TextWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const DescriptionHeader = styled.span`
-  color: ${theme['--gray-900']};
-  margin-top: 25px;
-
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 36px;
-  letter-spacing: -0.24px;
-`;
-
-const DescriptionContents = styled.span`
+const Description = styled.span`
   color: ${theme['--gray-500']};
   font-size: 16px;
   font-weight: 400;
@@ -196,4 +286,43 @@ const ErrorMessage = styled.span`
   font-weight: 400;
   line-height: 18px;
   letter-spacing: -0.06px;
+`;
+
+const ProfileContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 32px;
+`;
+
+const ProfileWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+const ProfileImage = styled.img`
+  width: 56px;
+  height: 56px;
+  border-radius: 100px;
+  border: 1px solid ${theme['--gray-200']};
+  object-fit: cover;
+
+  &.selectedProfile {
+    width: 80px;
+    height: 80px;
+  }
+`;
+
+const ProfileImageWrapper = styled.div`
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+
+  ${ProfileImage} {
+    cursor: pointer;
+
+    &:hover {
+      filter: opacity(50%);
+    }
+  }
 `;

@@ -38,7 +38,7 @@ function Toolbar() {
   );
 }
 
-function Textarea() {
+function Textarea({ className, handleValue }) {
   const modules = {
     toolbar: {
       container: '#toolbar',
@@ -49,8 +49,12 @@ function Textarea() {
   const [text, setText] = useState('');
 
   const handleText = (value) => {
-    console.log(value);
     setText(value);
+    handleValue(value);
+  };
+
+  const validateText = () => {
+    handleValue(text);
   };
 
   return (
@@ -60,7 +64,9 @@ function Textarea() {
         style={{ height: '80%' }}
         value={text}
         onChange={handleText}
+        onBlur={validateText}
         modules={modules}
+        className={className}
       />
     </TextEditorLayout>
   );
@@ -91,5 +97,8 @@ const TextEditorLayout = styled.div`
   & .ql-container {
     border: none;
     outline: none;
+  }
+  &:has(.error) {
+    border: 1px solid ${({ theme }) => theme['error']};
   }
 `;
