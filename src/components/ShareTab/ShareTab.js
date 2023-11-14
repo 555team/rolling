@@ -6,10 +6,11 @@ import LinkShareButton from './LinkShareButton';
 import { ReactComponent as ShareIcon } from 'assets/icons/share-icon.svg';
 
 function Dropdown() {
+  const resultUrl = window.location.href;
   return (
     <DropMenu>
-      <KakaoShareButton />
-      <LinkShareButton />
+      <KakaoShareButton resultUrl={resultUrl} />
+      <LinkShareButton resultUrl={resultUrl} />
     </DropMenu>
   );
 }
