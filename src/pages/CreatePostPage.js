@@ -54,7 +54,7 @@ function CreatePostPage() {
   };
 
   useEffect(() => {
-    if (data) {
+    if (Object.keys(data).length > 0) {
       return navigate(`/post/${data.id}`);
     }
   }, [data]);
