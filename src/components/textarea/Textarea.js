@@ -98,6 +98,9 @@ const TextEditorLayout = styled.div`
     border: none;
     outline: none;
   }
+  & .ql-editor * {
+    font-size: 16px;
+  }
   &:has(.error) {
     border: 1px solid ${({ theme }) => theme['error']};
   }
