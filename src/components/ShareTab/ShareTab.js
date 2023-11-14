@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { OutlinedButton } from 'components/button/OutlinedButton';
 import KakaoShareButton from './KakaoShareButton';
 import LinkShareButton from './LinkShareButton';
@@ -58,8 +58,14 @@ const DropMenu = styled.div`
   width: 138px;
   height: 100px;
   border-radius: 8px;
-  border: 1px solid ${({ theme }) => theme[`--gray-300`]};
-  background-color: ${({ theme }) => theme[`white`]};
+  ${({ theme }) =>
+    theme &&
+    css`
+      border: 1px solid ${theme[`--gray-300`]};
+      background-color: ${theme[`white`]};
+    `}
+
+
   box-shadow: 0px 2px 12px 0px rgba(0, 0, 0, 0.08);
   }
 `;
