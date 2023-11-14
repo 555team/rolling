@@ -70,6 +70,7 @@ export default PostPage;
 
 const PostPageWrapper = styled.div`
   display: flex;
+  padding-top: 70px;
   width: 100vw;
   height: 100%vw;
   align-items: center;
