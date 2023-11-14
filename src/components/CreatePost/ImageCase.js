@@ -5,7 +5,7 @@ import {
   SelectedIcon,
   BoxImage,
   Box,
-} from 'components/createPost/CaseStyle';
+} from 'components/CreatePost/CaseStyle';
 import PropTypes from 'prop-types';
 import useRequest from 'hooks/useRequest';
 

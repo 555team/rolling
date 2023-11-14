@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { MainPrimaryButton } from 'components/button/Button';
 import { useEffect, useState } from 'react';
-import PostForm from 'components/createPost/PostForm';
+import PostForm from 'components/CreatePost/PostForm';
 import useRequest from 'hooks/useRequest';
 import { useNavigate } from 'react-router-dom';
 
