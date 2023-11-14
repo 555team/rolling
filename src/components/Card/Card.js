@@ -4,6 +4,8 @@ import FriendBadge from 'components/Badges/FriendBadge';
 import OtherBadge from 'components/Badges/OtherBadge';
 import styled from 'styled-components';
 import changeDateFormat from 'utils/calcCreateAt';
+import { ReactComponent as TrashIcon } from '../../assets/icons/trash-icon.svg';
+import { OutlinedButton } from 'components/button/OutlinedButton';
 
 function Card({
   imageUrl,
@@ -12,6 +14,7 @@ function Card({
   sender,
   relationship,
   font = 'Noto Sans',
+  onDelete,
 }) {
   const timeStamp = changeDateFormat(createdAt, 'YYYY.MM.DD');
   const handleBadge = (relationType) => {
@@ -42,14 +45,19 @@ function Card({
   return (
     <CardWrapper fontStyle={handleFontType(font)}>
       <ProfileWrapper>
-        <ProfileImage src={imageUrl} alt="card-profile" />
-        <ProfileContentWrapper>
-          <ProfileNameWrapper>
-            <ProfileContentText>From.</ProfileContentText>
-            <ProfileContentText weight={700}>{sender}</ProfileContentText>
-          </ProfileNameWrapper>
-          {handleBadge(relationship)}
-        </ProfileContentWrapper>
+        <ProfileBox>
+          <ProfileImage src={imageUrl} alt="card-profile" />
+          <ProfileContentWrapper>
+            <ProfileNameWrapper>
+              <ProfileContentText>From.</ProfileContentText>
+              <ProfileContentText weight={700}>{sender}</ProfileContentText>
+            </ProfileNameWrapper>
+            {handleBadge(relationship)}
+          </ProfileContentWrapper>
+        </ProfileBox>
+        <OutlinedButton width={40} height={40} onClick={onDelete}>
+          <TrashIcon />
+        </OutlinedButton>
       </ProfileWrapper>
       <CardContent>{content}</CardContent>
       <CardTimeStamp>{timeStamp}</CardTimeStamp>
@@ -58,6 +66,11 @@ function Card({
 }
 
 export default Card;
+
+const ProfileBox = styled.div`
+  display: flex;
+  gap: 14px;
+`;
 
 const CardWrapper = styled.div`
   display: flex;
@@ -84,6 +97,7 @@ const CardWrapper = styled.div`
 const ProfileWrapper = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 14px;
   padding-bottom: 15px;
   border-bottom: 1px solid ${({ theme }) => theme['--gray-200']};

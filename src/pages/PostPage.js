@@ -49,6 +49,20 @@ function PostPage({ backgroundColor }) {
     }
   };
 
+  const handleTrashIconClick = async () => {
+    try {
+      const response = await fetch({
+        method: 'delete',
+        url: `/1-5/messages/${id}/`,
+      });
+      if (response.status === 204) {
+        alert('성공적으로 삭제되었습니다.');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     if (isLoading) {
       const observer = new IntersectionObserver(
@@ -81,7 +95,11 @@ function PostPage({ backgroundColor }) {
             <SkeletonCard key={item.id} />
           ) : (
             <>
-              <Card key={item.id} imageUrl={item.urls.small} />
+              <Card
+                key={item.id}
+                imageUrl={item.urls.small}
+                onDelete={handleTrashIconClick}
+              />
             </>
           )
         )}
