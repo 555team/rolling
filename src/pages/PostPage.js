@@ -6,18 +6,19 @@ import SkeletonCard from 'components/Skeleton/SkeletonCard';
 import AddCard from 'components/Card/AddCard';
 import { BACKGROUND_COLOR } from 'constants/postPageConstant';
 import { useParams } from 'react-router-dom';
+import fetch from 'apis/api';
 
 function PostPage() {
   const [cards, setCards] = useState([]);
   const [offset, setOffset] = useState(1);
   const [background, setBackground] = useState();
   const [backgroundImageURL, setBackgroundImageURL] = useState();
-  // const LIMIT = 3;
+  const LIMIT = 3;
   const target = useRef(null);
   const params = useParams();
   const recipientId = params.id;
 
-  // const query = `?limit=${LIMIT}&offset=${offset}`;
+  const query = `?limit=${LIMIT}&offset=${offset}`;
   const { data, isLoading } = useRequest({
     url: `/1-5/recipients/${recipientId}/`,
   });
@@ -30,10 +31,17 @@ function PostPage() {
   const backgroundColor = BACKGROUND_COLOR[background];
 
   useEffect(() => {
-    console.log(data);
+    const fetchMessage = async () => {
+      const response = await fetch({
+        url: `/1-5/recipients/${recipientId}/messages/${query}`,
+      });
+      const { data } = response;
+      console.log(data);
+    };
     if (data?.results) {
       setCards((prev) => [...prev, ...data.results]);
     }
+    fetchMessage();
   }, [offset]);
 
   const loadMore = () => {
@@ -59,7 +67,7 @@ function PostPage() {
       background={
         backgroundImageURL
           ? { type: 'url', backgroundImageURL }
-          : { type: 'color', backgroundColor: backgroundColor }
+          : { type: 'color', backgroundColor }
       }
     >
       <CardListWrapper>
