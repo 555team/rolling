@@ -1,27 +1,58 @@
+import CoworkerBadge from 'components/Badges/CoworkerBadge';
+import FamilyBadge from 'components/Badges/FamilyBadge';
 import FriendBadge from 'components/Badges/FriendBadge';
+import OtherBadge from 'components/Badges/OtherBadge';
 import styled from 'styled-components';
+import changeDateFormat from 'utils/calcCreateAt';
 
-function Card() {
+function Card({
+  imageUrl,
+  createdAt,
+  content,
+  sender,
+  relationship,
+  font = 'Noto Sans',
+}) {
+  const timeStamp = changeDateFormat(createdAt, 'YYYY.MM.DD');
+  const handleBadge = (relationType) => {
+    switch (relationType) {
+      case '가족':
+        return <FamilyBadge />;
+      case '친구':
+        return <FriendBadge />;
+      case '동료':
+        return <CoworkerBadge />;
+      case '지인':
+        return <OtherBadge />;
+    }
+  };
+  const handleFontType = (fontType) => {
+    switch (fontType) {
+      case 'Noto Sans':
+        return 'Noto Sans KR';
+      case 'Pretendard':
+        return 'Pretendard, Noto Sans KR';
+      case '나눔명조':
+        return 'Nanum Myeongjo, Noto Sans KR';
+      case '나눔손글씨 손편지체':
+        return 'Handletter, Noto Sans KR';
+    }
+  };
+
   return (
-    <CardWrapper>
+    <CardWrapper fontStyle={handleFontType(font)}>
       <ProfileWrapper>
-        <ProfileImage
-          src="https://plus.unsplash.com/premium_photo-1683910767532-3a25b821f7ae?auto=format&fit=crop&q=60&w=800&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZnJlZSUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D"
-          alt="card-profile"
-        />
+        <ProfileImage src={imageUrl} alt="card-profile" />
         <ProfileContentWrapper>
           <ProfileNameWrapper>
             <ProfileContentText>From.</ProfileContentText>
-            <ProfileContentText weight={700}>Wade</ProfileContentText>
+            <ProfileContentText weight={700}>{sender}</ProfileContentText>
           </ProfileNameWrapper>
-          <FriendBadge />
+          {handleBadge(relationship)}
         </ProfileContentWrapper>
       </ProfileWrapper>
-      <CardContent>
-        코로나가 또다시 기승을 부리는 요즘이네요. 건강, 체력 모두 조심 또
-        하세요!
-      </CardContent>
-      <CardTimeStamp>2023.07.08</CardTimeStamp>
+      <CardContent>{content}</CardContent>
+      <CardTimeStamp>{timeStamp}</CardTimeStamp>
     </CardWrapper>
   );
 }
@@ -32,12 +63,22 @@ const CardWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  max-width: 384px;
-  max-height: 280px;
+  width: 384px;
+  height: 280px;
   padding: 28px 24px;
   border-radius: 16px;
   background: ${({ theme }) => theme.white};
   box-shadow: 0px 2px 12px 0px rgba(0, 0, 0, 0.08);
+  font-family: ${({ fontStyle }) => fontStyle};
+  ${({ theme }) => theme.tablet`
+    width: 352px;
+    height: 284px;
+  `}
+
+  ${({ theme }) => theme.mobile`
+    width: 320px;
+    height: 230px;
+  `}
 `;
 
 const ProfileWrapper = styled.div`
@@ -71,8 +112,11 @@ const ProfileContentText = styled.span`
   color: ${({ theme }) => theme.black};
   font-size: 20px;
   font-style: normal;
-  font-weight: ${(props) => props.weight || 400};
+  font-weight: ${({ weight }) => weight || 400};
   line-height: 24px;
+  ${({ theme }) => theme.mobile`
+    font-size: 18px;
+  `}
 `;
 
 const CardContent = styled.p`
@@ -84,11 +128,21 @@ const CardContent = styled.p`
   font-weight: 400;
   line-height: 26px;
   letter-spacing: -0.18px;
-  width: 336px;
+  max-width: 336px;
   height: 106px;
   display: -webkit-box;
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
+  ${({ theme }) => theme.tablet`
+    width: 304px;
+    height: 110px;
+  `}
+  ${({ theme }) => theme.mobile`
+    width: 272px;
+    height: 56px;
+    font-size: 15px;
+    line-height: 22px;
+  `}
 `;
 
 const CardTimeStamp = styled.span`

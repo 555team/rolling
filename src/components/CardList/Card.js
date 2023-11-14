@@ -1,31 +1,28 @@
-import React from 'react';
-import styled, { css } from 'styled-components';
 import { ReactComponent as Pattern } from 'assets/icons/card-list-pattern-icon.svg';
-import { mockData } from './mockData';
+import styled, { css } from 'styled-components';
 
-function CardList() {
-  const { name, backgroundColor, messageCount, recentMessages, topReactions } =
-    mockData;
-
+const Card = ({ card }) => {
   return (
-    <CardContainer backgroundColor={backgroundColor}>
+    <CardContainer key={card.id} backgroundColor={card.backgroundColor}>
       <PatternSVG />
-      <Name>To. {name}</Name>
+      <Name>To. {card.name}</Name>
       <Profile>
-        {recentMessages.map((message) => (
+        {card.recentMessages.map((message) => (
           <ProfileImg
             key={message.id}
             src={message.profileImageURL}
             alt={`${message.sender}'s profile`}
           />
         ))}
-        <ProfileCount>+{messageCount - recentMessages.length}</ProfileCount>
+        <ProfileCount>
+          +{card.messageCount - card.recentMessages.length}
+        </ProfileCount>
       </Profile>
       <MessageCount>
-        <StyledSpan>{messageCount}</StyledSpan>명이 작성했어요!
+        <StyledSpan>{card.messageCount}</StyledSpan>명이 작성했어요!
       </MessageCount>
       <CardFooter>
-        {topReactions.map((reaction) => (
+        {card.topReactions.map((reaction) => (
           <TopReactions key={reaction.id}>
             {reaction.emoji} {reaction.count}
           </TopReactions>
@@ -33,14 +30,22 @@ function CardList() {
       </CardFooter>
     </CardContainer>
   );
-}
+};
 
-export default CardList;
+export default Card;
 
 const fontStyles = css`
   line-height: 150%;
   letter-spacing: -0.16px;
   color: ${({ theme }) => theme['--gray-700']};
+`;
+
+const imgStyles = css`
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid ${({ theme }) => theme['white']};
+  background: ${({ theme }) => theme['white']};
 `;
 
 const CardContainer = styled.div`
@@ -53,6 +58,7 @@ const CardContainer = styled.div`
     box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.08);
     padding: 30px 24px 20px;
     position: relative;
+    text-align: left;
   `}
 `;
 
@@ -75,14 +81,6 @@ const Profile = styled.div`
   align-items: center;
   position: relative;
   margin: 12px 0;
-`;
-
-const imgStyles = css`
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 1.5px solid ${({ theme }) => theme['white']};
-  background: ${({ theme }) => theme['white']};
 `;
 
 const ProfileImg = styled.img`
