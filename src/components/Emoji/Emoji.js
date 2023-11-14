@@ -45,9 +45,9 @@ function Emoji() {
 export default Emoji;
 
 const EmojiLayout = styled.div`
+  display: inline-flex;
   position: relative;
   border: 1px solid gray;
-  display: inline-flex;
   justify-content: center;
   gap: 0.8rem;
 `;
