@@ -18,5 +18,5 @@ const ListPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 144px auto 218px;
+  margin: 50px auto 218px;
 `;
