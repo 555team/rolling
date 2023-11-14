@@ -13,7 +13,7 @@ function CreateMessagePage() {
     team: '5',
     recipientId: recipientId,
     sender: '',
-    profileImageURL: 'https://basicProfile.com',
+    profileImageURL: 'https://i.postimg.cc/ncsxyP5d/Frame-2593.png',
     relationship: '지인',
     content: '',
     font: 'Noto Sans',

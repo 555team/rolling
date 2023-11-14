@@ -4,7 +4,6 @@ import Textarea from 'components/textarea/Textarea';
 import Select from 'react-select';
 import useRequest from '../../hooks/useRequest';
 import { useEffect, useState } from 'react';
-import BasicProfile from 'assets/img/basic_profile_img.svg';
 
 function MessageForm({
   sender,
@@ -13,7 +12,9 @@ function MessageForm({
   handleErrorChange,
 }) {
   const [profileImages, setProfileImages] = useState();
-  const [selectedProfile, setSelectedProfile] = useState(BasicProfile);
+  const [selectedProfile, setSelectedProfile] = useState(
+    'https://i.postimg.cc/ncsxyP5d/Frame-2593.png'
+  );
   const [isSenderError, setIsSenderError] = useState(false);
   const [isContentError, setIsContentError] = useState(false);
   const [isSenderErrorTemp, setIsSenderErrorTemp] = useState(true);
