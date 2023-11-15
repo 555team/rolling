@@ -1,5 +1,6 @@
 import Card from 'components/Card/Card';
 import styled, { css } from 'styled-components';
+import 'react-toastify/dist/ReactToastify.css';
 import AddCard from 'components/Card/AddCard';
 import useRequest from 'hooks/useRequest';
 import { BACKGROUND_COLOR } from 'constants/postPageConstant';
@@ -9,6 +10,7 @@ import { MainPrimaryButton } from 'components/button/Button';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import fetch from 'apis/api';
 import HeaderService from 'components/HeaderService/HeaderService';
+import openToast from 'utils/openToast';
 
 function PostPage() {
   const { id } = useParams();
@@ -63,13 +65,19 @@ function PostPage() {
 
   const handleDeleteButtonClick = async () => {
     try {
-      const response = await fetch({
-        method: 'delete',
-        url: `/1-5/recipients/${id}/`,
-      });
-      if (response.status === 204) {
-        alert('성공적으로 삭제되었습니다.');
-        navigate('/list');
+      if (
+        window.confirm(
+          '정말 삭제하시겠습니까? 모든 롤링페이지 메세지가 사라집니다.'
+        )
+      ) {
+        const response = await fetch({
+          method: 'delete',
+          url: `/1-5/recipients/${id}/`,
+        });
+        if (response.status === 204) {
+          openToast({ type: 'success', txt: '성공적으로 삭제 했습니다!!' });
+          navigate('/list');
+        }
       }
     } catch (error) {
       console.error(error);
@@ -83,7 +91,7 @@ function PostPage() {
         url: `/1-5/messages/${messageId}/`,
       });
       if (response.status === 204) {
-        alert('성공적으로 삭제 했습니다.');
+        openToast({ type: 'success', txt: '성공적으로 삭제 했습니다!!' });
         const { data } = await refetch();
         setCards(data?.results);
       }
