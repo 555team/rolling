@@ -8,6 +8,7 @@ import useIntersectionObserver from 'hooks/useIntersectionObserver';
 import { MainPrimaryButton } from 'components/button/Button';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import fetch from 'apis/api';
+import openToast from 'utils/openToast';
 
 function PostPage() {
   const { id } = useParams();
@@ -65,7 +66,8 @@ function PostPage() {
     try {
       await fetcher();
       if (recipientDeleteResponse.status === 204) {
-        alert('성공적으로 삭제되었습니다.');
+        // alert('성공적으로 삭제되었습니다.');
+        openToast({ type: 'success', txt: '성공적으로 삭제되었습니다!' });
         navigate('/list');
       }
     } catch (error) {
@@ -145,7 +147,7 @@ const DeleteButton = styled(MainPrimaryButton)`
   border-radius: 6px;
   text-align: center;
   font-size: 16px;
-  font-weight: 300;
+  font-weight: 400;
 `;
 
 const PostPageWrapper = styled.div`
@@ -157,6 +159,7 @@ const PostPageWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 12px;
   ${({ backgrounds, backgroundColor, theme }) =>
     backgrounds
       ? css`
