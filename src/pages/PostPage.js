@@ -6,12 +6,12 @@ import useRequest from 'hooks/useRequest';
 import { BACKGROUND_COLOR } from 'constants/postPageConstant';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import useIntersectionObserver from 'hooks/useIntersectionObserver';
-import { MainPrimaryButton, SecondaryButton } from 'components/button/Button';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import fetch from 'apis/api';
 import HeaderService from 'components/HeaderService/HeaderService';
 import openToast from 'utils/openToast';
 import CardModal from 'components/Modal/CardModal';
+import { MainPrimaryButton, SecondaryButton } from 'components/Button/Button';
 
 function PostPage() {
   const { id } = useParams();
