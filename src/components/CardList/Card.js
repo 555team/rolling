@@ -52,6 +52,7 @@ const CardContainer = styled.div`
   ${({ theme, backgroundColor }) => css`
     width: 275px;
     height: 260px;
+    flex-shrink: 0;
     background-color: ${theme[colorMap[backgroundColor]]};
     border-radius: 16px;
     border: 1px solid rgba(0, 0, 0, 0.1);
