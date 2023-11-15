@@ -1,34 +1,47 @@
 import { ReactComponent as Pattern } from 'assets/icons/card-list-pattern-icon.svg';
 import styled, { css } from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const Card = ({ card }) => {
+  const textColor = !card.backgroundImageURL
+    ? ({ theme }) => theme['--gray-700']
+    : ({ theme }) => theme['white'];
+
   return (
-    <CardContainer key={card.id} backgroundColor={card.backgroundColor}>
-      <PatternSVG />
-      <Name>To. {card.name}</Name>
-      <Profile>
-        {card.recentMessages.map((message) => (
-          <ProfileImg
-            key={message.id}
-            src={message.profileImageURL}
-            alt={`${message.sender}'s profile`}
-          />
-        ))}
-        <ProfileCount>
-          +{card.messageCount - card.recentMessages.length}
-        </ProfileCount>
-      </Profile>
-      <MessageCount>
-        <StyledSpan>{card.messageCount}</StyledSpan>명이 작성했어요!
-      </MessageCount>
-      <CardFooter>
-        {card.topReactions.map((reaction) => (
-          <TopReactions key={reaction.id}>
-            {reaction.emoji} {reaction.count}
-          </TopReactions>
-        ))}
-      </CardFooter>
-    </CardContainer>
+    <>
+      <Link to={`/post/${card.id}`} style={{ textDecoration: 'none' }}>
+        <CardContainer
+          backgroundColor={card.backgroundColor}
+          backgroundImage={card.backgroundImageURL}
+        >
+          {!card.backgroundImageURL && <PatternSVG />}
+          <Name textColor={textColor}>To. {card.name}</Name>
+          <Profile>
+            {card.recentMessages.map((message) => (
+              <ProfileImg
+                key={message.id}
+                src={message.profileImageURL}
+                alt={`${message.sender}'s profile`}
+              />
+            ))}
+            <ProfileCount>
+              +{card.messageCount - card.recentMessages.length}
+            </ProfileCount>
+          </Profile>
+          <MessageCount textColor={textColor}>
+            <StyledSpan textColor={textColor}>{card.messageCount}</StyledSpan>
+            명이 작성했어요!
+          </MessageCount>
+          <CardFooter>
+            {card.topReactions.map((reaction) => (
+              <TopReactions key={reaction.id}>
+                {reaction.emoji} {reaction.count}
+              </TopReactions>
+            ))}
+          </CardFooter>
+        </CardContainer>
+      </Link>
+    </>
   );
 };
 
@@ -49,10 +62,16 @@ const imgStyles = css`
 `;
 
 const CardContainer = styled.div`
-  ${({ theme, backgroundColor }) => css`
+  ${({ theme, backgroundColor, backgroundImage }) => css`
     width: 275px;
     height: 260px;
-    background-color: ${theme[colorMap[backgroundColor]]};
+    flex-shrink: 0;
+    background-color: ${backgroundImage
+      ? 'transparent'
+      : theme[colorMap[backgroundColor]]};
+    background-image: ${backgroundImage ? `url(${backgroundImage})` : 'none'};
+    background-size: cover;
+    background-position: center;
     border-radius: 16px;
     border: 1px solid rgba(0, 0, 0, 0.1);
     box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.08);
@@ -70,10 +89,11 @@ const PatternSVG = styled(Pattern)`
 `;
 
 const Name = styled.div`
-  ${fontStyles}
+  line-height: 150%;
+  letter-spacing: -0.16px;
   font-size: 24px;
   font-weight: 700;
-  color: ${({ theme }) => theme['--gray-900']};
+  color: ${({ textColor }) => textColor};
 `;
 
 const Profile = styled.div`
@@ -106,15 +126,19 @@ const ProfileCount = styled.div`
 `;
 
 const MessageCount = styled.div`
-  ${fontStyles}
+  line-height: 150%;
+  letter-spacing: -0.16px;
   font-size: 16px;
   font-weight: 400;
+  color: ${({ textColor }) => textColor};
 `;
 
 const StyledSpan = styled.span`
-  ${fontStyles}
+  line-height: 150%;
+  letter-spacing: -0.16px;
   font-size: 16px;
   font-weight: 700;
+  color: ${({ textColor }) => textColor};
 `;
 
 const CardFooter = styled.div`
