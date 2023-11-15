@@ -3,13 +3,10 @@ import { useEffect } from 'react';
 
 const { Kakao } = window;
 
-function KakaoShareButton() {
-  const resultUrl = 'https://testkakaosharing.netlify.app/';
-  // const resultUrl = window.location.href;
+function KakaoShareButton({ resultUrl }) {
   useEffect(() => {
     Kakao.cleanup();
-    Kakao.init('');
-    console.log(Kakao.isInitialized());
+    Kakao.init('c3b33855c1fdfc0e5b37b532362a5bdf');
   }, [resultUrl]);
 
   const shareK = () => {
@@ -21,8 +18,8 @@ function KakaoShareButton() {
         imageUrl:
           'https://cdn.pixabay.com/photo/2017/11/12/00/07/aged-2941136_1280.jpg',
         link: {
-          mobileWebUrl: 'https://developers.kakao.com',
-          webUrl: 'https://developers.kakao.com',
+          mobileWebUrl: resultUrl,
+          webUrl: resultUrl,
         },
       },
 
@@ -30,15 +27,15 @@ function KakaoShareButton() {
         {
           title: '웹으로 이동',
           link: {
-            mobileWebUrl: 'https://developers.kakao.com',
-            webUrl: 'https://developers.kakao.com',
+            mobileWebUrl: resultUrl,
+            webUrl: resultUrl,
           },
         },
         {
           title: '앱으로 이동',
           link: {
-            mobileWebUrl: 'https://developers.kakao.com',
-            webUrl: 'https://developers.kakao.com',
+            mobileWebUrl: resultUrl,
+            webUrl: resultUrl,
           },
         },
       ],
