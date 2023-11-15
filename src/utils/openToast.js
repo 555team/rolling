@@ -2,6 +2,7 @@
 // 토스트에 넣을 메세지는 txt 안에 적어주세요.
 //
 import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function openToast({ type = 'success', txt = 'notification!' }) {
   if (type !== ('success' || 'error' || 'warning')) return;
