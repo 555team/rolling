@@ -9,6 +9,8 @@ import { MainPrimaryButton } from 'components/button/Button';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import fetch from 'apis/api';
 
+import CardModal from 'components/Modal/CardModal';
+
 function PostPage({ backgroundColor }) {
   const [cards, setCards] = useState([]);
   const [page, setPage] = useState(1);
@@ -79,6 +81,15 @@ function PostPage({ backgroundColor }) {
     }
   }, [isLoading]);
 
+  const [isShown, setIsShown] = useState(false);
+  const [modalInfo, setModalInfo] = useState({});
+  const onClose = (e) => {
+    if (e.target === e.currentTarget) {
+      setIsShown(false);
+      setModalInfo({});
+    }
+  };
+
   return (
     <PostPageWrapper
       background={
@@ -87,6 +98,7 @@ function PostPage({ backgroundColor }) {
           : { type: 'color', backgroundColor: background }
       }
     >
+      {isShown && <CardModal data={modalInfo} onClose={onClose} />}
       {location.pathname === `/post/${id}/edit` ? (
         <DeleteButtonWrapper>
           <DeleteButton title="삭제하기" onClick={handleDeleteButtonClick} />
@@ -99,14 +111,22 @@ function PostPage({ backgroundColor }) {
           isLoading ? (
             <SkeletonCard key={item.id} />
           ) : (
-            <>
+            <button
+              key={item.id + `button`}
+              onClick={() => {
+                setModalInfo(() => {
+                  return { ...item };
+                });
+                setIsShown(true);
+              }}
+            >
               <Card
                 key={item.id}
                 id={id}
                 imageUrl={item.urls.small}
                 onDelete={handleTrashIconClick}
               />
-            </>
+            </button>
           )
         )}
         <Target ref={target} />
