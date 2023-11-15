@@ -1,6 +1,6 @@
 import CardList from 'components/CardList/CardList';
 import styled from 'styled-components';
-import { MainPrimaryButton } from 'components/button/Button';
+import { MainPrimaryButton } from 'components/Button/Button';
 import { Link } from 'react-router-dom';
 import media from 'styles/media';
 

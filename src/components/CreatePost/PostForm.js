@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import theme from '../../styles/theme';
 import ColorCase from './ColorCase';
 import ImageCase from './ImageCase';
-import { SecondaryButton } from '../button/Button';
+import { SecondaryButton } from '../Button/Button';
 import PropTypes from 'prop-types';
 import { Fragment } from 'react';
 

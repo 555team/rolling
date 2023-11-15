@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { MainPrimaryButton } from 'components/button/Button';
+import { MainPrimaryButton } from 'components/Button/Button';
 import { useEffect, useState } from 'react';
 import useRequest from 'hooks/useRequest';
 import { useNavigate, useParams } from 'react-router-dom';
