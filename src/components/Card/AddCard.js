@@ -1,18 +1,12 @@
 import styled from 'styled-components';
 import { ReactComponent as AddCardButton } from '../../assets/icons/card-add-button-icon.svg';
-import { Link, useParams } from 'react-router-dom';
 
 function AddCard() {
-  const params = useParams();
-  const id = params.id;
-
   return (
     <CardWrapper>
-      <Link to={`/post/${id}/message`}>
-        <ButtonWrapper>
-          <AddCardButton />
-        </ButtonWrapper>
-      </Link>
+      <ButtonWrapper>
+        <AddCardButton />
+      </ButtonWrapper>
     </CardWrapper>
   );
 }

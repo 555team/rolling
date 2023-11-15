@@ -15,8 +15,9 @@ function Card({
   sender,
   relationship,
   font = 'Noto Sans',
-  onDelete,
+  messageId,
   id,
+  onDelete,
 }) {
   const location = useLocation();
   const timeStamp = changeDateFormat(createdAt, 'YYYY.MM.DD');
@@ -59,7 +60,11 @@ function Card({
           </ProfileContentWrapper>
         </ProfileBox>
         {location.pathname === `/post/${id}/edit` ? (
-          <OutlinedButton width={40} height={40} onClick={onDelete}>
+          <OutlinedButton
+            width={40}
+            height={40}
+            onClick={() => onDelete(messageId)}
+          >
             <TrashIcon />
           </OutlinedButton>
         ) : null}
