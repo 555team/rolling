@@ -1,5 +1,4 @@
-import RecentCardList from 'components/CardList/RecentCardList';
-import ReactionCardList from 'components/CardList/ReactionCardList';
+import CardList from 'components/CardList/CardList';
 import styled from 'styled-components';
 import { MainPrimaryButton } from 'components/button/Button';
 import { Link } from 'react-router-dom';
@@ -8,8 +7,8 @@ import media from 'styles/media';
 function ListPage() {
   return (
     <ListPageContainer>
-      <ReactionCardList title="인기 롤링 페이퍼 🔥" />
-      <RecentCardList title="최근에 만든 롤링 페이퍼 ⭐️️" />
+      <CardList title="인기 롤링 페이퍼 🔥" />
+      <CardList title="최근에 만든 롤링 페이퍼 ⭐️️" />
       <Button>
         <Link to="/post">
           <MainPrimaryButton

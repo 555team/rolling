@@ -1,22 +1,28 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ReactComponent as NextIcon } from 'assets/icons/arrow_right.svg';
 import styled from 'styled-components';
 import Card from 'components/CardList/Card';
 import useRequest from 'hooks/useRequest';
 import media from 'styles/media';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/swiper-bundle.min.css';
+import 'swiper/swiper.min.css';
 
-function ReactionCardList({ title }) {
-  const [page, setPage] = useState(0);
+function CardList({ title }) {
   const [issetScroll, setScroll] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [showPrevButton, setShowPrevButton] = useState(false);
+  const [showNextButton, setShowNextButton] = useState(true);
+  const swiperRef = useRef(null);
 
-  const { data, isLoading, error } = useRequest({
+  const { data, error } = useRequest({
     url: `1-5/recipients/`,
     method: 'get',
-    params: { limit: 1000, sort: 'like' },
+    params:
+      title === '인기 롤링 페이퍼 🔥'
+        ? { limit: 1000, sort: 'like' }
+        : { limit: 1000 },
   });
-
-  const [sortedData, setSortedData] = useState([]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -35,34 +41,30 @@ function ReactionCardList({ title }) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  useEffect(() => {
-    if (data && data.results) {
-      const sorted = [...data.results].sort(
-        (a, b) => b.reactionCount - a.reactionCount
-      );
-      setSortedData(sorted);
+  const goToNextSlide = () => {
+    if (swiperRef.current) {
+      swiperRef.current.slideNext();
     }
-  }, [data]);
-
-  const getLimit = () => {
-    return issetScroll ? sortedData.length : 4;
   };
-  const showPreviousButton = page > 0;
-  const showNextButton = page < Math.ceil(sortedData.length / getLimit()) - 1;
-  const paginatedData = sortedData.slice(
-    page * getLimit(),
-    (page + 1) * getLimit()
-  );
 
-  function handleNextClick() {
-    setPage(page + 1);
-  }
+  const goToPrevSlide = () => {
+    if (swiperRef.current) {
+      swiperRef.current.slidePrev();
+    }
+  };
 
-  function handlePreviousClick() {
-    setPage(page - 1);
-  }
+  const onInit = (swiper) => {
+    setShowPrevButton(!swiper.isBeginning);
+    setShowNextButton(!swiper.isEnd);
+  };
 
-  if (isLoading) return <p>로딩 중...</p>;
+  const handleSlideChange = (swiper) => {
+    setShowPrevButton(!swiper.isBeginning);
+    setShowNextButton(!swiper.isEnd);
+  };
+
+  const validData = data?.results || [];
+
   if (error) return <p>데이터 로딩 에러: {error.message}</p>;
 
   return (
@@ -71,16 +73,30 @@ function ReactionCardList({ title }) {
       <CardListContainer
         style={issetScroll ? { width: `${windowWidth - 24}px` } : {}}
       >
-        {showPreviousButton && (
-          <NavigationButton onClick={handlePreviousClick} position="left">
+        {showPrevButton && (
+          <NavigationButton onClick={goToPrevSlide} position="left">
             <PreviousIcon />
           </NavigationButton>
         )}
-        {paginatedData.map((card) => (
-          <Card key={card.id} card={card} />
-        ))}
+
+        <Swiper
+          onSwiper={(swiper) => {
+            swiperRef.current = swiper;
+          }}
+          onInit={onInit}
+          onSlideChange={handleSlideChange}
+          spaceBetween={20}
+          slidesPerView={4}
+          slidesPerGroup={4}
+        >
+          {validData.map((card) => (
+            <SwiperSlide key={card.id}>
+              <Card card={card} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
         {showNextButton && (
-          <NavigationButton onClick={handleNextClick} position="right">
+          <NavigationButton onClick={goToNextSlide} position="right">
             <NextIcon />
           </NavigationButton>
         )}
@@ -89,7 +105,7 @@ function ReactionCardList({ title }) {
   );
 }
 
-export default ReactionCardList;
+export default CardList;
 
 const ListPageContainer = styled.div`
   display: flex;
