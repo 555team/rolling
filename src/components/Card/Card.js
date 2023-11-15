@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import dompurify from 'dompurify';
 import changeDateFormat from 'utils/calcCreateAt';
 import { ReactComponent as TrashIcon } from '../../assets/icons/trash-icon.svg';
-import { OutlinedButton } from 'components/button/OutlinedButton';
+import { OutlinedButton } from 'components/Button/OutlinedButton';
 import { useLocation } from 'react-router-dom';
 import { memo } from 'react';
 
@@ -20,6 +20,7 @@ function Card({
   messageId,
   id,
   onDelete,
+  onClick,
 }) {
   const location = useLocation();
   const timeStamp = changeDateFormat(createdAt, 'YYYY.MM.DD');
@@ -60,7 +61,7 @@ function Card({
   };
 
   return (
-    <CardWrapper>
+    <CardWrapper onClick={onClick}>
       <ProfileWrapper>
         <ProfileBox>
           <ProfileImage src={imageUrl} alt="card-profile" />

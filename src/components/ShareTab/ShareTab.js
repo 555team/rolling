@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
-import { OutlinedButton } from 'components/button/OutlinedButton';
+import { OutlinedButton } from 'components/Button/OutlinedButton';
 import KakaoShareButton from './KakaoShareButton';
 import LinkShareButton from './LinkShareButton';
 import { ReactComponent as ShareIcon } from 'assets/icons/share-icon.svg';

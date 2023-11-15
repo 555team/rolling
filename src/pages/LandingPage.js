@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import theme from 'styles/theme';
-import { MainPrimaryButton } from 'components/button/Button';
+import { MainPrimaryButton } from 'components/Button/Button';
 import { Link } from 'react-router-dom';
 import LANDING_DATA from 'constants/landingData';
 
