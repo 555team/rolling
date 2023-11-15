@@ -24,6 +24,15 @@ function CardList({ title }) {
         : { limit: 1000 },
   });
 
+  const onSwiperInit = (swiper) => {
+    swiperRef.current = swiper;
+  };
+
+  const handleSlideChange = (swiper) => {
+    setShowPrevButton(!swiper.isBeginning);
+    setShowNextButton(!swiper.isEnd);
+  };
+
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -53,16 +62,6 @@ function CardList({ title }) {
     }
   };
 
-  const onInit = (swiper) => {
-    setShowPrevButton(!swiper.isBeginning);
-    setShowNextButton(!swiper.isEnd);
-  };
-
-  const handleSlideChange = (swiper) => {
-    setShowPrevButton(!swiper.isBeginning);
-    setShowNextButton(!swiper.isEnd);
-  };
-
   const validData = data?.results || [];
 
   if (error) return <p>데이터 로딩 에러: {error.message}</p>;
@@ -80,10 +79,7 @@ function CardList({ title }) {
         )}
 
         <Swiper
-          onSwiper={(swiper) => {
-            swiperRef.current = swiper;
-          }}
-          onInit={onInit}
+          onSwiper={onSwiperInit} // 스와이퍼 초기화 시에 호출되는 콜백 지정
           onSlideChange={handleSlideChange}
           spaceBetween={20}
           slidesPerView={4}
