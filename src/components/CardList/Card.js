@@ -3,12 +3,19 @@ import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 
 const Card = ({ card }) => {
+  const textColor = !card.backgroundImageURL
+    ? ({ theme }) => theme['--gray-700']
+    : ({ theme }) => theme['white'];
+
   return (
     <>
       <Link to={`/post/${card.id}`} style={{ textDecoration: 'none' }}>
-        <CardContainer backgroundColor={card.backgroundColor}>
-          <PatternSVG />
-          <Name>To. {card.name}</Name>
+        <CardContainer
+          backgroundColor={card.backgroundColor}
+          backgroundImage={card.backgroundImageURL}
+        >
+          {!card.backgroundImageURL && <PatternSVG />}
+          <Name textColor={textColor}>To. {card.name}</Name>
           <Profile>
             {card.recentMessages.map((message) => (
               <ProfileImg
@@ -21,8 +28,9 @@ const Card = ({ card }) => {
               +{card.messageCount - card.recentMessages.length}
             </ProfileCount>
           </Profile>
-          <MessageCount>
-            <StyledSpan>{card.messageCount}</StyledSpan>명이 작성했어요!
+          <MessageCount textColor={textColor}>
+            <StyledSpan textColor={textColor}>{card.messageCount}</StyledSpan>
+            명이 작성했어요!
           </MessageCount>
           <CardFooter>
             {card.topReactions.map((reaction) => (
@@ -54,11 +62,16 @@ const imgStyles = css`
 `;
 
 const CardContainer = styled.div`
-  ${({ theme, backgroundColor }) => css`
+  ${({ theme, backgroundColor, backgroundImage }) => css`
     width: 275px;
     height: 260px;
     flex-shrink: 0;
-    background-color: ${theme[colorMap[backgroundColor]]};
+    background-color: ${backgroundImage
+      ? 'transparent'
+      : theme[colorMap[backgroundColor]]};
+    background-image: ${backgroundImage ? `url(${backgroundImage})` : 'none'};
+    background-size: cover;
+    background-position: center;
     border-radius: 16px;
     border: 1px solid rgba(0, 0, 0, 0.1);
     box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.08);
@@ -76,10 +89,11 @@ const PatternSVG = styled(Pattern)`
 `;
 
 const Name = styled.div`
-  ${fontStyles}
+  line-height: 150%;
+  letter-spacing: -0.16px;
   font-size: 24px;
   font-weight: 700;
-  color: ${({ theme }) => theme['--gray-900']};
+  color: ${({ textColor }) => textColor};
 `;
 
 const Profile = styled.div`
@@ -112,15 +126,19 @@ const ProfileCount = styled.div`
 `;
 
 const MessageCount = styled.div`
-  ${fontStyles}
+  line-height: 150%;
+  letter-spacing: -0.16px;
   font-size: 16px;
   font-weight: 400;
+  color: ${({ textColor }) => textColor};
 `;
 
 const StyledSpan = styled.span`
-  ${fontStyles}
+  line-height: 150%;
+  letter-spacing: -0.16px;
   font-size: 16px;
   font-weight: 700;
+  color: ${({ textColor }) => textColor};
 `;
 
 const CardFooter = styled.div`
