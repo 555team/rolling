@@ -15,9 +15,6 @@ function PostPage() {
   const [offset, setOffset] = useState(0);
   const target = useRef(null);
   const LIMIT = 3;
-  const [observe, unobserve] = useIntersectionObserver(() => {
-    setOffset((prev) => prev + 3);
-  });
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -85,12 +82,16 @@ function PostPage() {
       });
       if (response.status === 204) {
         alert('성공적으로 삭제되었습니다.');
-        data.results && setCards((prev) => [...prev, ...cards]);
       }
     } catch (error) {
       console.error(error);
     }
   };
+  const [observe, unobserve] = useIntersectionObserver(() => {
+    if (!isLoading) {
+      setOffset((prev) => prev + 3);
+    }
+  });
 
   return (
     <PostPageWrapper
