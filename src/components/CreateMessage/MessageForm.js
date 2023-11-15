@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import theme from 'styles/theme';
-import Textarea from 'components/textarea/Textarea';
+import Textarea from 'components/Textarea/Textarea';
 import Select from 'react-select';
 import useRequest from '../../hooks/useRequest';
 import { useEffect, useState } from 'react';
