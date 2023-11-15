@@ -16,10 +16,10 @@ function PostPage() {
   const [backgroundColor, setBackgroundColor] = useState('');
   const [backgroundImageURL, setBackgroundImageURL] = useState('');
   const [offset, setOffset] = useState(1);
-  const [limit, setLimit] = useState(5);
+  // const [limit, setLimit] = useState(5);
+  const LIMIT = 3;
   const target = useRef(null);
   const [observe, unobserve] = useIntersectionObserver(() => {
-    setLimit(3);
     setOffset((prev) => prev + 3);
   });
 
@@ -40,36 +40,29 @@ function PostPage() {
   const fetchMessage = async () => {
     const response = await fetch({
       url: `/1-5/recipients/${id}/messages/`,
-      params: { limit, offset },
+      params: { limit: LIMIT, offset },
     });
     const { data } = response;
-    setCards(data?.results);
+    if (data?.results) {
+      setCards((prev) => [...prev, ...data.results]);
+    }
     setMessages(data);
   };
   console.log(messages);
 
   useEffect(() => {
     fetchMessage();
-  }, [data]);
+  }, [offset]);
 
   useEffect(() => {
     if (offset === 1) {
       observe(target.current);
     }
     const count = messages.results?.length;
-    console.log(count);
-    const totalCount = messages.count;
-    console.log(totalCount);
-    if (count === 0 || totalCount <= count) {
+    if (count === 0 || messages?.next === null) {
       unobserve(target.current);
     }
   }, [messages]);
-
-  useEffect(() => {
-    if (messages && messages.results) {
-      setCards((prev) => [...prev, ...messages.results]);
-    }
-  }, [offset]);
 
   return (
     <PostPageWrapper
@@ -144,5 +137,5 @@ const CardListWrapper = styled.div`
 `;
 
 const Target = styled.div`
-  height: 10px;
+  height: 1px;
 `;
