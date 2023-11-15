@@ -25,7 +25,7 @@ function Emoji() {
         {showEmoji && <EmojiExpandLayout />}
         <OutlinedButton
           width={88}
-          height={41}
+          height={37}
           className="light"
           onClick={onAddEmojiClick}
         >
@@ -47,8 +47,8 @@ export default Emoji;
 const EmojiLayout = styled.div`
   display: inline-flex;
   position: relative;
-  border: 1px solid gray;
   justify-content: center;
+  align-items: center;
   gap: 0.8rem;
 `;
 
