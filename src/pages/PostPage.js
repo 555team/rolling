@@ -7,15 +7,13 @@ import { BACKGROUND_COLOR } from 'constants/postPageConstant';
 import { useEffect, useRef, useState } from 'react';
 import useIntersectionObserver from 'hooks/useIntersectionObserver';
 import { MainPrimaryButton } from 'components/button/Button';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import fetch from 'apis/api';
 
 function PostPage() {
   const { id } = useParams();
   const [cards, setCards] = useState([]);
   const [messages, setMessages] = useState({});
-  const [backgroundColor, setBackgroundColor] = useState('');
-  const [backgroundImageURL, setBackgroundImageURL] = useState('');
   const [offset, setOffset] = useState(0);
   const target = useRef(null);
   const LIMIT = 3;
@@ -28,6 +26,9 @@ function PostPage() {
   const { data } = useRequest({
     url: `/1-5/recipients/${id}/`,
   });
+
+  const backgroundColor = BACKGROUND_COLOR[data?.backgroundColor];
+  const backgroundImageURL = data?.backgroundImageURL;
 
   const handleDeleteButtonClick = async () => {
     try {
@@ -43,13 +44,6 @@ function PostPage() {
       console.error(error);
     }
   };
-
-  useEffect(() => {
-    if (data) {
-      setBackgroundColor(BACKGROUND_COLOR[data?.backgroundColor]);
-      setBackgroundImageURL(data.backgroundImageURL);
-    }
-  }, [data]);
 
   const fetchMessage = async () => {
     const response = await fetch({
@@ -77,6 +71,21 @@ function PostPage() {
     }
   }, [messages]);
 
+  const handleTrashIconClick = async (messageId) => {
+    try {
+      const response = await fetch({
+        method: 'delete',
+        url: `/1-5/messages/${messageId}/`,
+      });
+      if (response.status === 204) {
+        alert('성공적으로 삭제되었습니다.');
+        data.results && setCards((prev) => [...prev, ...cards]);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <PostPageWrapper
       backgrounds={backgroundImageURL}
@@ -89,7 +98,11 @@ function PostPage() {
       ) : null}
 
       <CardListWrapper>
-        <AddCard />
+        {location.pathname === `/post/${id}/edit` ? null : (
+          <Link to={`/post/${id}/message`}>
+            <AddCard />
+          </Link>
+        )}
         {cards &&
           cards?.map((item) => (
             <Card
@@ -102,10 +115,11 @@ function PostPage() {
               font={item.font}
               id={id}
               messageId={item.id}
+              onDelete={handleTrashIconClick}
             />
           ))}
-        <Target ref={target} />
       </CardListWrapper>
+      <Target ref={target} />
     </PostPageWrapper>
   );
 }
@@ -152,7 +166,6 @@ const PostPageWrapper = styled.div`
 
 const CardListWrapper = styled.div`
   width: 1200px;
-  height: 1000px;
   display: grid;
   overflow-y: scroll;
   &::-webkit-scrollbar {
@@ -177,5 +190,6 @@ const CardListWrapper = styled.div`
 `;
 
 const Target = styled.div`
+  width: 100%;
   height: 1px;
 `;

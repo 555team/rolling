@@ -10,7 +10,7 @@ function useIntersectionObserver(callback) {
           }
         });
       },
-      { threshold: 1 }
+      { threshold: 0.8 }
     )
   );
 
