@@ -52,15 +52,13 @@ const Container = styled.div`
   ${flexCenter};
   flex-direction: column;
 
-  // Tablet
-  @media (min-width: 768px) and (max-width: 1199px) {
+  ${({ theme }) => theme.tablet`
     margin-top: 49px;
-  }
+  `};
 
-  // Mobile
-  @media (max-width: 767px) {
+  ${({ theme }) => theme.mobile`
     margin-top: 42px;
-  }
+  `};
 `;
 
 const ContentsWrapper = styled.div`
