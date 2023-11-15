@@ -1,14 +1,16 @@
 import Card from 'components/Card/Card';
 import styled, { css } from 'styled-components';
+import 'react-toastify/dist/ReactToastify.css';
 import AddCard from 'components/Card/AddCard';
 import useRequest from 'hooks/useRequest';
 import { BACKGROUND_COLOR } from 'constants/postPageConstant';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import useIntersectionObserver from 'hooks/useIntersectionObserver';
-import { MainPrimaryButton } from 'components/Button/Button';
+import { MainPrimaryButton, SecondaryButton } from 'components/button/Button';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import fetch from 'apis/api';
 import HeaderService from 'components/HeaderService/HeaderService';
+import openToast from 'utils/openToast';
 import CardModal from 'components/Modal/CardModal';
 
 function PostPage() {
@@ -19,6 +21,7 @@ function PostPage() {
   const LIMIT = 3;
   const navigate = useNavigate();
   const location = useLocation();
+  const isEditPage = location.pathname === `/post/${id}/edit`;
 
   const { data } = useRequest({
     url: `/1-5/recipients/${id}/`,
@@ -33,13 +36,12 @@ function PostPage() {
     deps: offset,
   });
 
-  const { data: recipientDeleteResponse, fetcher } = useRequest({
-    method: 'delete',
-    url: `/1-5/recipients/${id}/`,
+  const { fetcher: refetch } = useRequest({
+    url: `/1-5/recipients/${id}/messages/`,
     skip: true,
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (messages.results) {
       setCards((prev) => [...prev, ...messages.results]);
     }
@@ -65,16 +67,24 @@ function PostPage() {
 
   const handleDeleteButtonClick = async () => {
     try {
-      await fetcher();
-      if (recipientDeleteResponse.status === 204) {
-        alert('성공적으로 삭제되었습니다.');
-        navigate('/list');
+      if (
+        window.confirm(
+          '정말 삭제하시겠습니까? 모든 롤링페이지 메세지가 사라집니다.'
+        )
+      ) {
+        const response = await fetch({
+          method: 'delete',
+          url: `/1-5/recipients/${id}/`,
+        });
+        if (response.status === 204) {
+          openToast({ type: 'success', txt: '성공적으로 삭제 했습니다!!' });
+          navigate('/list');
+        }
       }
     } catch (error) {
       console.error(error);
     }
   };
-  console.log();
 
   const handleTrashIconClick = async (messageId) => {
     try {
@@ -83,7 +93,9 @@ function PostPage() {
         url: `/1-5/messages/${messageId}/`,
       });
       if (response.status === 204) {
-        alert('성공적으로 삭제되었습니다.');
+        openToast({ type: 'success', txt: '성공적으로 삭제 했습니다!!' });
+        const { data } = await refetch();
+        setCards(data?.results);
       }
     } catch (error) {
       console.error(error);
@@ -119,12 +131,27 @@ function PostPage() {
       <HeaderServiceWrapper>
         <HeaderService card={data} />
       </HeaderServiceWrapper>
-      {location.pathname === `/post/${id}/edit` ? (
+      {isEditPage ? (
         <DeleteButtonWrapper>
           <DeleteButton title="삭제하기" onClick={handleDeleteButtonClick} />
         </DeleteButtonWrapper>
       ) : null}
-
+      {isEditPage ? null : (
+        <GoToEditButtonWrapper>
+          <GotoEditButton
+            title="수정하기"
+            onClick={() => navigate(`/post/${id}/edit`)}
+          />
+        </GoToEditButtonWrapper>
+      )}
+      {isEditPage && messages.count === 0 ? (
+        <EmptyPageAlert>
+          메세지가 없습니다. 메세지를 생성해주세요 😊
+          <Link to={`/post/${id}/message`}>
+            <GotoMessageButton title="생성하러가기 🚀" />
+          </Link>
+        </EmptyPageAlert>
+      ) : null}
       <CardListWrapper>
         {location.pathname === `/post/${id}/edit` ? null : (
           <Link to={`/post/${id}/message`}>
@@ -159,6 +186,15 @@ function PostPage() {
 }
 export default PostPage;
 
+const EmptyPageAlert = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  font-size: 24px;
+`;
+
 const HeaderServiceWrapper = styled.div`
   width: 100%;
   height: 63px;
@@ -179,18 +215,50 @@ const DeleteButton = styled(MainPrimaryButton)`
   border-radius: 6px;
   text-align: center;
   font-size: 16px;
-  font-weight: 300;
+  font-weight: 400;
+`;
+
+const GotoEditButton = styled(MainPrimaryButton)`
+  padding: 7px 16px;
+  width: 130px;
+  height: 40px;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 400;
+`;
+
+const GotoMessageButton = styled(SecondaryButton)`
+  width: 150px;
+  height: 40px;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 400;
+`;
+
+const GoToEditButtonWrapper = styled.div`
+  display: flex;
+  width: 1200px;
+  justify-content: flex-end;
+  ${({ theme }) => theme.tablet`
+    width: 720px;
+  `}
+  ${({ theme }) => theme.mobile`
+    width: 320px;
+  `}
 `;
 
 const PostPageWrapper = styled.div`
   display: flex;
-  padding-top: 70px;
+  padding-top: 130px;
   padding-bottom: 20px;
   width: 100vw;
-  height: 100%vw;
+  height: 100vh;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 12px;
   ${({ backgrounds, backgroundColor, theme }) =>
     backgrounds
       ? css`
@@ -218,12 +286,14 @@ const CardListWrapper = styled.div`
   column-gap: 24px;
   row-gap: 28px;
   ${({ theme }) => theme.tablet`
+    width: 720px;
     row-gap: 16px;
     column-gap: 16px;
     grid-template-columns: repeat(2, 1fr);
     place-items: center;
   `}
   ${({ theme }) => theme.mobile`
+    width:100%;
     row-gap: 16px;
     column-gap: 16px;
     grid-template-columns: 1fr;
