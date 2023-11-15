@@ -8,7 +8,6 @@ import useIntersectionObserver from 'hooks/useIntersectionObserver';
 import { MainPrimaryButton } from 'components/button/Button';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import fetch from 'apis/api';
-import openToast from 'utils/openToast';
 
 function PostPage() {
   const { id } = useParams();
@@ -30,6 +29,11 @@ function PostPage() {
     url: `/1-5/recipients/${id}/messages/`,
     params: { limit: LIMIT, offset },
     deps: offset,
+  });
+
+  const { fetcher: refetch } = useRequest({
+    url: `/1-5/recipients/${id}/messages/`,
+    skip: true,
   });
 
   const { data: recipientDeleteResponse, fetcher } = useRequest({
@@ -66,15 +70,13 @@ function PostPage() {
     try {
       await fetcher();
       if (recipientDeleteResponse.status === 204) {
-        // alert('성공적으로 삭제되었습니다.');
-        openToast({ type: 'success', txt: '성공적으로 삭제되었습니다!' });
+        alert('성공적으로 삭제되었습니다.');
         navigate('/list');
       }
     } catch (error) {
       console.error(error);
     }
   };
-  console.log();
 
   const handleTrashIconClick = async (messageId) => {
     try {
@@ -83,7 +85,9 @@ function PostPage() {
         url: `/1-5/messages/${messageId}/`,
       });
       if (response.status === 204) {
-        alert('성공적으로 삭제되었습니다.');
+        alert('성공적으로 삭제 했습니다.');
+        const { data } = await refetch();
+        setCards(data?.results);
       }
     } catch (error) {
       console.error(error);

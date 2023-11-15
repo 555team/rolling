@@ -11,6 +11,7 @@ const useRequest = ({ deps, skip, ...args }) => {
       setIsLoading(true);
       const { data } = await fetch({ ...args });
       setData(data);
+      return { data };
     } catch (error) {
       setError(error);
     } finally {
