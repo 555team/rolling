@@ -3,11 +3,12 @@ import Card from 'components/Card/Card';
 import styled, { css } from 'styled-components';
 import AddCard from 'components/Card/AddCard';
 import useRequest from 'hooks/useRequest';
-import { useParams } from 'react-router-dom';
 import { BACKGROUND_COLOR } from 'constants/postPageConstant';
 import { useEffect, useRef, useState } from 'react';
-import fetch from 'apis/api';
 import useIntersectionObserver from 'hooks/useIntersectionObserver';
+import { MainPrimaryButton } from 'components/button/Button';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import fetch from 'apis/api';
 
 function PostPage() {
   const { id } = useParams();
@@ -21,10 +22,42 @@ function PostPage() {
   const [observe, unobserve] = useIntersectionObserver(() => {
     setOffset((prev) => prev + 3);
   });
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const { data } = useRequest({
     url: `/1-5/recipients/${id}/`,
   });
+
+  const handleDeleteButtonClick = async () => {
+    try {
+      const response = await fetch({
+        method: 'delete',
+        url: `/1-5/recipients/${id}/`,
+      });
+      if (response.status === 204) {
+        alert('성공적으로 삭제되었습니다.');
+        navigate('/list');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleTrashIconClick = async () => {
+    try {
+      const response = await fetch({
+        method: 'delete',
+        url: `/1-5/messages/${id}/`,
+      });
+      if (response.status === 204) {
+        alert('성공적으로 삭제되었습니다.');
+      }
+      setCards((prev) => [...prev, ...cards]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     if (data) {
@@ -65,7 +98,12 @@ function PostPage() {
       backgrounds={backgroundImageURL}
       backgroundColor={backgroundColor || ''}
     >
-      {console.log({ backgroundColor })}
+      {location.pathname === `/post/${id}/edit` ? (
+        <DeleteButtonWrapper>
+          <DeleteButton title="삭제하기" onClick={handleDeleteButtonClick} />
+        </DeleteButtonWrapper>
+      ) : null}
+
       <CardListWrapper>
         <AddCard />
         {cards &&
@@ -78,6 +116,8 @@ function PostPage() {
               sender={item.sender}
               relationship={item.relationship}
               font={item.font}
+              id={id}
+              onDelete={handleTrashIconClick}
             />
           ))}
         <Target ref={target} />
@@ -87,11 +127,28 @@ function PostPage() {
 }
 export default PostPage;
 
+const DeleteButtonWrapper = styled.div`
+  display: flex;
+  width: 1200px;
+  justify-content: flex-end;
+`;
+
+const DeleteButton = styled(MainPrimaryButton)`
+  padding: 7px 16px;
+  width: 92px;
+  height: 40px;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 300;
+`;
+
 const PostPageWrapper = styled.div`
   display: flex;
   padding-top: 70px;
   width: 100vw;
   height: 100%vw;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   ${({ backgrounds, backgroundColor, theme }) =>
@@ -104,7 +161,8 @@ const PostPageWrapper = styled.div`
         `}
 
   @media (max-width: 1248px) {
-    padding: 0px 24px;
+    padding-left: 24px;
+    padding-right: 24px;
   }
 `;
 
@@ -120,7 +178,6 @@ const CardListWrapper = styled.div`
   grid-template-rows: auto;
   column-gap: 24px;
   row-gap: 28px;
-  margin-top: 113px;
   ${({ theme }) => theme.tablet`
     row-gap: 16px;
     column-gap: 16px;
