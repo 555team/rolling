@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import Card from 'components/Card/Card';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import AddCard from 'components/Card/AddCard';
 import useRequest from 'hooks/useRequest';
 import { useParams } from 'react-router-dom';
@@ -16,26 +16,22 @@ function PostPage() {
   const [backgroundColor, setBackgroundColor] = useState('');
   const [backgroundImageURL, setBackgroundImageURL] = useState('');
   const [offset, setOffset] = useState(1);
-  // const [limit, setLimit] = useState(5);
   const LIMIT = 3;
   const target = useRef(null);
   const [observe, unobserve] = useIntersectionObserver(() => {
     setOffset((prev) => prev + 3);
   });
 
-  const { data, isLoading } = useRequest({
+  const { data } = useRequest({
     url: `/1-5/recipients/${id}/`,
   });
 
   useEffect(() => {
-    if (data && !isLoading) {
+    if (data) {
       setBackgroundColor(BACKGROUND_COLOR[data?.backgroundColor]);
       setBackgroundImageURL(data.backgroundImageURL);
     }
   }, [data]);
-
-  // let backgroundColor = BACKGROUND_COLOR[data?.backgroundColor];
-  // let backgroundImageURL = data?.backgroundImageURL;
 
   const fetchMessage = async () => {
     const response = await fetch({
@@ -59,19 +55,17 @@ function PostPage() {
       observe(target.current);
     }
     const count = messages.results?.length;
-    if (count === 0 || messages?.next === null) {
+    if (count === 0) {
       unobserve(target.current);
     }
   }, [messages]);
 
   return (
     <PostPageWrapper
-      $backgrounds={
-        backgroundImageURL
-          ? { type: 'url', backgroundImageURL }
-          : { type: 'color', backgroundColor }
-      }
+      backgrounds={backgroundImageURL}
+      backgroundColor={backgroundColor || ''}
     >
+      {console.log({ backgroundColor })}
       <CardListWrapper>
         <AddCard />
         {cards &&
@@ -100,10 +94,15 @@ const PostPageWrapper = styled.div`
   height: 100%vw;
   align-items: center;
   justify-content: center;
-  ${({ $backgrounds, theme }) =>
-    $backgrounds.type === 'url'
-      ? `background-image: url(${$backgrounds.backgroundImageURL})`
-      : `background: ${theme[$backgrounds.backgroundColor]}`};
+  ${({ backgrounds, backgroundColor, theme }) =>
+    backgrounds
+      ? css`
+          background-image: url(${backgrounds});
+        `
+      : css`
+          background-color: ${theme[backgroundColor]};
+        `}
+
   @media (max-width: 1248px) {
     padding: 0px 24px;
   }
