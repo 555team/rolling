@@ -113,6 +113,10 @@ function MessageForm({
     handleValuesChange('relationship', e.value);
   };
 
+  const handleFontChange = (target) => {
+    handleValuesChange('font', target);
+  };
+
   const isSubmitDisabled = () => {
     let disabled = true;
     if (!isSenderErrorTemp && !isContentErrorTemp) {
@@ -206,6 +210,7 @@ function MessageForm({
           value={content}
           name="content"
           handleValue={handleTextareaValue}
+          handleFontChange={handleFontChange}
           validate={validateContent}
           className={isContentError ? 'error' : ''}
         />

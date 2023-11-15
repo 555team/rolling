@@ -39,7 +39,7 @@ function Toolbar() {
   );
 }
 
-function Textarea({ className, handleValue }) {
+function Textarea({ className, handleValue, handleFontChange }) {
   const modules = {
     toolbar: {
       container: '#toolbar',
@@ -56,6 +56,7 @@ function Textarea({ className, handleValue }) {
   };
 
   const handleFont = ({ target }) => {
+    handleFontChange(target.value);
     setFont(target.value);
   };
 
