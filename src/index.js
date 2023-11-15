@@ -11,7 +11,10 @@ import LandingPage from './pages/LandingPage';
 import ListPage from './pages/ListPage';
 import CreatePostPage from './pages/CreatePostPage';
 import media from 'styles/media';
+import CreatePostPage from './pages/CreatePostPage';
+import media from 'styles/media';
 import PostPage from 'pages/PostPage';
+import CreateMessagePage from './pages/CreateMessagePage';
 
 const router = createBrowserRouter([
   {
@@ -38,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: '/post/:id/edit',
         element: <PostPage />,
+      },
+      {
+        path: '/post/:recipientId/message',
+        element: <CreateMessagePage />,
       },
     ],
   },
