@@ -9,7 +9,7 @@ const flexCenter = css`
 
 const BoxWrapper = styled.div`
   display: grid;
-  grid-template: 1fr / repeat(4, 1fr);
+  grid-template: 168px / repeat(4, 168px);
   margin-top: 45px;
   gap: 12px;
 
