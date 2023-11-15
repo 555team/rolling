@@ -8,6 +8,7 @@ import changeDateFormat from 'utils/calcCreateAt';
 import { ReactComponent as TrashIcon } from '../../assets/icons/trash-icon.svg';
 import { OutlinedButton } from 'components/button/OutlinedButton';
 import { useLocation } from 'react-router-dom';
+import { memo } from 'react';
 
 function Card({
   imageUrl,
@@ -87,7 +88,7 @@ function Card({
   );
 }
 
-export default Card;
+export default memo(Card);
 
 const ProfileBox = styled.div`
   display: flex;
