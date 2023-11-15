@@ -8,6 +8,7 @@ import useIntersectionObserver from 'hooks/useIntersectionObserver';
 import { MainPrimaryButton } from 'components/button/Button';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import fetch from 'apis/api';
+import HeaderService from 'components/HeaderService/HeaderService';
 
 function PostPage() {
   const { id } = useParams();
@@ -98,6 +99,9 @@ function PostPage() {
       backgrounds={backgroundImageURL}
       backgroundColor={backgroundColor || ''}
     >
+      <HeaderServiceWrapper>
+        <HeaderService card={data} />
+      </HeaderServiceWrapper>
       {location.pathname === `/post/${id}/edit` ? (
         <DeleteButtonWrapper>
           <DeleteButton title="삭제하기" onClick={handleDeleteButtonClick} />
@@ -131,6 +135,13 @@ function PostPage() {
   );
 }
 export default PostPage;
+
+const HeaderServiceWrapper = styled.div`
+  width: 100%;
+  height: 63px;
+  position: fixed;
+  top: 62px;
+`;
 
 const DeleteButtonWrapper = styled.div`
   display: flex;
