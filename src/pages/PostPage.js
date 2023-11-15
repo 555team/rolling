@@ -109,7 +109,13 @@ function PostPage() {
       backgrounds={backgroundImageURL}
       backgroundColor={backgroundColor || ''}
     >
-      {isShown && <CardModal data={modalInfo} onClose={onClose} />}
+      {isShown && (
+        <CardModal
+          key={modalInfo.key + 'modal'}
+          data={modalInfo}
+          onClose={onClose}
+        />
+      )}
       <HeaderServiceWrapper>
         <HeaderService card={data} />
       </HeaderServiceWrapper>
@@ -127,28 +133,24 @@ function PostPage() {
         )}
         {cards &&
           cards?.map((item) => (
-            <Button
-              key={item.id + `button`}
+            <Card
+              key={item.id}
+              imageUrl={item.profileImageURL}
+              createdAt={item.createdAt}
+              content={item.content}
+              sender={item.sender}
+              relationship={item.relationship}
+              font={item.font}
+              id={id}
+              messageId={item.id}
+              onDelete={handleTrashIconClick}
               onClick={() => {
                 setModalInfo(() => {
                   return { ...item };
                 });
                 setIsShown(true);
               }}
-            >
-              <Card
-                key={item.id}
-                imageUrl={item.profileImageURL}
-                createdAt={item.createdAt}
-                content={item.content}
-                sender={item.sender}
-                relationship={item.relationship}
-                font={item.font}
-                id={id}
-                messageId={item.id}
-                onDelete={handleTrashIconClick}
-              />
-            </Button>
+            />
           ))}
       </CardListWrapper>
       <Target ref={target} />
@@ -232,8 +234,4 @@ const CardListWrapper = styled.div`
 const Target = styled.div`
   width: 100%;
   height: 1px;
-`;
-
-const Button = styled.div`
-  text-align: left;
 `;

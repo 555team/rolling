@@ -18,6 +18,7 @@ function Card({
   messageId,
   id,
   onDelete,
+  onClick,
 }) {
   const location = useLocation();
   const timeStamp = changeDateFormat(createdAt, 'YYYY.MM.DD');
@@ -47,7 +48,7 @@ function Card({
   };
 
   return (
-    <CardWrapper fontStyle={handleFontType(font)}>
+    <CardWrapper fontStyle={handleFontType(font)} onClick={onClick}>
       <ProfileWrapper>
         <ProfileBox>
           <ProfileImage src={imageUrl} alt="card-profile" />

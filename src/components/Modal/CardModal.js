@@ -85,7 +85,7 @@ const ProfileWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 40px 40px 20px 40px;
+  padding: 40px 20px 20px;
   width: 100%;
   border-bottom: 1px solid ${({ theme }) => theme['--gray-200']};
 `;
