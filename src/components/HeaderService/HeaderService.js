@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 import Emoji from 'components/Emoji/Emoji';
 
-function HeaderService() {
+function HeaderService({ card }) {
   //const location = useLocation();
   // /post/{id}
   //const getNav = location.pathname.startsWith('/post/');
@@ -12,7 +12,7 @@ function HeaderService() {
       <div className="header-service-container">
         {
           <>
-            <div className="to">To. Ashley Kim</div>
+            <div className="to">To. {card.name}</div>
             <div>
               <Emoji />
             </div>
