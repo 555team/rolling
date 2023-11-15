@@ -16,37 +16,26 @@ function ImageCase({ handleBackgroundChange }) {
     skip: false,
   });
 
+  const [imgs, setImgs] = useState([]);
+
   useEffect(() => {
     if (data && data.imageUrls && data.imageUrls.length > 0) {
       handleBackgroundChange('backgroundImageURL', data.imageUrls[0]);
       handleBackgroundChange('backgroundColor', 'beige');
     }
+    if (data.imageUrls) {
+      setImgs(() => {
+        let temp = [];
+        for (let i = 0; i < data.imageUrls.length; i++) {
+          let newObj = { key: i, src: data.imageUrls[i], alt: '배경이미지' };
+          temp.push(newObj);
+        }
+        return [...temp];
+      });
+    }
   }, [data]);
 
   const [currentImageKey, setCurrentImageKey] = useState(0);
-
-  const IMAGE_LIST = [
-    {
-      key: 0,
-      src: data?.imageUrls[0],
-      alt: '배경 이미지1',
-    },
-    {
-      key: 1,
-      src: data?.imageUrls[1],
-      alt: '배경 이미지2',
-    },
-    {
-      key: 2,
-      src: data?.imageUrls[2],
-      alt: '배경 이미지3',
-    },
-    {
-      key: 3,
-      src: data?.imageUrls[3],
-      alt: '배경 이미지4',
-    },
-  ];
 
   const handleImageChange = (image) => {
     setCurrentImageKey(image.key);
@@ -56,7 +45,7 @@ function ImageCase({ handleBackgroundChange }) {
 
   return (
     <BoxWrapper>
-      {IMAGE_LIST.map((image) => (
+      {imgs.map((image) => (
         <Box
           key={image.key}
           className={currentImageKey === image.key ? 'selected' : ''}
