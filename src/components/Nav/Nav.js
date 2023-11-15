@@ -1,6 +1,7 @@
 import { useLocation, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as LogoIcon } from 'assets/icons/logo-icon.svg';
+import { ZINDEX_NAV } from 'styles/zIndex';
 
 function Nav() {
   const location = useLocation();
@@ -33,7 +34,7 @@ const NavLayout = styled.nav`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999;
+  z-index: ${ZINDEX_NAV};
 
   .nav-container {
     padding: 11px 24px;
