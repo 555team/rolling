@@ -94,7 +94,8 @@ const Container = styled.div`
 `;
 
 const ContentsWrapper = styled.div`
-  max-width: 720px;
+  max-width: 768px;
+  width: 100%;
   ${flexCenter};
   flex-direction: column;
   margin: 0 24px;
@@ -109,6 +110,7 @@ const ContentsWrapper = styled.div`
 const SubmitButton = styled(MainPrimaryButton)`
   width: 100%;
   max-width: 720px;
+  margin-bottom: 24px;
 
   ${({ theme }) => theme.tablet`
     width: 94%;

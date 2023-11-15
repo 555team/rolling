@@ -184,6 +184,7 @@ function MessageForm({
                       key={index}
                       src={data}
                       alt="프로필 이미지"
+                      className={selectedProfile === data ? 'selected' : ''}
                     />
                   ))
                 : '데이터가 없습니다.'}
@@ -226,6 +227,8 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 50px;
+  padding: 0 24px;
+  width: 100%;
 `;
 
 const FormItem = styled.div`
@@ -294,6 +297,10 @@ const ProfileImage = styled.img`
   border: 1px solid ${theme['--gray-200']};
   object-fit: cover;
 
+  &.selected {
+    filter: opacity(50%);
+  }
+
   &.selectedProfile {
     width: 80px;
     height: 80px;
@@ -301,6 +308,7 @@ const ProfileImage = styled.img`
 `;
 
 const ProfileImageWrapper = styled.div`
+  width: 100%;
   display: flex;
   gap: 4px;
   flex-wrap: wrap;
