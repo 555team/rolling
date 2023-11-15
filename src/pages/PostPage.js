@@ -69,7 +69,7 @@ function PostPage() {
     if (count === 0) {
       unobserve(target.current);
     }
-  }, [messages]);
+  }, [messages.results?.length, offset]);
 
   const handleTrashIconClick = async (messageId) => {
     try {
@@ -144,6 +144,7 @@ const DeleteButton = styled(MainPrimaryButton)`
 const PostPageWrapper = styled.div`
   display: flex;
   padding-top: 70px;
+  padding-bottom: 20px;
   width: 100vw;
   height: 100%vw;
   flex-direction: column;
