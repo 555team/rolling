@@ -1,34 +1,39 @@
 import { ReactComponent as Pattern } from 'assets/icons/card-list-pattern-icon.svg';
 import styled, { css } from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const Card = ({ card }) => {
   return (
-    <CardContainer key={card.id} backgroundColor={card.backgroundColor}>
-      <PatternSVG />
-      <Name>To. {card.name}</Name>
-      <Profile>
-        {card.recentMessages.map((message) => (
-          <ProfileImg
-            key={message.id}
-            src={message.profileImageURL}
-            alt={`${message.sender}'s profile`}
-          />
-        ))}
-        <ProfileCount>
-          +{card.messageCount - card.recentMessages.length}
-        </ProfileCount>
-      </Profile>
-      <MessageCount>
-        <StyledSpan>{card.messageCount}</StyledSpan>명이 작성했어요!
-      </MessageCount>
-      <CardFooter>
-        {card.topReactions.map((reaction) => (
-          <TopReactions key={reaction.id}>
-            {reaction.emoji} {reaction.count}
-          </TopReactions>
-        ))}
-      </CardFooter>
-    </CardContainer>
+    <>
+      <Link to={`/post/${card.id}`} style={{ textDecoration: 'none' }}>
+        <CardContainer backgroundColor={card.backgroundColor}>
+          <PatternSVG />
+          <Name>To. {card.name}</Name>
+          <Profile>
+            {card.recentMessages.map((message) => (
+              <ProfileImg
+                key={message.id}
+                src={message.profileImageURL}
+                alt={`${message.sender}'s profile`}
+              />
+            ))}
+            <ProfileCount>
+              +{card.messageCount - card.recentMessages.length}
+            </ProfileCount>
+          </Profile>
+          <MessageCount>
+            <StyledSpan>{card.messageCount}</StyledSpan>명이 작성했어요!
+          </MessageCount>
+          <CardFooter>
+            {card.topReactions.map((reaction) => (
+              <TopReactions key={reaction.id}>
+                {reaction.emoji} {reaction.count}
+              </TopReactions>
+            ))}
+          </CardFooter>
+        </CardContainer>
+      </Link>
+    </>
   );
 };
 
