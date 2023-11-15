@@ -1,6 +1,7 @@
 // import { Emoji } from 'emoji-picker-react';
 import styled from 'styled-components';
 import Emoji from 'components/Emoji/Emoji';
+import ShareTab from 'components/ShareTab/ShareTab';
 
 function HeaderService({ card }) {
   //const location = useLocation();
@@ -12,9 +13,10 @@ function HeaderService({ card }) {
       <div className="header-service-container">
         {
           <>
-            <div className="to">To. {card.name}</div>
-            <div>
+            <div className="to">To. {card.name} </div>
+            <div className="header-service-contents">
               <Emoji />
+              <ShareTab />
             </div>
           </>
         }
@@ -51,5 +53,11 @@ const HeaderServiceLayout = styled.nav`
     font-weight: 700;
     line-height: 42px;
     letter-spacing: -0.28px;
+  }
+
+  .header-service-contents {
+    display: flex;
+    align-items: center;
+    gap: 26px;
   }
 `;
