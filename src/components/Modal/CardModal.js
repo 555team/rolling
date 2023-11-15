@@ -1,6 +1,6 @@
 import { ZINDEX_MODAL } from 'styles/zIndex';
 import Modal from './ModalPortal';
-import { SubPrimaryButton } from 'components/button/Button';
+import { SubPrimaryButton } from 'components/Button/Button';
 import styled from 'styled-components';
 import FamilyBadge from 'components/Badges/FamilyBadge';
 import FriendBadge from 'components/Badges/FriendBadge';

@@ -5,7 +5,7 @@ import OtherBadge from 'components/Badges/OtherBadge';
 import styled from 'styled-components';
 import changeDateFormat from 'utils/calcCreateAt';
 import { ReactComponent as TrashIcon } from '../../assets/icons/trash-icon.svg';
-import { OutlinedButton } from 'components/button/OutlinedButton';
+import { OutlinedButton } from 'components/Button/OutlinedButton';
 import { useLocation } from 'react-router-dom';
 
 function Card({
