@@ -80,7 +80,10 @@ function Textarea({ className, handleValue }) {
           />
         </TextEditorLayout>
 
+        <Spacing />
+
         <FontSelector onClick={handleFont} />
+        <Spacing />
       </div>
     </>
   );
@@ -131,4 +134,8 @@ const TextEditorLayout = styled.div`
   &:has(.error) {
     border: 1px solid ${({ theme }) => theme['error']};
   }
+`;
+
+const Spacing = styled.div`
+  padding: 25px;
 `;
