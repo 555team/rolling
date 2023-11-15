@@ -34,6 +34,12 @@ function PostPage() {
     deps: offset,
   });
 
+  const { data: recipientDeleteResponse, fetcher } = useRequest({
+    method: 'delete',
+    url: `/1-5/recipients/${id}/`,
+    skip: true,
+  });
+
   useEffect(() => {
     if (messages.results) {
       setCards((prev) => [...prev, ...messages.results]);
@@ -53,18 +59,15 @@ function PostPage() {
   useEffect(() => {
     if (isLoading) {
       unobserve(target.current);
-    } else {
+    } else if (messages.next !== null) {
       observe(target.current);
     }
   }, [isLoading]);
 
   const handleDeleteButtonClick = async () => {
     try {
-      const response = await fetch({
-        method: 'delete',
-        url: `/1-5/recipients/${id}/`,
-      });
-      if (response.status === 204) {
+      await fetcher();
+      if (recipientDeleteResponse.status === 204) {
         alert('성공적으로 삭제되었습니다.');
         navigate('/list');
       }
@@ -72,6 +75,7 @@ function PostPage() {
       console.error(error);
     }
   };
+  console.log();
 
   const handleTrashIconClick = async (messageId) => {
     try {
