@@ -5,6 +5,7 @@ import PostForm from 'components/CreatePost/PostForm';
 import useRequest from 'hooks/useRequest';
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../components/Spinner/Spinner';
+import openToast from 'utils/openToast';
 
 function CreatePostPage() {
   const navigate = useNavigate();
@@ -48,8 +49,13 @@ function CreatePostPage() {
     if (!isInputError) {
       try {
         await fetcher();
+        openToast({ type: 'success', txt: '롤링페이퍼를 만들었습니다.' });
       } catch (err) {
         console.error('error : ', err);
+        openToast({
+          type: 'error',
+          txt: '롤링페이퍼를 만드는데 실패했습니다.',
+        });
       }
     }
   };

@@ -5,6 +5,7 @@ import useRequest from 'hooks/useRequest';
 import { useNavigate, useParams } from 'react-router-dom';
 import MessageForm from 'components/CreateMessage/MessageForm';
 import Spinner from '../components/Spinner/Spinner';
+import openToast from 'utils/openToast';
 
 function CreateMessagePage() {
   const { recipientId } = useParams();
@@ -44,8 +45,13 @@ function CreateMessagePage() {
   const handleSubmit = async () => {
     try {
       await fetcher();
+      openToast({ type: 'success', txt: '메세지를 보냈습니다.' });
     } catch (err) {
       console.error('error : ', err);
+      openToast({
+        type: 'error',
+        txt: '메세지를 보내는데 실패했습니다.',
+      });
     }
   };
 
