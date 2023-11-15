@@ -16,9 +16,9 @@ function PostPage() {
   const [messages, setMessages] = useState({});
   const [backgroundColor, setBackgroundColor] = useState('');
   const [backgroundImageURL, setBackgroundImageURL] = useState('');
-  const [offset, setOffset] = useState(1);
-  const LIMIT = 3;
+  const [offset, setOffset] = useState(0);
   const target = useRef(null);
+  const LIMIT = 3;
   const [observe, unobserve] = useIntersectionObserver(() => {
     setOffset((prev) => prev + 3);
   });
@@ -44,21 +44,6 @@ function PostPage() {
     }
   };
 
-  const handleTrashIconClick = async () => {
-    try {
-      const response = await fetch({
-        method: 'delete',
-        url: `/1-5/messages/${id}/`,
-      });
-      if (response.status === 204) {
-        alert('성공적으로 삭제되었습니다.');
-      }
-      setCards((prev) => [...prev, ...cards]);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
     if (data) {
       setBackgroundColor(BACKGROUND_COLOR[data?.backgroundColor]);
@@ -77,14 +62,13 @@ function PostPage() {
     }
     setMessages(data);
   };
-  console.log(messages);
 
   useEffect(() => {
     fetchMessage();
   }, [offset]);
 
   useEffect(() => {
-    if (offset === 1) {
+    if (offset === 0) {
       observe(target.current);
     }
     const count = messages.results?.length;
@@ -117,7 +101,7 @@ function PostPage() {
               relationship={item.relationship}
               font={item.font}
               id={id}
-              onDelete={handleTrashIconClick}
+              messageId={item.id}
             />
           ))}
         <Target ref={target} />

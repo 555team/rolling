@@ -7,6 +7,7 @@ import changeDateFormat from 'utils/calcCreateAt';
 import { ReactComponent as TrashIcon } from '../../assets/icons/trash-icon.svg';
 import { OutlinedButton } from 'components/button/OutlinedButton';
 import { useLocation } from 'react-router-dom';
+import fetch from 'apis/api';
 
 function Card({
   imageUrl,
@@ -15,7 +16,7 @@ function Card({
   sender,
   relationship,
   font = 'Noto Sans',
-  onDelete,
+  messageId,
   id,
 }) {
   const location = useLocation();
@@ -45,6 +46,20 @@ function Card({
     }
   };
 
+  const handleTrashIconClick = async () => {
+    try {
+      const response = await fetch({
+        method: 'delete',
+        url: `/1-5/messages/${messageId}/`,
+      });
+      if (response.status === 204) {
+        alert('성공적으로 삭제되었습니다.');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <CardWrapper fontStyle={handleFontType(font)}>
       <ProfileWrapper>
@@ -59,7 +74,7 @@ function Card({
           </ProfileContentWrapper>
         </ProfileBox>
         {location.pathname === `/post/${id}/edit` ? (
-          <OutlinedButton width={40} height={40} onClick={onDelete}>
+          <OutlinedButton width={40} height={40} onClick={handleTrashIconClick}>
             <TrashIcon />
           </OutlinedButton>
         ) : null}
