@@ -1,26 +1,23 @@
-import CoworkerBadge from 'components/Badges/CoworkerBadge';
+import { ZINDEX_MODAL } from 'styles/zIndex';
+import Modal from './ModalPortal';
+import { SubPrimaryButton } from 'components/button/Button';
+import styled from 'styled-components';
 import FamilyBadge from 'components/Badges/FamilyBadge';
 import FriendBadge from 'components/Badges/FriendBadge';
+import CoworkerBadge from 'components/Badges/CoworkerBadge';
 import OtherBadge from 'components/Badges/OtherBadge';
-import styled from 'styled-components';
 import changeDateFormat from 'utils/calcCreateAt';
-import { ReactComponent as TrashIcon } from '../../assets/icons/trash-icon.svg';
-import { OutlinedButton } from 'components/button/OutlinedButton';
-import { useLocation } from 'react-router-dom';
 
-function Card({
-  imageUrl,
-  createdAt,
-  content,
-  sender,
-  relationship,
-  font = 'Noto Sans',
-  messageId,
-  id,
-  onDelete,
-  onClick,
-}) {
-  const location = useLocation();
+function CardModal({ onClose, data }) {
+  const {
+    profileImageURL,
+    createdAt,
+    content = '내용이 없습니다',
+    sender = '익명',
+    relationship = '친구',
+    font = 'Noto Sans',
+  } = data;
+
   const timeStamp = changeDateFormat(createdAt, 'YYYY.MM.DD');
   const handleBadge = (relationType) => {
     switch (relationType) {
@@ -37,21 +34,21 @@ function Card({
   const handleFontType = (fontType) => {
     switch (fontType) {
       case 'Noto Sans':
-        return 'Noto Sans KR';
+        return 'Noto Sans';
       case 'Pretendard':
-        return 'Pretendard, Noto Sans KR';
+        return 'Pretendard, Noto Sans';
       case '나눔명조':
-        return 'Nanum Myeongjo, Noto Sans KR';
+        return '나눔명조, Noto Sans';
       case '나눔손글씨 손편지체':
-        return 'Handletter, Noto Sans KR';
+        return '나눔손글씨 손편지체, Noto Sans';
     }
   };
 
   return (
-    <CardWrapper fontStyle={handleFontType(font)} onClick={onClick}>
-      <ProfileWrapper>
-        <ProfileBox>
-          <ProfileImage src={imageUrl} alt="card-profile" />
+    <Modal onClick={onClose}>
+      <CardWrapper>
+        <ProfileWrapper>
+          <ProfileImage src={profileImageURL} alt="card-profile" />
           <ProfileContentWrapper>
             <ProfileNameWrapper>
               <ProfileContentText>From.</ProfileContentText>
@@ -59,58 +56,37 @@ function Card({
             </ProfileNameWrapper>
             {handleBadge(relationship)}
           </ProfileContentWrapper>
-        </ProfileBox>
-        {location.pathname === `/post/${id}/edit` ? (
-          <OutlinedButton
-            width={40}
-            height={40}
-            onClick={() => onDelete(messageId)}
-          >
-            <TrashIcon />
-          </OutlinedButton>
-        ) : null}
-      </ProfileWrapper>
-      <CardContent>{content}</CardContent>
-      <CardTimeStamp>{timeStamp}</CardTimeStamp>
-    </CardWrapper>
+          <CardTimeStamp>{timeStamp}</CardTimeStamp>
+        </ProfileWrapper>
+        <CardContent fontStyle={handleFontType(font)}>{content}</CardContent>
+        <SubPrimaryButton onClick={onClose} title="확인" />
+      </CardWrapper>
+    </Modal>
   );
 }
 
-export default Card;
-
-const ProfileBox = styled.div`
-  display: flex;
-  gap: 14px;
-`;
+export default CardModal;
 
 const CardWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  width: 384px;
-  height: 280px;
-  padding: 28px 24px;
+  align-items: center;
+  padding: 40px;
   border-radius: 16px;
-  background: ${({ theme }) => theme.white};
-  box-shadow: 0px 2px 12px 0px rgba(0, 0, 0, 0.08);
-  font-family: ${({ fontStyle }) => fontStyle};
-  ${({ theme }) => theme.tablet`
-    width: 352px;
-    height: 284px;
-  `}
-
-  ${({ theme }) => theme.mobile`
-    width: 320px;
-    height: 230px;
-  `}
+  width: 600px;
+  min-width: 300px;
+  height: 476px;
+  position: absolute;
+  background-color: white;
+  z-index: ${ZINDEX_MODAL};
 `;
 
 const ProfileWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 14px;
-  padding-bottom: 15px;
+  padding: 40px 20px 20px;
+  width: 100%;
   border-bottom: 1px solid ${({ theme }) => theme['--gray-200']};
 `;
 
@@ -144,30 +120,26 @@ const ProfileContentText = styled.span`
   `}
 `;
 
-const CardContent = styled.p`
+const CardContent = styled.div`
   color: ${({ theme }) => theme['--gray-600']};
-  text-overflow: ellipsis;
-  overflow: hidden;
+  height: 240px;
+  width: 100%;
+  margin: 16px 40px 24px;
+  text-align: left;
+  padding: 0 15px 0 0;
+  overflow-y: scroll;
   word-break: break-all;
   font-size: 18px;
-  font-weight: 400;
+  font-family: ${(props) => props.font};
   line-height: 26px;
   letter-spacing: -0.18px;
-  max-width: 336px;
-  height: 106px;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  ${({ theme }) => theme.tablet`
-    width: 304px;
-    height: 110px;
-  `}
-  ${({ theme }) => theme.mobile`
-    width: 272px;
-    height: 56px;
-    font-size: 15px;
-    line-height: 22px;
-  `}
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme['--gray-300']};
+    border-raiud: 16px;
+  }
 `;
 
 const CardTimeStamp = styled.span`
@@ -176,4 +148,6 @@ const CardTimeStamp = styled.span`
   font-weight: 400;
   line-height: 18px;
   letter-spacing: -0.06px;
+  position: absolute;
+  right: 40px;
 `;
