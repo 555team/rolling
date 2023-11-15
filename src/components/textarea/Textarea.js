@@ -2,6 +2,7 @@ import ReactQuill, { Quill } from 'react-quill';
 import { useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import styled from 'styled-components';
+import FontSelector from './FontSelector';
 
 let icons = Quill.import('ui/icons');
 
@@ -47,10 +48,15 @@ function Textarea({ className, handleValue }) {
   };
 
   const [text, setText] = useState('');
+  const [font, setFont] = useState('Noto Sans');
 
   const handleText = (value) => {
     setText(value);
     handleValue(value);
+  };
+
+  const handleFont = ({ target }) => {
+    setFont(target.value);
   };
 
   const validateText = () => {
@@ -58,21 +64,39 @@ function Textarea({ className, handleValue }) {
   };
 
   return (
-    <TextEditorLayout>
-      <Toolbar />
-      <ReactQuill
-        style={{ height: '80%' }}
-        value={text}
-        onChange={handleText}
-        onBlur={validateText}
-        modules={modules}
-        className={className}
-      />
-    </TextEditorLayout>
+    <>
+      <div>
+        <Title>내용을 입력해 주세요</Title>
+
+        <TextEditorLayout id="text-editor" font={font}>
+          <Toolbar />
+          <ReactQuill
+            style={{ height: '80%' }}
+            value={text}
+            onChange={handleText}
+            onBlur={validateText}
+            modules={modules}
+            className={className}
+          />
+        </TextEditorLayout>
+
+        <FontSelector onClick={handleFont} />
+      </div>
+    </>
   );
 }
 
 export default Textarea;
+
+const Title = styled.h1`
+  color: ${({ theme }) => theme[`--gray-900`]};
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 36px;
+  letter-spacing: -0.24px;
+  padding: 0 0 12px 0;
+`;
 
 const TextEditorLayout = styled.div`
   max-width: 720px;
@@ -98,8 +122,11 @@ const TextEditorLayout = styled.div`
     border: none;
     outline: none;
   }
-  & .ql-editor * {
-    font-size: 16px;
+  & .ql-editor {
+    * {
+      font-size: 16px;
+      font-family: ${(props) => props.font};
+    }
   }
   &:has(.error) {
     border: 1px solid ${({ theme }) => theme['error']};
