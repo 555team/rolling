@@ -263,6 +263,9 @@ const PostPageWrapper = styled.div`
     backgrounds
       ? css`
           background-image: url(${backgrounds});
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: cover;
         `
       : css`
           background-color: ${theme[backgroundColor]};
