@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import Card from 'components/Card/Card';
 import styled, { css } from 'styled-components';
 import AddCard from 'components/Card/AddCard';
@@ -13,7 +12,6 @@ import fetch from 'apis/api';
 function PostPage() {
   const { id } = useParams();
   const [cards, setCards] = useState([]);
-  const [messages, setMessages] = useState({});
   const [offset, setOffset] = useState(0);
   const target = useRef(null);
   const LIMIT = 3;
@@ -30,6 +28,36 @@ function PostPage() {
   const backgroundColor = BACKGROUND_COLOR[data?.backgroundColor];
   const backgroundImageURL = data?.backgroundImageURL;
 
+  const { data: messages, isLoading } = useRequest({
+    url: `/1-5/recipients/${id}/messages/`,
+    params: { limit: LIMIT, offset },
+    deps: offset,
+  });
+
+  useEffect(() => {
+    if (messages.results) {
+      setCards((prev) => [...prev, ...messages.results]);
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    if (offset === 0) {
+      observe(target.current);
+    }
+    const count = messages.results?.length;
+    if (count === 0) {
+      unobserve(target.current);
+    }
+  }, [messages.results?.length, offset]);
+
+  useEffect(() => {
+    if (isLoading) {
+      unobserve(target.current);
+    } else {
+      observe(target.current);
+    }
+  }, [isLoading]);
+
   const handleDeleteButtonClick = async () => {
     try {
       const response = await fetch({
@@ -44,32 +72,6 @@ function PostPage() {
       console.error(error);
     }
   };
-
-  const fetchMessage = async () => {
-    const response = await fetch({
-      url: `/1-5/recipients/${id}/messages/`,
-      params: { limit: LIMIT, offset },
-    });
-    const { data } = response;
-    if (data?.results) {
-      setCards((prev) => [...prev, ...data.results]);
-    }
-    setMessages(data);
-  };
-
-  useEffect(() => {
-    fetchMessage();
-  }, [offset]);
-
-  useEffect(() => {
-    if (offset === 0) {
-      observe(target.current);
-    }
-    const count = messages.results?.length;
-    if (count === 0) {
-      unobserve(target.current);
-    }
-  }, [messages.results?.length, offset]);
 
   const handleTrashIconClick = async (messageId) => {
     try {
