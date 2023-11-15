@@ -155,9 +155,8 @@ const ProfileContentText = styled.span`
 `;
 
 const CardContent = styled.div`
-  & p {
+  & * {
     font-family: ${({ fontStyle }) => fontStyle};
-    color: ${({ theme }) => theme['--gray-600']};
     text-overflow: ellipsis;
     overflow: hidden;
     word-break: break-all;
@@ -177,17 +176,6 @@ const CardContent = styled.div`
     ${({ theme }) => theme.mobile`
     width: 272px;
     height: 56px;
-    font-size: 15px;
-    line-height: 22px;
-  `}
-  }
-  & span {
-    font-family: ${({ fontStyle }) => fontStyle};
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 26px;
-    letter-spacing: -0.18px;
-    ${({ theme }) => theme.mobile`
     font-size: 15px;
     line-height: 22px;
   `}
