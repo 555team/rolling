@@ -79,6 +79,10 @@ const CardContainer = styled.div`
     position: relative;
     text-align: left;
   `}
+
+  @media (max-width: 767px) {
+    width: 208px;
+  }
 `;
 
 const PatternSVG = styled(Pattern)`
