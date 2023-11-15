@@ -4,7 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import AddCard from 'components/Card/AddCard';
 import useRequest from 'hooks/useRequest';
 import { BACKGROUND_COLOR } from 'constants/postPageConstant';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import useIntersectionObserver from 'hooks/useIntersectionObserver';
 import { MainPrimaryButton, SecondaryButton } from 'components/button/Button';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -40,7 +40,7 @@ function PostPage() {
     skip: true,
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (messages.results) {
       setCards((prev) => [...prev, ...messages.results]);
     }
@@ -218,10 +218,17 @@ const GoToEditButtonWrapper = styled.div`
   display: flex;
   width: 1200px;
   justify-content: flex-end;
+  ${({ theme }) => theme.tablet`
+    width: 720px;
+  `}
+  ${({ theme }) => theme.mobile`
+    width: 320px;
+  `}
 `;
 
 const PostPageWrapper = styled.div`
   display: flex;
+  padding-top: 130px;
   padding-bottom: 20px;
   width: 100vw;
   height: 100vh;
