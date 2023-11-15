@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import EmojiPicker from 'emoji-picker-react';
-import { OutlinedButton } from 'components/button/OutlinedButton';
+import { OutlinedButton } from 'components/Button/OutlinedButton';
 import { ReactComponent as EddEmojiIcon } from 'assets/icons/emoji-add-icon.svg';
-import ArrowDownButton from 'components/button/ArrowDownButton';
+import ArrowDownButton from 'components/Button/ArrowDownButton';
 
 function Emoji() {
   const [showPicker, setShowPicker] = useState(false);

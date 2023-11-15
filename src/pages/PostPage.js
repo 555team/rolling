@@ -5,10 +5,11 @@ import useRequest from 'hooks/useRequest';
 import { BACKGROUND_COLOR } from 'constants/postPageConstant';
 import { useEffect, useRef, useState } from 'react';
 import useIntersectionObserver from 'hooks/useIntersectionObserver';
-import { MainPrimaryButton } from 'components/button/Button';
+import { MainPrimaryButton } from 'components/Button/Button';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import fetch from 'apis/api';
 import HeaderService from 'components/HeaderService/HeaderService';
+import CardModal from 'components/Modal/CardModal';
 
 function PostPage() {
   const { id } = useParams();
@@ -94,11 +95,27 @@ function PostPage() {
     }
   });
 
+  const [isShown, setIsShown] = useState(false);
+  const [modalInfo, setModalInfo] = useState({});
+  const onClose = (e) => {
+    if (e.target === e.currentTarget) {
+      setIsShown(false);
+      setModalInfo({});
+    }
+  };
+
   return (
     <PostPageWrapper
       backgrounds={backgroundImageURL}
       backgroundColor={backgroundColor || ''}
     >
+      {isShown && (
+        <CardModal
+          key={modalInfo.key + 'modal'}
+          data={modalInfo}
+          onClose={onClose}
+        />
+      )}
       <HeaderServiceWrapper>
         <HeaderService card={data} />
       </HeaderServiceWrapper>
@@ -127,6 +144,12 @@ function PostPage() {
               id={id}
               messageId={item.id}
               onDelete={handleTrashIconClick}
+              onClick={() => {
+                setModalInfo(() => {
+                  return { ...item };
+                });
+                setIsShown(true);
+              }}
             />
           ))}
       </CardListWrapper>
