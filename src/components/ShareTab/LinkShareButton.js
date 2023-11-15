@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import 'react-toastify/dist/ReactToastify.css';
 import openToast from 'utils/openToast';
 
 function LinkShareButton({ resultUrl }) {
