@@ -1,16 +1,13 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { ReactComponent as NextIcon } from 'assets/icons/arrow_right.svg';
 import styled from 'styled-components';
 import Card from 'components/CardList/Card';
 import useRequest from 'hooks/useRequest';
 import media from 'styles/media';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/swiper-bundle.min.css';
 import 'swiper/swiper.min.css';
 
 function CardList({ title }) {
-  const [issetScroll, setScroll] = useState(false);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [showPrevButton, setShowPrevButton] = useState(false);
   const [showNextButton, setShowNextButton] = useState(true);
   const swiperRef = useRef(null);
@@ -33,23 +30,6 @@ function CardList({ title }) {
     setShowNextButton(!swiper.isEnd);
   };
 
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-
-      if (window.innerWidth <= 1199) {
-        setScroll(true);
-      } else {
-        setScroll(false);
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-    handleResize();
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
   const goToNextSlide = () => {
     if (swiperRef.current) {
       swiperRef.current.slideNext();
@@ -69,28 +49,33 @@ function CardList({ title }) {
   return (
     <ListPageContainer>
       <Title>{title}</Title>
-      <CardListContainer
-        style={issetScroll ? { width: `${windowWidth - 24}px` } : {}}
-      >
+      <CardListContainer>
         {showPrevButton && (
           <NavigationButton onClick={goToPrevSlide} position="left">
             <PreviousIcon />
           </NavigationButton>
         )}
 
-        <Swiper
-          onSwiper={onSwiperInit} // 스와이퍼 초기화 시에 호출되는 콜백 지정
+        <Cards
+          onSwiper={onSwiperInit}
           onSlideChange={handleSlideChange}
           spaceBetween={20}
-          slidesPerView={4}
-          slidesPerGroup={4}
+          slidesPerView={'auto'}
+          breakpoints={{
+            1199: {
+              slidesPerGroup: 1,
+            },
+            1200: {
+              slidesPerGroup: 4,
+            },
+          }}
         >
           {validData.map((card) => (
             <SwiperSlide key={card.id}>
               <Card card={card} />
             </SwiperSlide>
           ))}
-        </Swiper>
+        </Cards>
         {showNextButton && (
           <NavigationButton onClick={goToNextSlide} position="right">
             <NextIcon />
@@ -130,17 +115,8 @@ const CardListContainer = styled.div`
   position: relative;
 
   ${media.tablet`
-    overflow-x: auto;
     margin-left: 24px;
   `}
-
-  @media (min-width: 1199px) {
-    width: 1160px;
-  }
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
 `;
 
 const NavigationButton = styled.button`
@@ -169,4 +145,25 @@ const NavigationButton = styled.button`
 
 const PreviousIcon = styled(NextIcon)`
   transform: scaleX(-1);
+`;
+
+const Cards = styled(Swiper)`
+  width: 100%;
+  height: 100%;
+  display: flex;
+
+  .swiper-wrapper {
+    width: calc(100vw - 24px);
+    @media (min-width: 1199px) {
+      width: 1160px;
+    }
+  }
+
+  .swiper-slide {
+    width: 275px;
+
+    @media (max-width: 767px) {
+      width: 208px;
+    }
+  }
 `;
