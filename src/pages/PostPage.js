@@ -6,7 +6,7 @@ import useRequest from 'hooks/useRequest';
 import { BACKGROUND_COLOR } from 'constants/postPageConstant';
 import { useEffect, useRef, useState } from 'react';
 import useIntersectionObserver from 'hooks/useIntersectionObserver';
-import { MainPrimaryButton } from 'components/button/Button';
+import { MainPrimaryButton, SecondaryButton } from 'components/button/Button';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import fetch from 'apis/api';
 import HeaderService from 'components/HeaderService/HeaderService';
@@ -20,6 +20,7 @@ function PostPage() {
   const LIMIT = 3;
   const navigate = useNavigate();
   const location = useLocation();
+  const isEditPage = location.pathname === `/post/${id}/edit`;
 
   const { data } = useRequest({
     url: `/1-5/recipients/${id}/`,
@@ -113,12 +114,27 @@ function PostPage() {
       <HeaderServiceWrapper>
         <HeaderService card={data} />
       </HeaderServiceWrapper>
-      {location.pathname === `/post/${id}/edit` ? (
+      {isEditPage ? (
         <DeleteButtonWrapper>
           <DeleteButton title="삭제하기" onClick={handleDeleteButtonClick} />
         </DeleteButtonWrapper>
       ) : null}
-
+      {isEditPage ? null : (
+        <GoToEditButtonWrapper>
+          <GotoEditButton
+            title="수정하기"
+            onClick={() => navigate(`/post/${id}/edit`)}
+          />
+        </GoToEditButtonWrapper>
+      )}
+      {isEditPage && messages.count === 0 ? (
+        <EmptyPageAlert>
+          메세지가 없습니다. 메세지를 생성해주세요 😊
+          <Link to={`/post/${id}/message`}>
+            <GotoMessageButton title="생성하러가기 🚀" />
+          </Link>
+        </EmptyPageAlert>
+      ) : null}
       <CardListWrapper>
         {location.pathname === `/post/${id}/edit` ? null : (
           <Link to={`/post/${id}/message`}>
@@ -147,6 +163,15 @@ function PostPage() {
 }
 export default PostPage;
 
+const EmptyPageAlert = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  font-size: 24px;
+`;
+
 const HeaderServiceWrapper = styled.div`
   width: 100%;
   height: 63px;
@@ -170,9 +195,33 @@ const DeleteButton = styled(MainPrimaryButton)`
   font-weight: 400;
 `;
 
+const GotoEditButton = styled(MainPrimaryButton)`
+  padding: 7px 16px;
+  width: 130px;
+  height: 40px;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 400;
+`;
+
+const GotoMessageButton = styled(SecondaryButton)`
+  width: 150px;
+  height: 40px;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 400;
+`;
+
+const GoToEditButtonWrapper = styled.div`
+  display: flex;
+  width: 1200px;
+  justify-content: flex-end;
+`;
+
 const PostPageWrapper = styled.div`
   display: flex;
-  padding-top: 110px;
   padding-bottom: 20px;
   width: 100vw;
   height: 100vh;
