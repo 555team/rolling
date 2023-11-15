@@ -7,7 +7,6 @@ import {
   Box,
 } from 'components/CreatePost/CaseStyle';
 import { ReactComponent as CheckIcon } from 'assets/icons/box-slelected-icon.svg';
-import PropTypes from 'prop-types';
 
 function ColorCase({ handleBackgroundChange }) {
   const [currentColor, setCurrentColor] = useState('beige');
@@ -67,9 +66,5 @@ function ColorCase({ handleBackgroundChange }) {
     </BoxWrapper>
   );
 }
-
-ColorCase.propTypes = {
-  handleBackgroundChange: PropTypes.func,
-};
 
 export default ColorCase;

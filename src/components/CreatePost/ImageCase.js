@@ -6,7 +6,6 @@ import {
   BoxImage,
   Box,
 } from 'components/CreatePost/CaseStyle';
-import PropTypes from 'prop-types';
 import useRequest from 'hooks/useRequest';
 
 function ImageCase({ handleBackgroundChange }) {
@@ -64,9 +63,5 @@ function ImageCase({ handleBackgroundChange }) {
     </BoxWrapper>
   );
 }
-
-ImageCase.propTypes = {
-  handleBackgroundChange: PropTypes.func,
-};
 
 export default ImageCase;
