@@ -56,8 +56,8 @@ function CardList({ title }) {
           </NavigationButton>
         )}
 
-        <Swiper
-          onSwiper={onSwiperInit} // 스와이퍼 초기화 시에 호출되는 콜백 지정
+        <Cards
+          onSwiper={onSwiperInit}
           onSlideChange={handleSlideChange}
           spaceBetween={20}
           slidesPerView={'auto'}
