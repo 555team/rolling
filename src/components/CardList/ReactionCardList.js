@@ -122,6 +122,10 @@ const CardListContainer = styled.div`
     margin-left: 24px;
   `}
 
+  @media (min-width: 1199px) {
+    width: 1160px;
+  }
+
   &::-webkit-scrollbar {
     display: none;
   }
