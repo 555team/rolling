@@ -109,7 +109,7 @@ const Container = styled.div`
 
 const ContentsWrapper = styled.div`
   width: 100%;
-  max-width: 720px;
+  max-width: 768px;
   ${flexCenter};
   flex-direction: column;
   margin: 0 24px;
@@ -121,7 +121,8 @@ const ContentsWrapper = styled.div`
 `;
 
 const FormWrapper = styled.div`
-  margin: 0 24px;
+  padding: 0 24px;
+  width: 100%;
 `;
 
 const SubmitButton = styled(MainPrimaryButton)`

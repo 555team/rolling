@@ -4,6 +4,7 @@ import Textarea from 'components/Textarea/Textarea';
 import Select from 'react-select';
 import useRequest from '../../hooks/useRequest';
 import { useEffect, useState } from 'react';
+import Spinner from 'components/Spinner/Spinner';
 
 function MessageForm({
   sender,
@@ -26,7 +27,7 @@ function MessageForm({
     return doc.body.textContent || '';
   };
 
-  const { data } = useRequest({
+  const { data, isLoading } = useRequest({
     url: `profile-images/`,
     method: 'get',
     skip: false,
@@ -176,18 +177,22 @@ function MessageForm({
           <ProfileWrapper>
             <Description>프로필 이미지를 선택해주세요!</Description>
             <ProfileImageWrapper>
-              {profileImages
-                ? profileImages.map((data, index) => (
-                    <ProfileImage
-                      name="profileImageURL"
-                      onClick={handleProfileChange}
-                      key={index}
-                      src={data}
-                      alt="프로필 이미지"
-                      className={selectedProfile === data ? 'selected' : ''}
-                    />
-                  ))
-                : '데이터가 없습니다.'}
+              {isLoading ? (
+                <ResizedSpinner />
+              ) : profileImages ? (
+                profileImages.map((data, index) => (
+                  <ProfileImage
+                    name="profileImageURL"
+                    onClick={handleProfileChange}
+                    key={index}
+                    src={data}
+                    alt="프로필 이미지"
+                    className={selectedProfile === data ? 'selected' : ''}
+                  />
+                ))
+              ) : (
+                '데이터가 없습니다.'
+              )}
             </ProfileImageWrapper>
           </ProfileWrapper>
         </ProfileContainer>
@@ -320,4 +325,9 @@ const ProfileImageWrapper = styled.div`
       filter: opacity(50%);
     }
   }
+`;
+
+const ResizedSpinner = styled(Spinner)`
+  width: 56px;
+  height: 56px;
 `;

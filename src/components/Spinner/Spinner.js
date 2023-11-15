@@ -1,9 +1,9 @@
 import spinner from '../../assets/img/loading-spinner.gif';
 
-function Spinner() {
+function Spinner({ className }) {
   return (
     <div>
-      <img src={spinner} alt="loading-spinner" />
+      <img className={className} src={spinner} alt="loading-spinner" />
     </div>
   );
 }
