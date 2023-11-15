@@ -1,23 +1,23 @@
 // import { Emoji } from 'emoji-picker-react';
-import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import Emoji from 'components/Emoji/Emoji';
 
 function HeaderService() {
-  const location = useLocation();
-  const getNav = location.pathname === '/Post';
+  //const location = useLocation();
+  // /post/{id}
+  //const getNav = location.pathname.startsWith('/post/');
 
   return (
     <HeaderServiceLayout>
       <div className="header-service-container">
-        {getNav && (
+        {
           <>
             <div className="to">To. Ashley Kim</div>
             <div>
               <Emoji />
             </div>
           </>
-        )}
+        }
       </div>
     </HeaderServiceLayout>
   );
