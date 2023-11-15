@@ -207,12 +207,14 @@ const CardListWrapper = styled.div`
   column-gap: 24px;
   row-gap: 28px;
   ${({ theme }) => theme.tablet`
+    width: 720px;
     row-gap: 16px;
     column-gap: 16px;
     grid-template-columns: repeat(2, 1fr);
     place-items: center;
   `}
   ${({ theme }) => theme.mobile`
+    width:100%;
     row-gap: 16px;
     column-gap: 16px;
     grid-template-columns: 1fr;

@@ -25,6 +25,15 @@ const CardWrapper = styled.div`
   border-radius: 16px;
   background: ${({ theme }) => theme.white};
   box-shadow: 0px 2px 12px 0px rgba(0, 0, 0, 0.08);
+  ${({ theme }) => theme.tablet`
+    width: 352px;
+    height: 284px;
+  `}
+
+  ${({ theme }) => theme.mobile`
+    width: 320px;
+    height: 230px;
+  `}
 `;
 
 const ButtonWrapper = styled.div`
