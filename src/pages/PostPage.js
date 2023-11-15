@@ -9,6 +9,7 @@ import { MainPrimaryButton } from 'components/button/Button';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import fetch from 'apis/api';
 import HeaderService from 'components/HeaderService/HeaderService';
+import CardModal from 'components/Modal/CardModal';
 
 function PostPage() {
   const { id } = useParams();
@@ -94,11 +95,21 @@ function PostPage() {
     }
   });
 
+  const [isShown, setIsShown] = useState(false);
+  const [modalInfo, setModalInfo] = useState({});
+  const onClose = (e) => {
+    if (e.target === e.currentTarget) {
+      setIsShown(false);
+      setModalInfo({});
+    }
+  };
+
   return (
     <PostPageWrapper
       backgrounds={backgroundImageURL}
       backgroundColor={backgroundColor || ''}
     >
+      {isShown && <CardModal data={modalInfo} onClose={onClose} />}
       <HeaderServiceWrapper>
         <HeaderService card={data} />
       </HeaderServiceWrapper>
@@ -116,18 +127,28 @@ function PostPage() {
         )}
         {cards &&
           cards?.map((item) => (
-            <Card
-              key={item.id}
-              imageUrl={item.profileImageURL}
-              createdAt={item.createdAt}
-              content={item.content}
-              sender={item.sender}
-              relationship={item.relationship}
-              font={item.font}
-              id={id}
-              messageId={item.id}
-              onDelete={handleTrashIconClick}
-            />
+            <Button
+              key={item.id + `button`}
+              onClick={() => {
+                setModalInfo(() => {
+                  return { ...item };
+                });
+                setIsShown(true);
+              }}
+            >
+              <Card
+                key={item.id}
+                imageUrl={item.profileImageURL}
+                createdAt={item.createdAt}
+                content={item.content}
+                sender={item.sender}
+                relationship={item.relationship}
+                font={item.font}
+                id={id}
+                messageId={item.id}
+                onDelete={handleTrashIconClick}
+              />
+            </Button>
           ))}
       </CardListWrapper>
       <Target ref={target} />
@@ -211,4 +232,8 @@ const CardListWrapper = styled.div`
 const Target = styled.div`
   width: 100%;
   height: 1px;
+`;
+
+const Button = styled.div`
+  text-align: left;
 `;
