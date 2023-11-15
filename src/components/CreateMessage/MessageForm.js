@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import theme from 'styles/theme';
-import Textarea from 'components/textarea/Textarea';
+import Textarea from 'components/Textarea/Textarea';
 import Select from 'react-select';
 import useRequest from '../../hooks/useRequest';
 import { useEffect, useState } from 'react';
@@ -85,12 +85,12 @@ function MessageForm({
     { value: '가족', label: '가족' },
   ];
 
-  const FONT_OPTIONS = [
-    { value: 'Noto Sans', label: 'Noto Sans' },
-    { value: 'Pretendard', label: 'Pretendard' },
-    { value: '나눔명조', label: '나눔명조' },
-    { value: '나눔손글씨 손편지체', label: '나눔손글씨 손편지체' },
-  ];
+  // const FONT_OPTIONS = [
+  //   { value: 'Noto Sans', label: 'Noto Sans' },
+  //   { value: 'Pretendard', label: 'Pretendard' },
+  //   { value: '나눔명조', label: '나눔명조' },
+  //   { value: '나눔손글씨 손편지체', label: '나눔손글씨 손편지체' },
+  // ];
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -113,8 +113,8 @@ function MessageForm({
     handleValuesChange('relationship', e.value);
   };
 
-  const handleFontChange = (e) => {
-    handleValuesChange('font', e.value);
+  const handleFontChange = (target) => {
+    handleValuesChange('font', target);
   };
 
   const isSubmitDisabled = () => {
@@ -206,29 +206,15 @@ function MessageForm({
         />
       </FormItem>
       <FormItem>
-        <Label>내용을 입력해 주세요</Label>
         <Textarea
           value={content}
           name="content"
           handleValue={handleTextareaValue}
+          handleFontChange={handleFontChange}
           validate={validateContent}
           className={isContentError ? 'error' : ''}
         />
         {isContentError && <ErrorMessage>값을 입력해 주세요.</ErrorMessage>}
-      </FormItem>
-      <FormItem>
-        <Label>폰트 선택</Label>
-        <Select
-          name="font"
-          onChange={handleFontChange}
-          options={FONT_OPTIONS}
-          defaultValue={FONT_OPTIONS[0]}
-          styles={selectStyles}
-          isSearchable={false}
-          components={{
-            IndicatorSeparator: () => null,
-          }}
-        />
       </FormItem>
     </Form>
   );

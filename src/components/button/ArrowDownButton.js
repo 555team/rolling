@@ -5,13 +5,18 @@ import { ReactComponent as ArrowIcon } from 'assets/icons/arrow_down.svg';
 function ArrowDownButton({ onClick }) {
   return (
     <ArrowIconLayout onClick={onClick}>
-      <ArrowIcon />
+      <div className="ArrowIconWrap">
+        <ArrowIcon />
+      </div>
     </ArrowIconLayout>
   );
 }
 export default ArrowDownButton;
 
 const ArrowIconLayout = styled.button`
-  border: 1px solid black;
-  padding: 0.6rem;
+  padding: 6px;
+  .ArrowIconWrap {
+    width: 24px;
+    height: 24px;
+  }
 `;

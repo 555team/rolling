@@ -1,47 +1,71 @@
 import Card from 'components/Card/Card';
-import useRequest from 'hooks/useRequest';
-import { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
-import SkeletonCard from 'components/Skeleton/SkeletonCard';
+import styled, { css } from 'styled-components';
 import AddCard from 'components/Card/AddCard';
+import useRequest from 'hooks/useRequest';
 import { BACKGROUND_COLOR } from 'constants/postPageConstant';
+import { useEffect, useRef, useState } from 'react';
+import useIntersectionObserver from 'hooks/useIntersectionObserver';
 import { MainPrimaryButton } from 'components/button/Button';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import fetch from 'apis/api';
+import HeaderService from 'components/HeaderService/HeaderService';
 
-function PostPage({ backgroundColor }) {
+function PostPage() {
+  const { id } = useParams();
   const [cards, setCards] = useState([]);
-  const [page, setPage] = useState(1);
-  const API_KEY = 'QNu5I163sHdbHYsEHdDTKeKJpAjaGtvtGpNw2G1xTEI';
+  const [offset, setOffset] = useState(0);
   const target = useRef(null);
-  const params = useParams();
-  const id = params.id;
+  const LIMIT = 3;
   const navigate = useNavigate();
   const location = useLocation();
 
-  const backgroundImageURL =
-    'https://images.unsplash.com/photo-1699307152365-399bf53f55a3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjYxNjF8MHwxfGFsbHwxMHx8fHx8fDJ8fDE2OTk2ODg0OTB8&ixlib=rb-4.0.3&q=80&w=1080';
-  const background = BACKGROUND_COLOR[backgroundColor];
-
-  const { data, isLoading } = useRequest({
-    deps: page,
-    url: `https://api.unsplash.com/photos/?client_id=${API_KEY}&page=${page}&per_page=3`,
+  const { data } = useRequest({
+    url: `/1-5/recipients/${id}/`,
   });
-  useEffect(() => {
-    setCards((prev) => [...prev, ...data]);
-  }, [page]);
 
-  const loadMore = () => {
-    setPage((prev) => prev + 1);
-  };
+  const backgroundColor = BACKGROUND_COLOR[data?.backgroundColor];
+  const backgroundImageURL = data?.backgroundImageURL;
+
+  const { data: messages, isLoading } = useRequest({
+    url: `/1-5/recipients/${id}/messages/`,
+    params: { limit: LIMIT, offset },
+    deps: offset,
+  });
+
+  const { data: recipientDeleteResponse, fetcher } = useRequest({
+    method: 'delete',
+    url: `/1-5/recipients/${id}/`,
+    skip: true,
+  });
+
+  useEffect(() => {
+    if (messages.results) {
+      setCards((prev) => [...prev, ...messages.results]);
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    if (offset === 0) {
+      observe(target.current);
+    }
+    const count = messages.results?.length;
+    if (count === 0) {
+      unobserve(target.current);
+    }
+  }, [messages.results?.length, offset]);
+
+  useEffect(() => {
+    if (isLoading) {
+      unobserve(target.current);
+    } else if (messages.next !== null) {
+      observe(target.current);
+    }
+  }, [isLoading]);
 
   const handleDeleteButtonClick = async () => {
     try {
-      const response = await fetch({
-        method: 'delete',
-        url: `/1-5/recipients/${id}/`,
-      });
-      if (response.status === 204) {
+      await fetcher();
+      if (recipientDeleteResponse.status === 204) {
         alert('성공적으로 삭제되었습니다.');
         navigate('/list');
       }
@@ -49,44 +73,35 @@ function PostPage({ backgroundColor }) {
       console.error(error);
     }
   };
+  console.log();
 
-  const handleTrashIconClick = async () => {
+  const handleTrashIconClick = async (messageId) => {
     try {
       const response = await fetch({
         method: 'delete',
-        url: `/1-5/messages/${id}/`,
+        url: `/1-5/messages/${messageId}/`,
       });
       if (response.status === 204) {
         alert('성공적으로 삭제되었습니다.');
       }
-      setCards((prev) => [...prev, ...cards]);
     } catch (error) {
       console.error(error);
     }
   };
-
-  useEffect(() => {
-    if (isLoading) {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          if (entries[0].isIntersecting) {
-            loadMore();
-          }
-        },
-        { threshold: 1 }
-      );
-      observer.observe(target.current);
+  const [observe, unobserve] = useIntersectionObserver(() => {
+    if (!isLoading) {
+      setOffset((prev) => prev + 3);
     }
-  }, [isLoading]);
+  });
 
   return (
     <PostPageWrapper
-      background={
-        backgroundImageURL
-          ? { type: 'url', backgroundImageURL }
-          : { type: 'color', backgroundColor: background }
-      }
+      backgrounds={backgroundImageURL}
+      backgroundColor={backgroundColor || ''}
     >
+      <HeaderServiceWrapper>
+        <HeaderService card={data} />
+      </HeaderServiceWrapper>
       {location.pathname === `/post/${id}/edit` ? (
         <DeleteButtonWrapper>
           <DeleteButton title="삭제하기" onClick={handleDeleteButtonClick} />
@@ -94,27 +109,39 @@ function PostPage({ backgroundColor }) {
       ) : null}
 
       <CardListWrapper>
-        <AddCard />
-        {cards?.map((item) =>
-          isLoading ? (
-            <SkeletonCard key={item.id} />
-          ) : (
-            <>
-              <Card
-                key={item.id}
-                id={id}
-                imageUrl={item.urls.small}
-                onDelete={handleTrashIconClick}
-              />
-            </>
-          )
+        {location.pathname === `/post/${id}/edit` ? null : (
+          <Link to={`/post/${id}/message`}>
+            <AddCard />
+          </Link>
         )}
-        <Target ref={target} />
+        {cards &&
+          cards?.map((item) => (
+            <Card
+              key={item.id}
+              imageUrl={item.profileImageURL}
+              createdAt={item.createdAt}
+              content={item.content}
+              sender={item.sender}
+              relationship={item.relationship}
+              font={item.font}
+              id={id}
+              messageId={item.id}
+              onDelete={handleTrashIconClick}
+            />
+          ))}
       </CardListWrapper>
+      <Target ref={target} />
     </PostPageWrapper>
   );
 }
 export default PostPage;
+
+const HeaderServiceWrapper = styled.div`
+  width: 100%;
+  height: 63px;
+  position: fixed;
+  top: 62px;
+`;
 
 const DeleteButtonWrapper = styled.div`
   display: flex;
@@ -135,17 +162,20 @@ const DeleteButton = styled(MainPrimaryButton)`
 const PostPageWrapper = styled.div`
   display: flex;
   padding-top: 70px;
+  padding-bottom: 20px;
   width: 100vw;
   height: 100%vw;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  padding-top: 113px;
-  ${({ background, theme }) =>
-    background.type === 'url'
-      ? `background-image: url(${background.backgroundImageURL})`
-      : `background: ${theme[background.backgroundColor]}`};
+  ${({ backgrounds, backgroundColor, theme }) =>
+    backgrounds
+      ? css`
+          background-image: url(${backgrounds});
+        `
+      : css`
+          background-color: ${theme[backgroundColor]};
+        `}
 
   @media (max-width: 1248px) {
     padding-left: 24px;
@@ -155,7 +185,6 @@ const PostPageWrapper = styled.div`
 
 const CardListWrapper = styled.div`
   width: 1200px;
-  height: 1000px;
   display: grid;
   overflow-y: scroll;
   &::-webkit-scrollbar {
@@ -180,5 +209,6 @@ const CardListWrapper = styled.div`
 `;
 
 const Target = styled.div`
+  width: 100%;
   height: 1px;
 `;
