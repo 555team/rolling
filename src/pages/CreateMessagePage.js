@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import useRequest from 'hooks/useRequest';
 import { useNavigate, useParams } from 'react-router-dom';
 import MessageForm from 'components/CreateMessage/MessageForm';
+import Spinner from '../components/Spinner/Spinner';
 
 function CreateMessagePage() {
   const { recipientId } = useParams();
@@ -22,7 +23,7 @@ function CreateMessagePage() {
   const [values, setValues] = useState(INITIAL_VALUES);
   const [isDisabled, setIsDisabled] = useState(true);
 
-  const { data, fetcher } = useRequest({
+  const { data, fetcher, isLoading } = useRequest({
     url: `1-5/recipients/${recipientId}/messages/`,
     method: 'post',
     data: values,
@@ -65,7 +66,7 @@ function CreateMessagePage() {
           recipientId={recipientId}
         />
         <SubmitButton
-          title="생성하기"
+          title={isLoading ? <ResizedSpinner /> : '생성하기'}
           disabled={isDisabled}
           onClick={handleSubmit}
         />
@@ -117,4 +118,12 @@ const SubmitButton = styled(MainPrimaryButton)`
     position: fixed;
     bottom: 24px;
   `};
+`;
+
+const ResizedSpinner = styled(Spinner)`
+  height: 27.98px;
+  & img {
+    width: 25px;
+    height: 25px;
+  }
 `;

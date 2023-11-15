@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import PostForm from 'components/CreatePost/PostForm';
 import useRequest from 'hooks/useRequest';
 import { useNavigate } from 'react-router-dom';
+import Spinner from '../components/Spinner/Spinner';
 
 function CreatePostPage() {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ function CreatePostPage() {
   const [isInputError, setIsInputError] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
 
-  const { data, fetcher } = useRequest({
+  const { data, fetcher, isLoading } = useRequest({
     url: `1-5/recipients/`,
     method: 'post',
     data: values,
@@ -73,7 +74,7 @@ function CreatePostPage() {
           />
         </FormWrapper>
         <SubmitButton
-          title="생성하기"
+          title={isLoading ? <ResizedSpinner /> : '생성하기'}
           disabled={isDisabled}
           onClick={handleSubmit}
         />
@@ -134,4 +135,12 @@ const SubmitButton = styled(MainPrimaryButton)`
     position: fixed;
     bottom: 24px;
   `};
+`;
+
+const ResizedSpinner = styled(Spinner)`
+  height: 27.98px;
+  & img {
+    width: 25px;
+    height: 25px;
+  }
 `;

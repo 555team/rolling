@@ -328,6 +328,8 @@ const ProfileImageWrapper = styled.div`
 `;
 
 const ResizedSpinner = styled(Spinner)`
-  width: 56px;
-  height: 56px;
+  & img {
+    width: 56px;
+    height: 56px;
+  }
 `;
