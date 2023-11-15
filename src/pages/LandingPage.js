@@ -1,9 +1,9 @@
-import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import theme from 'styles/theme';
 import { MainPrimaryButton } from 'components/Button/Button';
 import { Link } from 'react-router-dom';
 import LANDING_DATA from 'constants/landingData';
+import WebpLoader from '../components/Image/WebpLoader';
 
 function Section({ data }) {
   return (
@@ -14,14 +14,15 @@ function Section({ data }) {
         <Description>{data.description}</Description>
       </TextWrapper>
       <ImageWrapper>
-        <Image src={data.imgSource} alt={data.imgAlt} />
+        <WebpLoader
+          webpSrc={data.webpImgSource}
+          fallbackSrc={data.imgSource}
+          alt={data.imgAlt}
+        />
       </ImageWrapper>
     </SectionWrapper>
   );
 }
-Section.propTypes = {
-  data: PropTypes.object,
-};
 
 function LandingPage() {
   return (
@@ -163,19 +164,6 @@ const Description = styled.span`
   `};
 `;
 
-const Image = styled.img`
-  max-width: 100%;
-  height: auto;
-  margin: 0 auto;
-
-  ${({ theme }) => theme.mobile`
-    max-width: none;
-    width: 120%;
-    position: relative;
-    right: 10%;
-  `};
-`;
-
 const ImageWrapper = styled.div`
   grid-area: image;
 
@@ -187,6 +175,19 @@ const ImageWrapper = styled.div`
     padding-bottom: 30px;
     overflow: hidden;
   `};
+
+  & img {
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+
+    ${({ theme }) => theme.mobile`
+    max-width: none;
+    width: 120%;
+    position: relative;
+    right: 10%;
+  `};
+  }
 `;
 
 const TextWrapper = styled.div`
