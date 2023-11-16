@@ -18,8 +18,8 @@ function CardList({ title }) {
     method: 'get',
     params:
       title === '인기 롤링 페이퍼 🔥'
-        ? { limit: 1000, sort: 'like' }
-        : { limit: 1000 },
+        ? { limit: 100, sort: 'like' }
+        : { limit: 100 },
   });
 
   const onSwiperInit = (swiper) => {
