@@ -6,13 +6,14 @@ import useRequest from 'hooks/useRequest';
 import media from 'styles/media';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper.min.css';
+import Spinner from 'components/Spinner/Spinner';
 
 function CardList({ title }) {
   const [showPrevButton, setShowPrevButton] = useState(false);
   const [showNextButton, setShowNextButton] = useState(true);
   const swiperRef = useRef(null);
 
-  const { data, error } = useRequest({
+  const { data, isLoading, error } = useRequest({
     url: `1-5/recipients/`,
     method: 'get',
     params:
@@ -44,6 +45,7 @@ function CardList({ title }) {
 
   const validData = data?.results || [];
 
+  if (isLoading) return <Spinner />;
   if (error) return <p>데이터 로딩 에러: {error.message}</p>;
 
   return (
