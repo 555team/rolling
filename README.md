@@ -30,8 +30,10 @@
 > 프로젝트 지속 기간: 2023.11.01 - 2023.11.16 <br />
 > 개발 언어: Javascript & HTML & CSS <br />
 > 팀: sprint 1-5팀 <br />
-> <br />
-> Rolling은 인터넷 상에서 자유롭게 롤링페이퍼를 만들고, 편지를 쓰고자 만들어진 웹사이트입니다. Rolling에서는 일반 롤링페이퍼에서 더 나아가 자신의 이모티콘을 등록하고, 링크나 카카오톡 공유 기능을 통해 누구에게나 페이퍼를 공유할 수 있습니다.
+
+ <br />
+
+Rolling은 인터넷 상에서 자유롭게 롤링페이퍼를 만들고, 편지를 쓰고자 만들어진 웹사이트입니다. Rolling에서는 일반 롤링페이퍼에서 더 나아가 자신의 이모티콘을 등록하고, 링크나 카카오톡 공유 기능을 통해 누구에게나 페이퍼를 공유할 수 있습니다.
 
 Rolling is a website designed to create memory books and write letters freely on the Internet. In Rolling, you can go beyond regular memory books and register your own emoticons, and share the paper with anyone through the link or Kakao Talk sharing function.
 
