@@ -200,6 +200,7 @@ const EmptyPageAlert = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 250px;
   gap: 16px;
   font-size: 24px;
 `;
