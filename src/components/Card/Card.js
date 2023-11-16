@@ -165,20 +165,20 @@ const ProfileContentText = styled.span`
 `;
 
 const CardContent = styled.div`
+  max-width: 336px;
+  height: 106px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-all;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
   & * {
     font-family: ${({ fontStyle }) => fontStyle};
-    text-overflow: ellipsis;
-    overflow: hidden;
-    word-break: break-all;
     font-size: 18px;
     font-weight: 400;
     line-height: 26px;
     letter-spacing: -0.18px;
-    max-width: 336px;
-    height: 106px;
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
     ${({ theme }) => theme.tablet`
     width: 304px;
     height: 110px;
