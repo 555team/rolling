@@ -5,11 +5,13 @@ import {
   SelectedIcon,
   BoxImage,
   Box,
+  SpinnerWrapper,
 } from 'components/CreatePost/CaseStyle';
 import useRequest from 'hooks/useRequest';
+import Spinner from 'components/Spinner/Spinner';
 
 function ImageCase({ handleBackgroundChange }) {
-  const { data } = useRequest({
+  const { data, isLoading } = useRequest({
     url: `background-images/`,
     method: 'get',
     skip: false,
@@ -42,7 +44,11 @@ function ImageCase({ handleBackgroundChange }) {
     handleBackgroundChange('backgroundColor', 'beige');
   };
 
-  return (
+  return isLoading ? (
+    <SpinnerWrapper>
+      <Spinner />
+    </SpinnerWrapper>
+  ) : (
     <BoxWrapper>
       {imgs.map((image) => (
         <Box

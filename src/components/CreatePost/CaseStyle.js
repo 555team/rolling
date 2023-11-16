@@ -9,7 +9,7 @@ const flexCenter = css`
 
 const BoxWrapper = styled.div`
   display: grid;
-  grid-template: 1fr / repeat(4, 1fr);
+  grid-template: 168px / repeat(4, 168px);
   margin-top: 45px;
   gap: 12px;
 
@@ -37,6 +37,7 @@ const BoxColor = styled.div`
   background-color: ${({ color }) => color};
   width: 100%;
   height: 100%;
+  display: inline;
 `;
 
 const translate = keyframes`
@@ -72,7 +73,29 @@ const Box = styled.div`
   ${({ theme }) => theme.mobile`
     width: 154px;
     height: 154px;
+    
+      &:nth-child(even) {
+        justify-self: start;
+      }
+      
+      &:nth-child(odd) {
+        justify-self: end;
+      }
   `};
 `;
 
-export { flexCenter, BoxWrapper, SelectedIcon, BoxImage, BoxColor, Box };
+const SpinnerWrapper = styled.div`
+  ${flexCenter};
+  margin-top: 45px;
+  height: 168px;
+`;
+
+export {
+  flexCenter,
+  BoxWrapper,
+  SelectedIcon,
+  BoxImage,
+  BoxColor,
+  Box,
+  SpinnerWrapper,
+};

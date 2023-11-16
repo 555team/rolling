@@ -4,6 +4,7 @@ import Textarea from 'components/Textarea/Textarea';
 import Select from 'react-select';
 import useRequest from '../../hooks/useRequest';
 import { useEffect, useState } from 'react';
+import Spinner from 'components/Spinner/Spinner';
 
 function MessageForm({
   sender,
@@ -26,7 +27,7 @@ function MessageForm({
     return doc.body.textContent || '';
   };
 
-  const { data } = useRequest({
+  const { data, isLoading } = useRequest({
     url: `profile-images/`,
     method: 'get',
     skip: false,
@@ -176,17 +177,22 @@ function MessageForm({
           <ProfileWrapper>
             <Description>프로필 이미지를 선택해주세요!</Description>
             <ProfileImageWrapper>
-              {profileImages
-                ? profileImages.map((data, index) => (
-                    <ProfileImage
-                      name="profileImageURL"
-                      onClick={handleProfileChange}
-                      key={index}
-                      src={data}
-                      alt="프로필 이미지"
-                    />
-                  ))
-                : '데이터가 없습니다.'}
+              {isLoading ? (
+                <ResizedSpinner />
+              ) : profileImages ? (
+                profileImages.map((data, index) => (
+                  <ProfileImage
+                    name="profileImageURL"
+                    onClick={handleProfileChange}
+                    key={index}
+                    src={data}
+                    alt="프로필 이미지"
+                    className={selectedProfile === data ? 'selected' : ''}
+                  />
+                ))
+              ) : (
+                '데이터가 없습니다.'
+              )}
             </ProfileImageWrapper>
           </ProfileWrapper>
         </ProfileContainer>
@@ -226,6 +232,8 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 50px;
+  padding: 0 24px;
+  width: 100%;
 `;
 
 const FormItem = styled.div`
@@ -294,6 +302,10 @@ const ProfileImage = styled.img`
   border: 1px solid ${theme['--gray-200']};
   object-fit: cover;
 
+  &.selected {
+    filter: opacity(50%);
+  }
+
   &.selectedProfile {
     width: 80px;
     height: 80px;
@@ -301,6 +313,7 @@ const ProfileImage = styled.img`
 `;
 
 const ProfileImageWrapper = styled.div`
+  width: 100%;
   display: flex;
   gap: 4px;
   flex-wrap: wrap;
@@ -311,5 +324,12 @@ const ProfileImageWrapper = styled.div`
     &:hover {
       filter: opacity(50%);
     }
+  }
+`;
+
+const ResizedSpinner = styled(Spinner)`
+  & img {
+    width: 56px;
+    height: 56px;
   }
 `;
