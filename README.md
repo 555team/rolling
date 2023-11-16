@@ -22,6 +22,16 @@
 
 <br />
 
+## 프로젝트 소개
+
+- 프로젝트 이름: Rolling
+
+- 프로젝트 지속 기간: 2023.11.01 - 2023.11.16
+
+- 개발 언어: Javascript & HTML & CSS
+
+- 팀: sprint 1-5팀
+
 ## 👥 Team
 
 |                                                                      [김진우](https://github.com/woody)                                                                      |                                                                      [이슬](https://github.com/olseul)                                                                       |                                                                        [홍재원](https://github.com/Hongjw030)                                                                        |                                                                        [강현지](https://github.com/kanglocal)                                                                        |                                                                         [이태희](https://github.com/lte1807)                                                                         |
@@ -47,6 +57,8 @@
 |                                                            React                                                             |                                                      Styled-Components                                                       |
 
 <br />
+
+## Communication
 
 ## 🎨 UI
 
