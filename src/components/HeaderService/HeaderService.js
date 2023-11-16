@@ -29,6 +29,7 @@ export default HeaderService;
 const HeaderServiceLayout = styled.nav`
   position: fixed;
   top: 62px;
+  left: 0;
   width: 100%;
   background-color: ${({ theme }) => theme[`white`]};
   border-bottom: 1px solid ${({ theme }) => theme[`--gray-300`]};
