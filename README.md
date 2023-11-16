@@ -60,6 +60,28 @@
 
 ## 🎨 UI
 
+- LandingPage.
+![landing](https://github.com/codeit-1st-team5/rolling/assets/89698149/a36a97fd-e485-4273-a5e6-6be41e8d73a1)
+
+- background color selection
+![postColor](https://github.com/codeit-1st-team5/rolling/assets/89698149/3a24f499-36a7-4021-8ea4-3b2135755eed)
+
+- background image selection
+![postPicture](https://github.com/codeit-1st-team5/rolling/assets/89698149/f331ae88-652e-42f8-a447-e835eb775afc)
+
+- ListPage
+![list](https://github.com/codeit-1st-team5/rolling/assets/89698149/9171b0f4-504c-401f-a35f-f495c00a47eb)
+
+- CardsList
+![cards](https://github.com/codeit-1st-team5/rolling/assets/89698149/e14a76c0-a7bd-4d86-b406-0e276f1c8ba8)
+
+- Modal
+![modal](https://github.com/codeit-1st-team5/rolling/assets/89698149/46597e64-4005-456c-8646-0b70c6a9a120)
+
+- CreateMessage
+![message](https://github.com/codeit-1st-team5/rolling/assets/89698149/f068dbfb-6f83-4c75-a7c8-86e171700be6)
+
+
 <br />
 
 ## 📚 메인 기능
