@@ -172,6 +172,7 @@ function PostPage() {
               messageId={item.id}
               onDelete={handleTrashIconClick}
               onClick={() => {
+                if (location.pathname === `/post/${id}/edit`) return;
                 setModalInfo(() => {
                   return { ...item };
                 });

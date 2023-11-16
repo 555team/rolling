@@ -7,6 +7,7 @@ import FriendBadge from 'components/Badges/FriendBadge';
 import CoworkerBadge from 'components/Badges/CoworkerBadge';
 import OtherBadge from 'components/Badges/OtherBadge';
 import changeDateFormat from 'utils/calcCreateAt';
+import dompurify from 'dompurify';
 
 function CardModal({ onClose, data }) {
   const {
@@ -34,14 +35,25 @@ function CardModal({ onClose, data }) {
   const handleFontType = (fontType) => {
     switch (fontType) {
       case 'Noto Sans':
-        return 'Noto Sans';
+        return 'Noto Sans KR';
       case 'Pretendard':
-        return 'Pretendard, Noto Sans';
+        return 'Pretendard, Noto Sans KR';
       case '나눔명조':
-        return '나눔명조, Noto Sans';
+        return '나눔명조, Noto Sans KR';
       case '나눔손글씨 손편지체':
-        return '나눔손글씨 손편지체, Noto Sans';
+        return '나눔손글씨 손편지체, Noto Sans KR';
     }
+  };
+
+  const handleContent = (content) => {
+    const sanitizer = dompurify.sanitize;
+    const sanitizedContent = sanitizer(`${content}`);
+    return (
+      <CardContent
+        dangerouslySetInnerHTML={{ __html: sanitizedContent }}
+        fontStyle={handleFontType(font)}
+      ></CardContent>
+    );
   };
 
   return (
@@ -58,7 +70,7 @@ function CardModal({ onClose, data }) {
           </ProfileContentWrapper>
           <CardTimeStamp>{timeStamp}</CardTimeStamp>
         </ProfileWrapper>
-        <CardContent fontStyle={handleFontType(font)}>{content}</CardContent>
+        {handleContent(content)}
         <SubPrimaryButton onClick={onClose} title="확인" />
       </CardWrapper>
     </Modal>
@@ -74,18 +86,20 @@ const CardWrapper = styled.div`
   padding: 40px;
   border-radius: 16px;
   width: 600px;
-  min-width: 300px;
   height: 476px;
   position: absolute;
   background-color: white;
   z-index: ${ZINDEX_MODAL};
+  ${({ theme }) => theme.mobile`
+  width: 80%;
+`}
 `;
 
 const ProfileWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 40px 20px 20px;
+  padding: 20px;
   width: 100%;
   border-bottom: 1px solid ${({ theme }) => theme['--gray-200']};
 `;
@@ -121,18 +135,23 @@ const ProfileContentText = styled.span`
 `;
 
 const CardContent = styled.div`
-  color: ${({ theme }) => theme['--gray-600']};
-  height: 240px;
   width: 100%;
-  margin: 16px 40px 24px;
-  text-align: left;
-  padding: 0 15px 0 0;
+  height: 240px;
+  margin: 0 0 40px 0;
+  & * {
+    font-size: 18px;
+    font-family: ${({ fontStyle }) => fontStyle};
+    color: ${({ theme }) => theme['--gray-600']};
+    margin: 16px 24px;
+    text-align: left;
+    padding: 0 15px 0 0;
+    word-break: break-all;
+    font-weight: 400;
+    line-height: 26px;
+    letter-spacing: -0.18px;
+  }
   overflow-y: scroll;
-  word-break: break-all;
-  font-size: 18px;
-  font-family: ${(props) => props.font};
-  line-height: 26px;
-  letter-spacing: -0.18px;
+
   &::-webkit-scrollbar {
     width: 5px;
   }
