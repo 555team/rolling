@@ -198,7 +198,7 @@ const EmptyPageAlert = styled.div`
 const HeaderServiceWrapper = styled.div`
   width: 100%;
   height: 63px;
-  position: fixed;
+  position: sticky;
   top: 62px;
 `;
 
@@ -257,7 +257,6 @@ const PostPageWrapper = styled.div`
   height: 100vh;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 12px;
   ${({ backgrounds, backgroundColor, theme }) =>
     backgrounds
