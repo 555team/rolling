@@ -7,6 +7,8 @@ import media from 'styles/media';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper.min.css';
 import Spinner from 'components/Spinner/Spinner';
+import SwiperCore, { Autoplay } from 'swiper';
+SwiperCore.use([Autoplay]);
 
 function CardList({ title }) {
   const [showPrevButton, setShowPrevButton] = useState(false);
@@ -57,8 +59,12 @@ function CardList({ title }) {
             <PreviousIcon />
           </NavigationButton>
         )}
-
         <Cards
+          modules={[Autoplay]}
+          autoplay={{
+            delay: 2800,
+            pauseOnMouseEnter: true,
+          }}
           onSwiper={onSwiperInit}
           onSlideChange={handleSlideChange}
           spaceBetween={20}
