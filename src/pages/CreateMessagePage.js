@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import useRequest from 'hooks/useRequest';
 import { useNavigate, useParams } from 'react-router-dom';
 import MessageForm from 'components/CreateMessage/MessageForm';
+import Spinner from '../components/Spinner/Spinner';
+import openToast from 'utils/openToast';
 
 function CreateMessagePage() {
   const { recipientId } = useParams();
@@ -22,7 +24,7 @@ function CreateMessagePage() {
   const [values, setValues] = useState(INITIAL_VALUES);
   const [isDisabled, setIsDisabled] = useState(true);
 
-  const { data, fetcher } = useRequest({
+  const { data, fetcher, isLoading } = useRequest({
     url: `1-5/recipients/${recipientId}/messages/`,
     method: 'post',
     data: values,
@@ -43,8 +45,13 @@ function CreateMessagePage() {
   const handleSubmit = async () => {
     try {
       await fetcher();
+      openToast({ type: 'success', txt: '메세지를 보냈습니다.' });
     } catch (err) {
       console.error('error : ', err);
+      openToast({
+        type: 'error',
+        txt: '메세지를 보내는데 실패했습니다.',
+      });
     }
   };
 
@@ -65,7 +72,7 @@ function CreateMessagePage() {
           recipientId={recipientId}
         />
         <SubmitButton
-          title="생성하기"
+          title={isLoading ? <ResizedSpinner /> : '생성하기'}
           disabled={isDisabled}
           onClick={handleSubmit}
         />
@@ -94,7 +101,8 @@ const Container = styled.div`
 `;
 
 const ContentsWrapper = styled.div`
-  max-width: 720px;
+  max-width: 768px;
+  width: 100%;
   ${flexCenter};
   flex-direction: column;
   margin: 0 24px;
@@ -109,10 +117,19 @@ const ContentsWrapper = styled.div`
 const SubmitButton = styled(MainPrimaryButton)`
   width: 100%;
   max-width: 720px;
+  margin-bottom: 24px;
 
   ${({ theme }) => theme.tablet`
     width: 94%;
     position: fixed;
     bottom: 24px;
   `};
+`;
+
+const ResizedSpinner = styled(Spinner)`
+  height: 27.98px;
+  & img {
+    width: 25px;
+    height: 25px;
+  }
 `;

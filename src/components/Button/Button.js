@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { ReactComponent as CircleIcon } from 'assets/icons/circle-button-icon.svg';
-import PropTypes from 'prop-types';
 
 function MainPrimaryButton({ title, onClick, className, disabled = false }) {
   return (
@@ -41,28 +40,6 @@ function CircleButton({ onClick, disabled = false }) {
     </CircleButtonLayout>
   );
 }
-
-MainPrimaryButton.propTypes = {
-  title: PropTypes.node.isRequired,
-  onClick: PropTypes.node,
-  className: PropTypes.string,
-  disabled: PropTypes.bool,
-};
-SubPrimaryButton.propTypes = {
-  title: PropTypes.node.isRequired,
-  onClick: PropTypes.node,
-  disabled: PropTypes.bool,
-};
-SecondaryButton.propTypes = {
-  title: PropTypes.node.isRequired,
-  onClick: PropTypes.node,
-  className: PropTypes.string,
-  disabled: PropTypes.bool,
-};
-CircleButton.propTypes = {
-  onClick: PropTypes.node,
-  disabled: PropTypes.bool,
-};
 
 export { MainPrimaryButton, SubPrimaryButton, SecondaryButton, CircleButton };
 

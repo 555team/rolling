@@ -1,6 +1,7 @@
 import { ReactComponent as Pattern } from 'assets/icons/card-list-pattern-icon.svg';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
+import ProfileAndMessage from '../HeaderService/ProfileAndMessage';
 
 const Card = ({ card }) => {
   const textColor = !card.backgroundImageURL
@@ -16,22 +17,7 @@ const Card = ({ card }) => {
         >
           {!card.backgroundImageURL && <PatternSVG />}
           <Name textColor={textColor}>To. {card.name}</Name>
-          <Profile>
-            {card.recentMessages.map((message) => (
-              <ProfileImg
-                key={message.id}
-                src={message.profileImageURL}
-                alt={`${message.sender}'s profile`}
-              />
-            ))}
-            <ProfileCount>
-              +{card.messageCount - card.recentMessages.length}
-            </ProfileCount>
-          </Profile>
-          <MessageCount textColor={textColor}>
-            <StyledSpan textColor={textColor}>{card.messageCount}</StyledSpan>
-            명이 작성했어요!
-          </MessageCount>
+          <ProfileAndMessage card={card} type="card" />
           <CardFooter>
             {card.topReactions.map((reaction) => (
               <TopReactions key={reaction.id}>
@@ -47,19 +33,19 @@ const Card = ({ card }) => {
 
 export default Card;
 
-const fontStyles = css`
-  line-height: 150%;
-  letter-spacing: -0.16px;
-  color: ${({ theme }) => theme['--gray-700']};
-`;
-
-const imgStyles = css`
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 1.5px solid ${({ theme }) => theme['white']};
-  background: ${({ theme }) => theme['white']};
-`;
+// const fontStyles = css`
+//   line-height: 150%;
+//   letter-spacing: -0.16px;
+//   color: ${({ theme }) => theme['--gray-700']};
+// `;
+//
+// const imgStyles = css`
+//   width: 28px;
+//   height: 28px;
+//   border-radius: 50%;
+//   border: 1.5px solid ${({ theme }) => theme['white']};
+//   background: ${({ theme }) => theme['white']};
+// `;
 
 const CardContainer = styled.div`
   ${({ theme, backgroundColor, backgroundImage }) => css`
@@ -73,7 +59,6 @@ const CardContainer = styled.div`
     background-size: cover;
     background-position: center;
     border-radius: 16px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
     box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.08);
     padding: 30px 24px 20px;
     position: relative;
@@ -98,52 +83,55 @@ const Name = styled.div`
   font-size: 24px;
   font-weight: 700;
   color: ${({ textColor }) => textColor};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
-const Profile = styled.div`
-  display: flex;
-  align-items: center;
-  position: relative;
-  margin: 12px 0;
-`;
-
-const ProfileImg = styled.img`
-  ${imgStyles}
-  &:not(:first-child) {
-    margin-left: -12px;
-  }
-`;
-
-const ProfileCount = styled.div`
-  ${fontStyles}
-  ${imgStyles}
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 33px;
-  padding: 5px 6px;
-  border-radius: 30px;
-  margin-left: -12px;
-  font-size: 12px;
-  font-weight: 400;
-  color: ${({ theme }) => theme['--gray-500']};
-`;
-
-const MessageCount = styled.div`
-  line-height: 150%;
-  letter-spacing: -0.16px;
-  font-size: 16px;
-  font-weight: 400;
-  color: ${({ textColor }) => textColor};
-`;
-
-const StyledSpan = styled.span`
-  line-height: 150%;
-  letter-spacing: -0.16px;
-  font-size: 16px;
-  font-weight: 700;
-  color: ${({ textColor }) => textColor};
-`;
+// const Profile = styled.div`
+//   display: flex;
+//   align-items: center;
+//   position: relative;
+//   margin: 12px 0;
+// `;
+//
+// const ProfileImg = styled.img`
+//   ${imgStyles}
+//   &:not(:first-child) {
+//     margin-left: -12px;
+//   }
+// `;
+//
+// const ProfileCount = styled.div`
+//   ${fontStyles}
+//   ${imgStyles}
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   width: 33px;
+//   padding: 5px 6px;
+//   border-radius: 30px;
+//   margin-left: -12px;
+//   font-size: 12px;
+//   font-weight: 400;
+//   color: ${({ theme }) => theme['--gray-500']};
+// `;
+//
+// const MessageCount = styled.div`
+//   line-height: 150%;
+//   letter-spacing: -0.16px;
+//   font-size: 16px;
+//   font-weight: 400;
+//   color: ${({ textColor }) => textColor};
+// `;
+//
+// const StyledSpan = styled.span`
+//   line-height: 150%;
+//   letter-spacing: -0.16px;
+//   font-size: 16px;
+//   font-weight: 700;
+//   color: ${({ textColor }) => textColor};
+// `;
 
 const CardFooter = styled.div`
   display: flex;

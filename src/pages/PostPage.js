@@ -176,6 +176,7 @@ function PostPage() {
               messageId={item.id}
               onDelete={handleTrashIconClick}
               onClick={() => {
+                if (location.pathname === `/post/${id}/edit`) return;
                 setModalInfo(() => {
                   return { ...item };
                 });
@@ -202,7 +203,7 @@ const EmptyPageAlert = styled.div`
 const HeaderServiceWrapper = styled.div`
   width: 100%;
   height: 63px;
-  position: fixed;
+  position: sticky;
   top: 62px;
 `;
 

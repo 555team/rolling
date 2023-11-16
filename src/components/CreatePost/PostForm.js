@@ -3,7 +3,6 @@ import theme from '../../styles/theme';
 import ColorCase from './ColorCase';
 import ImageCase from './ImageCase';
 import { SecondaryButton } from '../Button/Button';
-import PropTypes from 'prop-types';
 import { Fragment } from 'react';
 
 function PostForm({
@@ -95,14 +94,6 @@ function PostForm({
     </Form>
   );
 }
-PostForm.propTypes = {
-  currentTab: PropTypes.number,
-  handleTabChange: PropTypes.func,
-  name: PropTypes.string,
-  handleValuesChange: PropTypes.func,
-  isInputError: PropTypes.bool,
-  handleInputErrorChange: PropTypes.func,
-};
 
 export default PostForm;
 
@@ -172,9 +163,12 @@ const TabButton = styled(SecondaryButton)`
     color: ${theme['--gray-900']};
 
     &:hover {
+      background-color: #fbfbfb;
+    }
+  }
+  &.active {
+    &:hover {
       background-color: ${theme['white']};
-      border: 1px solid ${theme['--purple-700']};
-      color: ${theme['--purple-700']};
     }
   }
 `;
@@ -186,4 +180,5 @@ const ErrorMessage = styled.span`
   font-weight: 400;
   line-height: 18px;
   letter-spacing: -0.06px;
+  height: 0;
 `;
