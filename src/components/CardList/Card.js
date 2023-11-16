@@ -83,6 +83,9 @@ const Name = styled.div`
   font-size: 24px;
   font-weight: 700;
   color: ${({ textColor }) => textColor};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 // const Profile = styled.div`
