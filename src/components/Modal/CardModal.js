@@ -138,11 +138,12 @@ const CardContent = styled.div`
   width: 100%;
   height: 240px;
   margin: 0 0 40px 0;
+  color: ${({ theme }) => theme['--gray-600']};
   & * {
     font-size: 18px;
     font-family: ${({ fontStyle }) => fontStyle};
-    color: ${({ theme }) => theme['--gray-600']};
     margin: 16px 24px;
+    color: inherit;
     text-align: left;
     padding: 0 15px 0 0;
     word-break: break-all;

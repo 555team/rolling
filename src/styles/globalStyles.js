@@ -31,8 +31,11 @@ const GlobalStyles = createGlobalStyle`
         -webkit-font-smoothing: antialiased;
     }
 
-    ol, ul {
-        list-style: none;
+    ol {
+        list-style: decimal;
+    }
+    ul{
+        list-style: disc
     }
 
     button {
