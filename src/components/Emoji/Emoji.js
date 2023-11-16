@@ -4,10 +4,18 @@ import EmojiPicker from 'emoji-picker-react';
 import { OutlinedButton } from 'components/Button/OutlinedButton';
 import { ReactComponent as EddEmojiIcon } from 'assets/icons/emoji-add-icon.svg';
 import ArrowDownButton from 'components/Button/ArrowDownButton';
+import { useParams } from 'react-router-dom';
+import useRequest from 'hooks/useRequest';
+import EmojiBedge from 'components/Badges/EmojiBedge';
 
 function Emoji() {
   const [showPicker, setShowPicker] = useState(false);
   const [showEmoji, setShowEmoji] = useState(false);
+  const { id } = useParams();
+
+  const { data } = useRequest({
+    url: `/1-5/recipients/${id}/`,
+  });
 
   const onAddEmojiClick = () => {
     setShowPicker(!showPicker);
@@ -21,6 +29,14 @@ function Emoji() {
 
   return (
     <>
+      {data.topReactions &&
+        data.topReactions.map((reaction) => (
+          <TopReactions key={reaction.id}>
+            <EmojiBedge>
+              {reaction.emoji} {reaction.count}{' '}
+            </EmojiBedge>
+          </TopReactions>
+        ))}
       <EmojiLayout>
         <ArrowDownButton onClick={onArrowDownClick} />
         {showEmoji && <EmojiExpandLayout />}
@@ -57,6 +73,8 @@ const EmojiPickerLayout = styled.div`
   position: absolute;
   top: 5rem;
 `;
+
+const TopReactions = styled.span``;
 
 const EmojiExpandLayout = styled.div`
   position: absolute;
