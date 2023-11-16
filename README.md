@@ -32,6 +32,15 @@
 
 <br />
 
+## 역할  
+> 김진우 🚀 - post/{id} 페이지, 무한 스크롤, 수정하기 페이지, 롤링페이퍼 삭제, 메세지 삭제, useRequest hook <br />
+> 이슬  😺 - 카드 캐러셸, 터치스크롤, 롤링페이퍼 카드 기능 구현 디자인, 롤링페이퍼 인기순 최신순으로 정렬 <br />
+> 홍재원 - ㅇ <br />
+> 강현지 - ㅇ <br />
+> 이태희 - ㅇ <br />
+
+<br />  
+
 ## 💻 Front-End
 
 | <img width= 50 src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566557331/noticon/d5hqar2idkoefh6fjtpu.png"> | <img width= 50 src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1568851518/noticon/lwj3hr9v1yoheimtwc1w.png"> | 
