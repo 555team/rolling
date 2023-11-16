@@ -149,7 +149,7 @@ function PostPage() {
           />
         </GoToEditButtonWrapper>
       )}
-      {isEditPage && messages.count === 0 ? (
+      {isEditPage && cards?.length === 0 ? (
         <EmptyPageAlert>
           메세지가 없습니다. 메세지를 생성해주세요 😊
           <Link to={`/post/${id}/message`}>
