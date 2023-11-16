@@ -12,6 +12,7 @@ import HeaderService from 'components/HeaderService/HeaderService';
 import openToast from 'utils/openToast';
 import CardModal from 'components/Modal/CardModal';
 import { MainPrimaryButton, SecondaryButton } from 'components/Button/Button';
+import SkeletonCard from 'components/Skeleton/SkeletonCard';
 
 function PostPage() {
   const { id } = useParams();
@@ -184,6 +185,9 @@ function PostPage() {
               }}
             />
           ))}
+        {isLoading
+          ? messages?.results?.map((item) => <SkeletonCard key={item.id} />)
+          : null}
       </CardListWrapper>
       <Target ref={target} />
     </PostPageWrapper>
