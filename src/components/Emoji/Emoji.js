@@ -18,6 +18,7 @@ function Emoji() {
     setShowEmoji(!showEmoji);
     setShowPicker(false);
   };
+
   return (
     <>
       <EmojiLayout>
