@@ -143,10 +143,13 @@ const ProfileContentWrapper = styled.div`
 const ProfileNameWrapper = styled.div`
   display: flex;
   gap: 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const ProfileContentText = styled.span`
   color: ${({ theme }) => theme.black};
+  white-space: nowrap;
   font-size: 20px;
   font-style: normal;
   font-weight: ${({ weight }) => weight || 400};
