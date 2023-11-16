@@ -53,7 +53,7 @@ Rolling is a website designed to create memory books and write letters freely on
 > 이슬 😺 - 카드 캐러셸, 터치스크롤, 롤링페이퍼 카드 기능 구현 디자인, 롤링페이퍼 인기순 최신순으로 정렬 <br />
 > 홍재원 🍀 - 카카오톡 공유 및 링크 복사 기능, 버튼, 모달 구현, nav 바, 텍스트 에디터 구현 <br />
 > 강현지 🐳 - 랜딩 페이지, /post 페이지, /post/{id}/message 페이지, Header Service의 일부 컴포넌트 <br />
-> 이태희 🍇 - ㅇ <br />
+> 이태희 🍇 - 이모지 버튼 및 팝오버, 이모지 추가하기, Header-service 바 구현 <br />
 
 <br />
 
