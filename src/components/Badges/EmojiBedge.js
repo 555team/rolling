@@ -17,4 +17,6 @@ const EmojiBedgeLayout = styled.div`
   gap: 10px;
   border-radius: 32px;
   background: rgba(0, 0, 0, 0.54);
+  color: #fff;
+  font-size: 15px;
 `;
