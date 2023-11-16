@@ -151,8 +151,16 @@ const ProfileContentText = styled.span`
   font-style: normal;
   font-weight: ${({ weight }) => weight || 400};
   line-height: 24px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 155px;
+  ${({ theme }) => theme.tablet`
+    max-width: 120px;
+  `}
   ${({ theme }) => theme.mobile`
     font-size: 18px;
+    max-width: 100px;
   `}
 `;
 

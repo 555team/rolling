@@ -133,6 +133,10 @@ function PostPage() {
       </HeaderServiceWrapper>
       {isEditPage ? (
         <DeleteButtonWrapper>
+          <SaveButton
+            title="저장하기"
+            onClick={() => navigate(`/post/${id}`)}
+          />
           <DeleteButton title="삭제하기" onClick={handleDeleteButtonClick} />
         </DeleteButtonWrapper>
       ) : null}
@@ -207,11 +211,19 @@ const DeleteButtonWrapper = styled.div`
   display: flex;
   width: 1200px;
   justify-content: flex-end;
+  gap: 10px;
+  ${({ theme }) => theme.tablet`
+    width: 720px;
+  `}
+  ${({ theme }) => theme.mobile`
+    width: 320px;
+    justify-content: center;
+  `}
 `;
 
 const DeleteButton = styled(MainPrimaryButton)`
   padding: 7px 16px;
-  width: 92px;
+  width: 130px;
   height: 40px;
   border-radius: 6px;
   text-align: center;
@@ -252,7 +264,7 @@ const GoToEditButtonWrapper = styled.div`
 
 const PostPageWrapper = styled.div`
   display: flex;
-  padding-top: 130px;
+  padding-top: 70px;
   padding-bottom: 20px;
   width: 100vw;
   height: 100vh;
@@ -307,4 +319,9 @@ const CardListWrapper = styled.div`
 const Target = styled.div`
   width: 100%;
   height: 1px;
+`;
+const SaveButton = styled(DeleteButton)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
