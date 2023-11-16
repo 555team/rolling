@@ -213,5 +213,7 @@ const LinkButton = styled(MainPrimaryButton)`
     bottom: 24px;
     width: 94%;
     max-width: 800px;
+    margin-bottom: 0px;
   `};
+  margin-bottom: 24px;
 `;
