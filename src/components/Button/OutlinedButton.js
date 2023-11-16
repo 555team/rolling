@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 function OutlinedButton({
   children,
@@ -21,15 +20,6 @@ function OutlinedButton({
     </OutlinedButtonLayout>
   );
 }
-
-OutlinedButton.propTypes = {
-  children: PropTypes.any.isRequired,
-  width: PropTypes.number,
-  height: PropTypes.number,
-  className: PropTypes.string,
-  onClick: PropTypes.node,
-  disabled: PropTypes.bool,
-};
 
 export { OutlinedButton };
 
