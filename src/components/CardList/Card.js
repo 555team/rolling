@@ -2,6 +2,7 @@ import { ReactComponent as Pattern } from 'assets/icons/card-list-pattern-icon.s
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import ProfileAndMessage from '../HeaderService/ProfileAndMessage';
+import EmojiBedge from 'components/Badges/EmojiBedge';
 
 const Card = ({ card }) => {
   const textColor = !card.backgroundImageURL
@@ -21,7 +22,9 @@ const Card = ({ card }) => {
           <CardFooter>
             {card.topReactions.map((reaction) => (
               <TopReactions key={reaction.id}>
-                {reaction.emoji} {reaction.count}
+                <EmojiBedge>
+                  {reaction.emoji} {reaction.count}{' '}
+                </EmojiBedge>
               </TopReactions>
             ))}
           </CardFooter>
@@ -134,12 +137,19 @@ const Name = styled.div`
 // `;
 
 const CardFooter = styled.div`
+  position: absolute;
   display: flex;
-  flex-direction: column;
+  gap: 8px;
   align-items: flex-start;
   padding-top: 16px;
   margin-top: 43px;
+  font-size: 16px;
+  color: ${({ theme }) => theme['white']};
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
   border-top: 1px solid ${({ theme }) => theme['--gray-300']};
+  z-index: 1;
 `;
 
 const TopReactions = styled.span``;
