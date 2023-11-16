@@ -51,12 +51,17 @@ function ProfileAndMessage({ card, type }) {
 export default ProfileAndMessage;
 
 const Wrapper = styled.div`
-  display: flex;
+  display: ${({ type }) => (type === 'headerService' ? 'flex' : '')};
+
   align-items: center;
+  justify-content: ${({ type }) =>
+    type === 'headerService' ? 'center' : 'unset'};
   gap: 11px;
+  height: 66px;
 
   ${({ theme }) => theme.tablet`
-    display: ${({ type }) => (type === 'headerService' ? 'none' : 'auto')};
+    display: ${({ type }) =>
+      type === 'headerService' ? 'none' : 'inline-block'};
   `};
 `;
 const VerticalLine = styled.div`
@@ -90,7 +95,7 @@ const ProfileImg = styled.img`
 
 const ProfileCount = styled.div`
   ${imgStyles};
-  display: flex;
+  display: ${({ type }) => (type === 'headerService' ? 'flex' : 'auto')};
   justify-content: center;
   align-items: center;
   margin-left: -12px;
@@ -104,7 +109,7 @@ const ProfileCount = styled.div`
 `;
 
 const MessageCount = styled.div`
-  display: flex;
+  display: ${({ type }) => (type === 'headerService' ? 'flex' : 'auto')};
   align-items: center;
   justify-content: center;
   margin: 12px 0;
