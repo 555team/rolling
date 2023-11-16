@@ -16,6 +16,8 @@
 
 - [프로젝트 소개](#프로젝트-소개)
 - [Team](#Team)
+- [역할](#역할)
+- [Quickstart Guide](#Quickstart-Guide)
 - [메인 기능](#메인-기능)
 - [UI](#기술)
 - [Link](#Link)
@@ -24,13 +26,14 @@
 
 ## 📚 프로젝트 소개
 
-- 프로젝트 이름: 누구나 쉽게 만드는 온라인 롤링 페이퍼, Rolling
+> 프로젝트 이름: 누구나 쉽게 만드는 온라인 롤링 페이퍼, Rolling
+> 프로젝트 지속 기간: 2023.11.01 - 2023.11.16
+> 개발 언어: Javascript & HTML & CSS
+> 팀: sprint 1-5팀
 
-- 프로젝트 지속 기간: 2023.11.01 - 2023.11.16
+Rolling은 인터넷 상에서 자유롭게 롤링페이퍼를 만들고, 편지를 쓰고자 만들어진 웹사이트입니다. Rolling에서는 일반 롤링페이퍼에서 더 나아가 자신의 이모티콘을 등록하고, 링크나 카카오톡 공유 기능을 통해 누구에게나 페이퍼를 공유할 수 있습니다.
 
-- 개발 언어: Javascript & HTML & CSS
-
-- 팀: sprint 1-5팀
+<br />
 
 ## 👥 Team
 
@@ -58,29 +61,59 @@
 
 <br />
 
+## Quickstart Guide
+
+#### requirement
+
+- axios: ^1.6.0
+- dompurify: ^3.0.6
+- dotenv: ^16.3.1
+- emoji-picker-react: ^4.5.15
+- moment: ^2.29.4
+- "react: ^18.2.0
+- react-dom: ^18.2.0
+- react-quill: ^2.0.0
+- react-router-dom: ^6.18.0
+- react-select: ^5.8.0
+- react-toastify: ^9.1.3
+- styled-components: ^6.1.0
+- swiper: ^6.8.4
+- web-vitals: ^2.1.4
+
+#### installation
+
+```
+$ git clone https://github.com/codeit-1st-team5/rolling.git
+$cd rolling
+
+$ npm install
+$ npm start run
+```
+
+<br />
+
 ## 🎨 UI
 
 - LandingPage.
-![landing](https://github.com/codeit-1st-team5/rolling/assets/89698149/a36a97fd-e485-4273-a5e6-6be41e8d73a1)
+  ![landing](https://github.com/codeit-1st-team5/rolling/assets/89698149/a36a97fd-e485-4273-a5e6-6be41e8d73a1)
 
 - background color selection
-![postColor](https://github.com/codeit-1st-team5/rolling/assets/89698149/3a24f499-36a7-4021-8ea4-3b2135755eed)
+  ![postColor](https://github.com/codeit-1st-team5/rolling/assets/89698149/3a24f499-36a7-4021-8ea4-3b2135755eed)
 
 - background image selection
-![postPicture](https://github.com/codeit-1st-team5/rolling/assets/89698149/f331ae88-652e-42f8-a447-e835eb775afc)
+  ![postPicture](https://github.com/codeit-1st-team5/rolling/assets/89698149/f331ae88-652e-42f8-a447-e835eb775afc)
 
 - ListPage
-![list](https://github.com/codeit-1st-team5/rolling/assets/89698149/9171b0f4-504c-401f-a35f-f495c00a47eb)
+  ![list](https://github.com/codeit-1st-team5/rolling/assets/89698149/9171b0f4-504c-401f-a35f-f495c00a47eb)
 
 - CardsList
-![cards](https://github.com/codeit-1st-team5/rolling/assets/89698149/e14a76c0-a7bd-4d86-b406-0e276f1c8ba8)
+  ![cards](https://github.com/codeit-1st-team5/rolling/assets/89698149/e14a76c0-a7bd-4d86-b406-0e276f1c8ba8)
 
 - Modal
-![modal](https://github.com/codeit-1st-team5/rolling/assets/89698149/46597e64-4005-456c-8646-0b70c6a9a120)
+  ![modal](https://github.com/codeit-1st-team5/rolling/assets/89698149/46597e64-4005-456c-8646-0b70c6a9a120)
 
 - CreateMessage
-![message](https://github.com/codeit-1st-team5/rolling/assets/89698149/f068dbfb-6f83-4c75-a7c8-86e171700be6)
-
+  ![message](https://github.com/codeit-1st-team5/rolling/assets/89698149/f068dbfb-6f83-4c75-a7c8-86e171700be6)
 
 <br />
 
