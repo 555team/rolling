@@ -128,6 +128,7 @@ const EmojiExpandLayout = styled.div`
   width: 300px;
   height: 130ox;
   border-radius: 8px;
+  background-color: white;
   border: 1px solid #b6b6b6;
   box-shadow: 0px 2px 12px 0px rgba(0, 0, 0, 0.08);
 `;
