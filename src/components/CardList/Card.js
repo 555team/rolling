@@ -73,7 +73,6 @@ const CardContainer = styled.div`
     background-size: cover;
     background-position: center;
     border-radius: 16px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
     box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.08);
     padding: 30px 24px 20px;
     position: relative;
