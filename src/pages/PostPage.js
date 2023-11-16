@@ -188,8 +188,8 @@ function PostPage() {
         {isLoading
           ? messages?.results?.map((item) => <SkeletonCard key={item.id} />)
           : null}
+        <Target ref={target} />
       </CardListWrapper>
-      <Target ref={target} />
     </PostPageWrapper>
   );
 }
