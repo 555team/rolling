@@ -16,7 +16,7 @@ function HeaderService({ card }) {
             <div className="to">To. {card.name} </div>
 
             <div className="header-service-contents">
-              <ProfileAndMessage card={card} />
+              <ProfileAndMessage card={card} type="headerService" />
               <Emoji />
               <ShareTab />
             </div>

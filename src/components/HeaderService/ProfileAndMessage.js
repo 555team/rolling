@@ -1,29 +1,50 @@
 import styled, { css } from 'styled-components';
 import theme from 'styles/theme';
 
-function ProfileAndMessage({ card }) {
-  return card.messageCount > 0 ? (
-    <Wrapper>
-      <Profile>
-        {card.recentMessages.map((message) => (
-          <ProfileImg
-            key={message.id}
-            src={message.profileImageURL}
-            alt={`${message.sender}'s profile`}
-          />
-        ))}
-        <ProfileCount>
-          +{card.messageCount - card.recentMessages.length}
-        </ProfileCount>
-      </Profile>
-      <MessageCount>
-        <StyledSpan>{card.messageCount}</StyledSpan>
+function ProfileAndMessage({ card, type }) {
+  const styleObj = {
+    headerService: {
+      textColor: theme['--gray-900'],
+      fontSize: '18px',
+      fontWeight: 500,
+      border: 'none',
+      borderColor: '#E3E3E3',
+    },
+    card: {
+      textColor: !card.backgroundImageURL
+        ? theme['--gray-700']
+        : theme['white'],
+      fontSize: '16px',
+      fontWeight: 400,
+      borderColor: theme['white'],
+    },
+  };
+  return (
+    <Wrapper type={type}>
+      {card.messageCount > 0 && (
+        <Profile>
+          {card.recentMessages.map((message) => (
+            <ProfileImg
+              key={message.id}
+              src={message.profileImageURL}
+              alt={`${message.sender}'s profile`}
+            />
+          ))}
+          {card.messageCount > 3 && (
+            <ProfileCount styleObj={styleObj[type]}>
+              +{card.messageCount - card.recentMessages.length}
+            </ProfileCount>
+          )}
+        </Profile>
+      )}
+      <MessageCount styleObj={styleObj[type]}>
+        <StyledSpan styleObj={styleObj[type]}>
+          {card.messageCount || 0}
+        </StyledSpan>
         명이 작성했어요!
       </MessageCount>
-      <VerticalLine />
+      {type === 'headerService' && <VerticalLine />}
     </Wrapper>
-  ) : (
-    <></>
   );
 }
 
@@ -35,7 +56,7 @@ const Wrapper = styled.div`
   gap: 11px;
 
   ${({ theme }) => theme.tablet`
-    display: none;
+    display: ${({ type }) => (type === 'headerService' ? 'none' : 'auto')};
   `};
 `;
 const VerticalLine = styled.div`
@@ -73,7 +94,7 @@ const ProfileCount = styled.div`
   justify-content: center;
   align-items: center;
   margin-left: -12px;
-  border-color: #e3e3e3;
+  border-color: ${({ styleObj }) => styleObj.borderColor};
 
   text-align: center;
   font-size: 12px;
@@ -86,16 +107,17 @@ const MessageCount = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 12px 0;
 
   line-height: 27px;
-  font-size: 18px;
+  font-size: ${({ styleObj }) => styleObj.fontSize};
   font-weight: 400;
-  color: ${theme['--gray-900']};
+  color: ${({ styleObj }) => styleObj.textColor};
 `;
 
 const StyledSpan = styled.span`
   line-height: 27px;
-  font-size: 18px;
+  font-size: ${({ styleObj }) => styleObj.fontSize};
   font-weight: 700;
-  color: ${theme['--gray-900']};
+  color: ${({ styleObj }) => styleObj.textColor};
 `;
