@@ -180,4 +180,5 @@ const ErrorMessage = styled.span`
   font-weight: 400;
   line-height: 18px;
   letter-spacing: -0.06px;
+  height: 0;
 `;
