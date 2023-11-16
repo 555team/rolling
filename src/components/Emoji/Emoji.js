@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import EmojiPicker from 'emoji-picker-react';
-import { OutlinedButton } from 'components/button/OutlinedButton';
+import { OutlinedButton } from 'components/Button/OutlinedButton';
 import { ReactComponent as EddEmojiIcon } from 'assets/icons/emoji-add-icon.svg';
-import ArrowDownButton from 'components/button/ArrowDownButton';
+import ArrowDownButton from 'components/Button/ArrowDownButton';
 
 function Emoji() {
   const [showPicker, setShowPicker] = useState(false);
@@ -25,7 +25,7 @@ function Emoji() {
         {showEmoji && <EmojiExpandLayout />}
         <OutlinedButton
           width={88}
-          height={41}
+          height={37}
           className="light"
           onClick={onAddEmojiClick}
         >
@@ -45,10 +45,10 @@ function Emoji() {
 export default Emoji;
 
 const EmojiLayout = styled.div`
-  position: relative;
-  border: 1px solid gray;
   display: inline-flex;
+  position: relative;
   justify-content: center;
+  align-items: center;
   gap: 0.8rem;
 `;
 

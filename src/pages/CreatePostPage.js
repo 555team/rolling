@@ -1,9 +1,11 @@
 import styled, { css } from 'styled-components';
-import { MainPrimaryButton } from 'components/button/Button';
+import { MainPrimaryButton } from 'components/Button/Button';
 import { useEffect, useState } from 'react';
-import PostForm from 'components/createPost/PostForm';
+import PostForm from 'components/CreatePost/PostForm';
 import useRequest from 'hooks/useRequest';
 import { useNavigate } from 'react-router-dom';
+import Spinner from '../components/Spinner/Spinner';
+import openToast from 'utils/openToast';
 
 function CreatePostPage() {
   const navigate = useNavigate();
@@ -19,7 +21,7 @@ function CreatePostPage() {
   const [isInputError, setIsInputError] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
 
-  const { data, fetcher } = useRequest({
+  const { data, fetcher, isLoading } = useRequest({
     url: `1-5/recipients/`,
     method: 'post',
     data: values,
@@ -47,14 +49,19 @@ function CreatePostPage() {
     if (!isInputError) {
       try {
         await fetcher();
+        openToast({ type: 'success', txt: '롤링페이퍼를 만들었습니다.' });
       } catch (err) {
         console.error('error : ', err);
+        openToast({
+          type: 'error',
+          txt: '롤링페이퍼를 만드는데 실패했습니다.',
+        });
       }
     }
   };
 
   useEffect(() => {
-    if (data) {
+    if (Object.keys(data).length > 0) {
       return navigate(`/post/${data.id}`);
     }
   }, [data]);
@@ -73,7 +80,7 @@ function CreatePostPage() {
           />
         </FormWrapper>
         <SubmitButton
-          title="생성하기"
+          title={isLoading ? <ResizedSpinner /> : '생성하기'}
           disabled={isDisabled}
           onClick={handleSubmit}
         />
@@ -109,7 +116,7 @@ const Container = styled.div`
 
 const ContentsWrapper = styled.div`
   width: 100%;
-  max-width: 720px;
+  max-width: 768px;
   ${flexCenter};
   flex-direction: column;
   margin: 0 24px;
@@ -121,7 +128,8 @@ const ContentsWrapper = styled.div`
 `;
 
 const FormWrapper = styled.div`
-  margin: 0 24px;
+  padding: 0 24px;
+  width: 100%;
 `;
 
 const SubmitButton = styled(MainPrimaryButton)`
@@ -133,4 +141,12 @@ const SubmitButton = styled(MainPrimaryButton)`
     position: fixed;
     bottom: 24px;
   `};
+`;
+
+const ResizedSpinner = styled(Spinner)`
+  height: 27.98px;
+  & img {
+    width: 25px;
+    height: 25px;
+  }
 `;

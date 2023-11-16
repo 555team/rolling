@@ -1,10 +1,7 @@
-import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import 'react-toastify/dist/ReactToastify.css';
 import openToast from 'utils/openToast';
-function LinkShareButton() {
-  const location = useLocation();
 
+function LinkShareButton({ resultUrl }) {
   const handleCopyClipBoard = async (text) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -17,7 +14,7 @@ function LinkShareButton() {
 
   return (
     <>
-      <Button onClick={() => handleCopyClipBoard(`${location.pathname}`)}>
+      <Button onClick={() => handleCopyClipBoard(`${resultUrl}`)}>
         URL 공유
       </Button>
     </>

@@ -1,28 +1,8 @@
 @font-face {
   font-family: 'Noto Sans KR';
   font-style: normal;
-  font-weight: 100;
-  src: url('NotoSansKR-Thin.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Noto Sans KR';
-  font-style: normal;
-  font-weight: 200;
-  src: url('NotoSansKR-ExtraLight.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Noto Sans KR';
-  font-style: normal;
-  font-weight: 300;
-  src: url('NotoSansKR-Light.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Noto Sans KR';
-  font-style: normal;
   font-weight: 400;
+  font-display: swap;
   src: url('NotoSansKR-Regular.woff2') format('woff2');
 }
 
@@ -30,20 +10,15 @@
   font-family: 'Noto Sans KR';
   font-style: normal;
   font-weight: 500;
+  font-display: swap;
   src: url('NotoSansKR-Medium.woff2') format('woff2');
 }
 
 @font-face {
   font-family: 'Noto Sans KR';
   font-style: normal;
-  font-weight: 600;
-  src: url('NotoSansKR-SemiBold.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Noto Sans KR';
-  font-style: normal;
   font-weight: 700;
+  font-display: swap;
   src: url('NotoSansKR-Bold.woff2') format('woff2');
 }
 
@@ -51,12 +26,45 @@
   font-family: 'Noto Sans KR';
   font-style: normal;
   font-weight: 800;
+  font-display: swap;
   src: url('NotoSansKR-ExtraBold.woff2') format('woff2');
 }
 
+/* 편지용 폰트 */
 @font-face {
-  font-family: 'Noto Sans KR';
+  font-family: 'Noto Sans';
   font-style: normal;
-  font-weight: 900;
-  src: url('NotoSansKR-Black.woff2') format('woff2');
+  font-weight: normal;
+  font-display: block;
+  src: url('NotoSansKR-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: '나눔손글씨 손편지체';
+  font-style: normal;
+  font-weight: normal;
+  font-display: block;
+  src:
+    url('NanumSonPyeonJiCe.woff2') format('woff2'),
+    url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_05@1.0/Handletter.woff')
+      format('woff');
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: normal;
+  font-display: block;
+  src:
+    url('Pretendard-Regular.subset.woff2') format('woff2'),
+    url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+      format('woff');
+}
+
+@font-face {
+  font-family: '나눔명조';
+  font-style: normal;
+  font-weight: normal;
+  font-display: block;
+  src: url('NanumMyeongjo.woff2') format('woff2');
 }
