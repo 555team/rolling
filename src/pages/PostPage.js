@@ -212,6 +212,13 @@ const DeleteButtonWrapper = styled.div`
   width: 1200px;
   justify-content: flex-end;
   gap: 10px;
+  ${({ theme }) => theme.tablet`
+    width: 720px;
+  `}
+  ${({ theme }) => theme.mobile`
+    width: 320px;
+    justify-content: center;
+  `}
 `;
 
 const DeleteButton = styled(MainPrimaryButton)`
@@ -257,7 +264,7 @@ const GoToEditButtonWrapper = styled.div`
 
 const PostPageWrapper = styled.div`
   display: flex;
-  padding-top: 130px;
+  padding-top: 70px;
   padding-bottom: 20px;
   width: 100vw;
   height: 100vh;
@@ -313,14 +320,8 @@ const Target = styled.div`
   width: 100%;
   height: 1px;
 `;
-const SaveButton = styled.div`
+const SaveButton = styled(DeleteButton)`
   display: flex;
-  width: 1200px;
-  justify-content: flex-end;
-  ${({ theme }) => theme.tablet`
-    width: 720px;
-  `}
-  ${({ theme }) => theme.mobile`
-    width: 320px;
-  `}
+  align-items: center;
+  justify-content: center;
 `;

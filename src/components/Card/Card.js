@@ -143,19 +143,24 @@ const ProfileContentWrapper = styled.div`
 const ProfileNameWrapper = styled.div`
   display: flex;
   gap: 6px;
-  overflow: hidden;
-  text-overflow: ellipsis;
 `;
 
 const ProfileContentText = styled.span`
   color: ${({ theme }) => theme.black};
-  white-space: nowrap;
   font-size: 20px;
   font-style: normal;
   font-weight: ${({ weight }) => weight || 400};
   line-height: 24px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 155px;
+  ${({ theme }) => theme.tablet`
+    max-width: 120px;
+  `}
   ${({ theme }) => theme.mobile`
     font-size: 18px;
+    max-width: 100px;
   `}
 `;
 
