@@ -5,9 +5,6 @@ import ShareTab from 'components/ShareTab/ShareTab';
 import ProfileAndMessage from './ProfileAndMessage';
 
 function HeaderService({ card }) {
-  //const location = useLocation();
-  // /post/{id}
-  //const getNav = location.pathname.startsWith('/post/');
   return (
     <HeaderServiceLayout>
       <div className="header-service-container">
@@ -49,12 +46,12 @@ const HeaderServiceLayout = styled.nav`
   }
 
   .to {
-    width: 227px;
     font-size: 28px;
     font-style: normal;
     font-weight: 700;
     line-height: 42px;
     letter-spacing: -0.28px;
+    white-space: nowrap;
   }
 
   .header-service-contents {
