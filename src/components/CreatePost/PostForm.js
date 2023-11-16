@@ -163,9 +163,12 @@ const TabButton = styled(SecondaryButton)`
     color: ${theme['--gray-900']};
 
     &:hover {
+      background-color: #fbfbfb;
+    }
+  }
+  &.active {
+    &:hover {
       background-color: ${theme['white']};
-      border: 1px solid ${theme['--purple-700']};
-      color: ${theme['--purple-700']};
     }
   }
 `;
