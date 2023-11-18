@@ -13,6 +13,7 @@ import openToast from 'utils/openToast';
 import CardModal from 'components/Modal/CardModal';
 import { MainPrimaryButton, SecondaryButton } from 'components/Button/Button';
 import SkeletonCard from 'components/Skeleton/SkeletonCard';
+import newMessage from '../assets/img/new-message.gif';
 
 function PostPage() {
   const { id } = useParams();
@@ -151,15 +152,13 @@ function PostPage() {
       )}
       {isEditPage && cards?.length === 0 ? (
         <EmptyPageAlert>
-          <EmptyMessage>메세지가 없습니다.</EmptyMessage>
-          <EmptyContent>
-            메세지를 남겨 마음을 표현해보세요!
-            <br />
-            Rolling과 함께라면 어렵지 않아요.
-          </EmptyContent>
-          <Link to={`/post/${id}/message`}>
-            <GotoMessageButton title="메세지 남겨보기" />
-          </Link>
+          <NewMessageImg src={newMessage} alt="메세지를 생성해주세요" />
+          <MakeNewMessageWrapper>
+            <MakeNewMessageText>메세지가 비어있네요 🥲</MakeNewMessageText>
+            <Link to={`/post/${id}/message`}>
+              <GotoMessageButton title="생성하러가기 🚀" />
+            </Link>
+          </MakeNewMessageWrapper>
         </EmptyPageAlert>
       ) : null}
       <CardListWrapper>
@@ -200,37 +199,20 @@ function PostPage() {
 }
 export default PostPage;
 
+const NewMessageImg = styled.img`
+  width: 100%;
+  border-radius: 15px;
+`;
+
 const EmptyPageAlert = styled.div`
   display: flex;
-  padding: 70px 60px 40px 60px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 16px;
-  background-image: url('/imgs/heart.png');
-  background-size: cover;
-`;
-
-const EmptyMessage = styled.p`
-  margin-top: 20px;
-  padding-top: 10px;
-  width: 400px;
-  font-weight: 700;
-  font-size: 27px;
-  text-align: center;
-  color: black;
-  line-height: 40px;
-`;
-
-const EmptyContent = styled.p`
-  margin-bottom: 20px;
-  width: 400px;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 18px;
-  text-align: center;
-  color: ${(props) => props.theme['--gray-700']};
-  line-height: 27px;
+  background-color: white;
+  box-shadow: 0px 2px 15px 0px rgba(0, 0, 0, 0.12);
+  border-radius: 15px;
+  font-size: 24px;
 `;
 
 const HeaderServiceWrapper = styled.div`
@@ -254,6 +236,11 @@ const DeleteButtonWrapper = styled.div`
   `}
 `;
 
+const MakeNewMessageText = styled.span`
+  font-size: 16px;
+  font-weight: 500;
+`;
+
 const DeleteButton = styled(MainPrimaryButton)`
   padding: 7px 16px;
   width: 130px;
@@ -274,6 +261,12 @@ const GotoEditButton = styled(MainPrimaryButton)`
   font-weight: 400;
 `;
 
+const MakeNewMessageWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 25px;
+`;
+
 const GotoMessageButton = styled(SecondaryButton)`
   width: 150px;
   height: 40px;
@@ -281,6 +274,7 @@ const GotoMessageButton = styled(SecondaryButton)`
   text-align: center;
   font-size: 16px;
   font-weight: 400;
+  margin: 15px 0px;
 `;
 
 const GoToEditButtonWrapper = styled.div`
