@@ -8,7 +8,7 @@ import CoworkerBadge from 'components/Badges/CoworkerBadge';
 import OtherBadge from 'components/Badges/OtherBadge';
 import changeDateFormat from 'utils/calcCreateAt';
 import dompurify from 'dompurify';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function CardModal({ onClose, data }) {
   const {
@@ -58,12 +58,15 @@ function CardModal({ onClose, data }) {
   };
 
   const [classN, setClassN] = useState('hidden');
-  setTimeout(() => {
-    setClassN('move');
-  }, 500);
-  setTimeout(() => {
-    setClassN('end');
-  }, 2000);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setClassN('move');
+    }, 500);
+    setTimeout(() => {
+      setClassN('end');
+    }, 2000);
+  }, []);
 
   return (
     <Modal onClick={onClose}>
@@ -101,6 +104,8 @@ const CardWrapper = styled.div`
   position: absolute;
   background-color: white;
   z-index: ${ZINDEX_MODAL};
+  top: 50%;
+  left: 50%;
 
   &.hidden {
     opacity: 0;
@@ -109,13 +114,13 @@ const CardWrapper = styled.div`
   &.move {
     opacity: 1;
     transition: all 1s;
-    transform: translate(0, -20%);
+    transform: translate(-50%, -50%);
     visibility: visible;
   }
   &.end {
     opacity: 1;
     visiblity: visible;
-    transform: translate(0, -20%);
+    transform: translate(-50%, -50%);
   }
 `;
 
