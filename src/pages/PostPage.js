@@ -14,6 +14,7 @@ import CardModal from 'components/Modal/CardModal';
 import { MainPrimaryButton, SecondaryButton } from 'components/Button/Button';
 import SkeletonCard from 'components/Skeleton/SkeletonCard';
 import newMessage from '../assets/img/new-message.gif';
+import { FloatingButton } from 'components/Button/FloatingButton';
 
 function PostPage() {
   const { id } = useParams();
@@ -194,6 +195,7 @@ function PostPage() {
           : null}
         <Target ref={target} />
       </CardListWrapper>
+      <FloatingButton />
     </PostPageWrapper>
   );
 }
