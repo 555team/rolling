@@ -13,6 +13,7 @@ import openToast from 'utils/openToast';
 import CardModal from 'components/Modal/CardModal';
 import { MainPrimaryButton, SecondaryButton } from 'components/Button/Button';
 import SkeletonCard from 'components/Skeleton/SkeletonCard';
+import newMessage from '../assets/img/new-message.gif';
 
 function PostPage() {
   const { id } = useParams();
@@ -151,10 +152,13 @@ function PostPage() {
       )}
       {isEditPage && cards?.length === 0 ? (
         <EmptyPageAlert>
-          메세지가 없습니다. 메세지를 생성해주세요 😊
-          <Link to={`/post/${id}/message`}>
-            <GotoMessageButton title="생성하러가기 🚀" />
-          </Link>
+          <NewMessageImg src={newMessage} alt="메세지를 생성해주세요" />
+          <MakeNewMessageWrapper>
+            <MakeNewMessageText>메세지가 비어있네요 🥲</MakeNewMessageText>
+            <Link to={`/post/${id}/message`}>
+              <GotoMessageButton title="생성하러가기 🚀" />
+            </Link>
+          </MakeNewMessageWrapper>
         </EmptyPageAlert>
       ) : null}
       <CardListWrapper>
@@ -195,13 +199,19 @@ function PostPage() {
 }
 export default PostPage;
 
+const NewMessageImg = styled.img`
+  width: 100%;
+  border-radius: 15px;
+`;
+
 const EmptyPageAlert = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 250px;
-  gap: 16px;
+  background-color: white;
+  box-shadow: 0px 2px 15px 0px rgba(0, 0, 0, 0.12);
+  border-radius: 15px;
   font-size: 24px;
 `;
 
@@ -226,6 +236,11 @@ const DeleteButtonWrapper = styled.div`
   `}
 `;
 
+const MakeNewMessageText = styled.span`
+  font-size: 16px;
+  font-weight: 500;
+`;
+
 const DeleteButton = styled(MainPrimaryButton)`
   padding: 7px 16px;
   width: 130px;
@@ -246,6 +261,12 @@ const GotoEditButton = styled(MainPrimaryButton)`
   font-weight: 400;
 `;
 
+const MakeNewMessageWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 25px;
+`;
+
 const GotoMessageButton = styled(SecondaryButton)`
   width: 150px;
   height: 40px;
@@ -253,6 +274,7 @@ const GotoMessageButton = styled(SecondaryButton)`
   text-align: center;
   font-size: 16px;
   font-weight: 400;
+  margin: 15px 0px;
 `;
 
 const GoToEditButtonWrapper = styled.div`
