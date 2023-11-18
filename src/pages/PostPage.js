@@ -151,9 +151,14 @@ function PostPage() {
       )}
       {isEditPage && cards?.length === 0 ? (
         <EmptyPageAlert>
-          메세지가 없습니다. 메세지를 생성해주세요 😊
+          <EmptyMessage>메세지가 없습니다.</EmptyMessage>
+          <EmptyContent>
+            메세지를 남겨 마음을 표현해보세요!
+            <br />
+            Rolling과 함께라면 어렵지 않아요.
+          </EmptyContent>
           <Link to={`/post/${id}/message`}>
-            <GotoMessageButton title="생성하러가기 🚀" />
+            <GotoMessageButton title="메세지 남겨보기" />
           </Link>
         </EmptyPageAlert>
       ) : null}
@@ -197,12 +202,35 @@ export default PostPage;
 
 const EmptyPageAlert = styled.div`
   display: flex;
+  padding: 70px 60px 40px 60px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 250px;
   gap: 16px;
-  font-size: 24px;
+  background-image: url('/imgs/heart.png');
+  background-size: cover;
+`;
+
+const EmptyMessage = styled.p`
+  margin-top: 20px;
+  padding-top: 10px;
+  width: 400px;
+  font-weight: 700;
+  font-size: 27px;
+  text-align: center;
+  color: black;
+  line-height: 40px;
+`;
+
+const EmptyContent = styled.p`
+  margin-bottom: 20px;
+  width: 400px;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 18px;
+  text-align: center;
+  color: ${(props) => props.theme['--gray-700']};
+  line-height: 27px;
 `;
 
 const HeaderServiceWrapper = styled.div`
