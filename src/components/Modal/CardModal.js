@@ -1,14 +1,13 @@
 import { ZINDEX_MODAL } from 'styles/zIndex';
 import Modal from './ModalPortal';
 import { SubPrimaryButton } from 'components/Button/Button';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import FamilyBadge from 'components/Badges/FamilyBadge';
 import FriendBadge from 'components/Badges/FriendBadge';
 import CoworkerBadge from 'components/Badges/CoworkerBadge';
 import OtherBadge from 'components/Badges/OtherBadge';
 import changeDateFormat from 'utils/calcCreateAt';
 import dompurify from 'dompurify';
-import { useState, useEffect } from 'react';
 
 function CardModal({ onClose, data }) {
   const {
@@ -57,20 +56,9 @@ function CardModal({ onClose, data }) {
     );
   };
 
-  const [classN, setClassN] = useState('hidden');
-
-  useEffect(() => {
-    setTimeout(() => {
-      setClassN('move');
-    }, 500);
-    setTimeout(() => {
-      setClassN('end');
-    }, 2000);
-  }, []);
-
   return (
     <Modal onClick={onClose}>
-      <CardWrapper className={classN}>
+      <CardWrapper>
         <ProfileWrapper>
           <ProfileImage src={profileImageURL} alt="card-profile" />
           <ProfileContentWrapper>
@@ -91,6 +79,17 @@ function CardModal({ onClose, data }) {
 
 export default CardModal;
 
+const move = keyframes`
+0%{
+  top: 100%;
+  opacity: 0;
+}
+100%{
+  top: 50%;
+  opacity: 1;
+}
+`;
+
 const CardWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -106,22 +105,8 @@ const CardWrapper = styled.div`
   z-index: ${ZINDEX_MODAL};
   top: 50%;
   left: 50%;
-
-  &.hidden {
-    opacity: 0;
-    visibility: hidden;
-  }
-  &.move {
-    opacity: 1;
-    transition: all 1s;
-    transform: translate(-50%, -50%);
-    visibility: visible;
-  }
-  &.end {
-    opacity: 1;
-    visiblity: visible;
-    transform: translate(-50%, -50%);
-  }
+  transform: translate(-50%, -50%);
+  animation: ${move} 1s;
 `;
 
 const ProfileWrapper = styled.div`
