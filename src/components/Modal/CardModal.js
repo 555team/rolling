@@ -8,6 +8,7 @@ import CoworkerBadge from 'components/Badges/CoworkerBadge';
 import OtherBadge from 'components/Badges/OtherBadge';
 import changeDateFormat from 'utils/calcCreateAt';
 import dompurify from 'dompurify';
+import { useState } from 'react';
 
 function CardModal({ onClose, data }) {
   const {
@@ -56,9 +57,17 @@ function CardModal({ onClose, data }) {
     );
   };
 
+  const [classN, setClassN] = useState('hidden');
+  setTimeout(() => {
+    setClassN('move');
+  }, 500);
+  setTimeout(() => {
+    setClassN('end');
+  }, 2000);
+
   return (
     <Modal onClick={onClose}>
-      <CardWrapper>
+      <CardWrapper className={classN}>
         <ProfileWrapper>
           <ProfileImage src={profileImageURL} alt="card-profile" />
           <ProfileContentWrapper>
@@ -85,14 +94,29 @@ const CardWrapper = styled.div`
   align-items: center;
   padding: 40px;
   border-radius: 16px;
-  width: 600px;
+  max-width: 600px;
+  width: 80%;
+  min-width: 350px;
   height: 476px;
   position: absolute;
   background-color: white;
   z-index: ${ZINDEX_MODAL};
-  ${({ theme }) => theme.mobile`
-  width: 80%;
-`}
+
+  &.hidden {
+    opacity: 0;
+    visibility: hidden;
+  }
+  &.move {
+    opacity: 1;
+    transition: all 1s;
+    transform: translate(0, -20%);
+    visibility: visible;
+  }
+  &.end {
+    opacity: 1;
+    visiblity: visible;
+    transform: translate(0, -20%);
+  }
 `;
 
 const ProfileWrapper = styled.div`

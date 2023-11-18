@@ -27,6 +27,6 @@ const Back = styled.div`
   height: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: end;
   z-index: ${ZINDEX_MODAL_BACKGROUND};
 `;

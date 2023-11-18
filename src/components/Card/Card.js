@@ -97,6 +97,7 @@ const ProfileBox = styled.div`
 `;
 
 const CardWrapper = styled.div`
+  transition: all 0.1s linear;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -115,6 +116,12 @@ const CardWrapper = styled.div`
     width: 320px;
     height: 230px;
   `}
+
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 
 const ProfileWrapper = styled.div`

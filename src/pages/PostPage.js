@@ -295,7 +295,8 @@ const PostPageWrapper = styled.div`
 `;
 
 const CardListWrapper = styled.div`
-  width: 1200px;
+  padding: 20px 20px;
+  width: 1240px;
   display: grid;
   overflow-y: scroll;
   &::-webkit-scrollbar {
@@ -306,7 +307,7 @@ const CardListWrapper = styled.div`
   column-gap: 24px;
   row-gap: 28px;
   ${({ theme }) => theme.tablet`
-    width: 720px;
+    width: 760px;
     row-gap: 16px;
     column-gap: 16px;
     grid-template-columns: repeat(2, 1fr);
