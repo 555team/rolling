@@ -115,6 +115,8 @@ const CardWrapper = styled.div`
     width: 320px;
     height: 230px;
   `}
+
+  cursor: pointer;
 `;
 
 const ProfileWrapper = styled.div`
