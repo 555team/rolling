@@ -295,7 +295,7 @@ const PostPageWrapper = styled.div`
 `;
 
 const CardListWrapper = styled.div`
-  padding: 20px 20px;
+  padding: 0px 20px;
   width: 1240px;
   display: grid;
   overflow-y: scroll;
